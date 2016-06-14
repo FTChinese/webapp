@@ -1,5 +1,5 @@
 //申明各种Global变量
-var _currentVersion = 1099; //当前的版本号
+var _currentVersion = 1102; //当前的版本号
 var _localStorage = 0;
 var exp_times = Math.round(new Date().getTime() / 1000) + 86400;
 var username;
@@ -59,9 +59,9 @@ screenWidth = $(window).width();
 screenHeight = $(window).height();
 
 if (screenWidth >= 700) {
-    gStartPageTemplate = '/index.php/ft/channel/phonetemplate.html?channel=homecontent&screentype=wide&';
+    gStartPageTemplate = '/index.php/ft/channel/phonetemplate.html?channel=nexthome&screentype=wide&';
 } else {
-    gStartPageTemplate = '/index.php/ft/channel/phonetemplate.html?channel=homecontent&';
+    gStartPageTemplate = '/index.php/ft/channel/phonetemplate.html?channel=nexthome&';
 }
 var gApiUrl = {
     //'a10001':'',
@@ -180,7 +180,8 @@ var gTouchStartX = -1;
 var gTouchMoveX = -1;
 var gTouchStartY = -1;
 var gTouchMoveY = -1;
-var gMinSwipe = 30;
+//swipe  at least gMinSwipe px to go back
+var gMinSwipe = 72;
 var gStartSwipe = 15;
 var gIsSwiping = false;
 var gMoveState = 0;
@@ -199,6 +200,7 @@ function updateTimeStamp() {
 
 //Start the App
 function startpage() {
+    var savedhomepage;
     updateTimeStamp();
     gStartStatus = "startpage start";
     try {
@@ -310,7 +312,7 @@ function startpage() {
                 var xDistance;
                 var yDistance;
                 gNowView = document.body.className;
-                if (gNowView==='fullbody') {return;}
+                //if (gNowView==='fullbody') {return;}
                 if ( (typeof window.gFTScrollerActive === "object" && gIsSwiping === false) || $('#slideShow').hasClass('on') === true ) {
                     gTouchStartX = -1;
                     gTouchMoveX = -1;
@@ -331,11 +333,18 @@ function startpage() {
                     //If the swiping is true
                     if (gIsSwiping === true) {
                         if ((gTouchMoveX - gTouchStartX > gMinSwipe && gMoveState === 0)) {
-                            histback('pinch');
+                            if (gNowView==='fullbody') {
+                                switchNavOverlay('on');
+                            } else {
+                                histback('pinch');
+                            }
                             ga('send','event', 'App Feature', 'Swipe', 'Back');
                             //console.log ('go right!');
                             gTouchStartX = -1;
                         } else if (gTouchMoveX - gTouchStartX < -gMinSwipe && gMoveState ===0){
+                            if (gNowView==='fullbody') {
+                                switchNavOverlay('off');
+                            }
                             //console.log ('go left!');
                             gTouchStartX = -1;
                         } else if ((gTouchMoveX - gTouchStartX > gMinSwipe && gMoveState<0) || (gTouchMoveX - gTouchStartX < -gMinSwipe && gMoveState>0)) {
@@ -734,7 +743,7 @@ function fillContent(loadType) {
 
     //iOS原生应用分享功能
     if (gIsInSWIFT === true) {
-        $('#shareButton').attr('onclick','').wrap('<a id="iOSAction"></a>');
+        $('#shareButton, #shareButton2').attr('onclick','').wrap('<a id="iOSAction"></a>');
         $('#video-share').attr('onclick','').wrap('<a id="iOS-video-action"></a>');
     }
 
@@ -1852,19 +1861,20 @@ function fetchItem(url, storage, wrapper) {
 //将文章页和频道页中的链接进行智能转换
 function handlelinks() {
     $('#fullbody:visible a[href],#storyview:visible a[href],#channelview:visible a[href], #fullbody:visible a[photo-id], #channelview:visible a[photo-id]').each(function() {
-        var patt1 = /.*\/story\/[0-9]{9}$/gi,
-            patt2 = /^openads:.*/gi,
-            patt3 = /^opensafari:.*/gi,
-            patt4 = /^itms.*/gi,
-            patt5 = /^.*\.(?:jpg|gif|png)$/gi,
-            patt6 = /.*\/tag\/.*$/gi,
-            patt7 = /.*\/photonews\/.*$/gi,
-            patt8 = /^mail.*/gi,
-            link = $(this).attr('href') || '',
-            storyid1,
-            newlink;
+        var patt1 = /.*\/story\/[0-9]{9}$/gi;
+        var patt2 = /^openads:.*/gi;
+        var patt3 = /^opensafari:.*/gi;
+        var patt4 = /^itms.*/gi;
+        var patt5 = /^.*\.(?:jpg|gif|png)$/gi;
+        var patt6 = /.*\/tag\/.*$/gi;
+        var patt7 = /.*\/photonews\/.*$/gi;
+        var patt8 = /^mail.*/gi;
+        var patt9 = /^iosaction:.*/gi;
+        var link = $(this).attr('href') || '';
+        var storyid1;
+        var newlink;
         var photoId = $(this).attr('photo-id') || '';
-        if (link.match(patt8)) {
+        if (link.match(patt8) || link.match(patt9)) {
             return;
         }
         if (photoId !== '' && gIsInSWIFT === true) {
@@ -2050,6 +2060,7 @@ function displaystory(theid, language) {
     var allId = allstories[theid];
     var allIdColumnIfoHeadline;
     var byline;
+    var storyHeadline = '';
     var contentnumber;
     var i;
     var storyTag = allId.tag||'';
@@ -2130,6 +2141,7 @@ function displaystory(theid, language) {
 
         $('#storyview .storybody').html(storyimage).append(allId.ebody);
         $('.enbutton').addClass('nowreading');
+        storyHeadline = allId.eheadline;
     } else if (language == 'ce' && allId.ebody && allId.ebody.length > 30) {
         $('#storyview').addClass('ceview').find('.storytitle').html(allId.eheadline).append('<br>' + allId.cheadline);
 
@@ -2185,6 +2197,7 @@ function displaystory(theid, language) {
             $("#complain-english").attr("href","mailto:customer.service@ftchinese.com?subject=Billigual Article on FTC&body=Dear Editor, %0D%0A%0D%0AGreatings! %0D%0A%0D%0AI noticed that English and Chinese translation are not aligned properly for an article. Could you kindly make adjustment in your CMS system? And thanks a lot for your attention! %0D%0A%0D%0A" + allId.eheadline + "%0D%0A%0D%0Ahttp://www.ftchinese.com/story/" + allId.id +"/ce%0D%0A%0D%0ABest Regards,%0D%0A%0D%0AA Reader%0D%0A%0D%0A%0D%0A%0D%0A    ====%0A%0D%0A%0D%0ATechnical information:%0D%0A%0D%0AUser-agent: "+ua+"%0D%0A%0D%0AResources version: "+_currentVersion+"%0D%0A%0D%0AScreen Mode: "+$(window).width()+"X"+$(window).height()+"%0D%0A%0D%0Amy URL: " + location.href);
         }
         $('.cebutton').addClass('nowreading');
+        storyHeadline = allId.eheadline;
     } else {
         $('#storyview').removeClass('ceview').find('.storytitle').html(allId.cheadline);
         byline = (allId.cbyline_description||'').replace(/作者[：:]/g, '') + ' ' + (allId.cauthor||'').replace(/,/g, '、') + ' ' + (allId.cbyline_status || '');
@@ -2208,6 +2221,7 @@ function displaystory(theid, language) {
             });
         }
         if (allId.ebody && allId.ebody.length > 30) {$('.chbutton').addClass('nowreading');} else {$('.cebutton,.enbutton,.chbutton').addClass('nowreading');}
+        storyHeadline = allId.cheadline;
     }
     if ($('#storyview .storybody p').eq(insertAd - 1).find('b').length > 0) {
         insertAd = 4;
@@ -2257,6 +2271,7 @@ function displaystory(theid, language) {
 
 
     $('#storyview .storybyline').html(byline);
+    document.getElementById('header-title').innerHTML = storyHeadline;
 
     //在Story列表中将当前文章标红
     $('#onedaylist div.story').each(function() {
@@ -2355,14 +2370,14 @@ function displaystory(theid, language) {
             }
         });
         if (osVersion.indexOf("nothing")>=0) {
-            k = "【" + allId.cheadline + "】\r\n\r\n" + k + "\r\n\r\n点击阅读全文：\r\n\r\nhttp://m.ftchinese.com/story/"+allId.id+"#ccode=2G168002\r\n\r\n或访问app.ftchinese.com下载FT中文网移动应用，阅读更多精彩文章";
+            k = "【" + allId.cheadline + "】\r\n\r\n" + k + "\r\n\r\n点击阅读全文：\r\n\r\nhttp://www.ftchinese.com/story/"+allId.id+"#ccode=2G168002\r\n\r\n或访问app.ftchinese.com下载FT中文网移动应用，阅读更多精彩文章";
             //$("#shareMobile").val();
         } else {
-            k = "【" + allId.cheadline + "】\r\n"+k+"\r\n\r\n......  \r\n继续阅读请点击链接：\r\nhttp://m.ftchinese.com/story/"+allId.id+"#ccode=2G168002";
+            k = "【" + allId.cheadline + "】\r\n"+k+"\r\n\r\n......  \r\n继续阅读请点击链接：\r\nhttp://www.ftchinese.com/story/"+allId.id+"#ccode=2G168002";
         }
     }
 
-    updateShare('http://www.ftchinese.com', 'http://m.ftchinese.com', '/story/', allId.id, allId.cheadline, sinten, l, d, k);
+    updateShare('http://www.ftchinese.com', 'http://www.ftchinese.com', '/story/', allId.id, allId.cheadline, sinten, l, d, k);
     //Sticky Right Rail
     freezeCheck();
     //Display HighCharts in Article
@@ -2399,7 +2414,7 @@ function updateShare(domainUrl, mobileDomainUrl, contentType, contentId, content
     $('#shareEmail').attr('href','mailto:?subject='+contentTitle+'&body='+ contentLongTitle + url);
     //如果是iOS原生应用，传参数给SDK分享微信
     $('#webappWeixin,#nativeWeixin').hide();
-    if ((location.href.indexOf('phoneapp.html')>=0 && osVersion.indexOf('ios')>=0 && (osVersion.indexOf('ios7')<0)) || location.href.indexOf('android')>=0 || iOSShareWechat==1) {
+    if ((/phoneapp.html/i.test(location.href) && osVersion.indexOf('ios')>=0 && (osVersion.indexOf('ios7')<0)) || /android|isInSWIFT/i.test(location.href) || iOSShareWechat==1) {
         $('#nativeWeixin').show();
         // if (gIsInSWIFT === true) {
         //     l = resizeImg(l,72,72);
@@ -2407,7 +2422,7 @@ function updateShare(domainUrl, mobileDomainUrl, contentType, contentId, content
         if (l !== '') {
             l = '&img=' + l;
         }
-        console.log (l);
+        //console.log (l);
         //console.log ('d: ' + d);
         if (d !== '') {
             d = "&description=" + d;
@@ -2903,8 +2918,10 @@ function showchannel(url, channel, requireLogin, openIniFrame, channelDescriptio
     if (navTitle !== null) {
         channel = navTitle; 
     }
-    $('.channeltitle').html(channel);
-    chview.html('<div id="head"><div class="header"><div class="channeltitle">'+ channel + '</div></div></div><div class="loader-container"><div class="loader">正在读取文章数据...</div></div><div class="standalonebutton"><button class="ui-light-btn" onclick="backhome()">返回</button></div>');
+    document.getElementById('header-title').innerHTML = channel;
+    //$('.channeltitle').html(channel);
+    //<div id="head"><div class="header"><div class="channeltitle">'+ channel + '</div></div></div>
+    chview.html('<div class="loader-container"><div class="loader">正在读取文章数据...</div></div><div class="standalonebutton"><button class="ui-light-btn" onclick="backhome()">返回</button></div>');
 
     //每次打开的时候都取新的链接，所以在网址后面要添加一个随机参数
     themi = thisday.getHours() * 10000 + thisday.getMinutes() * 100;
@@ -3174,6 +3191,7 @@ function backhome() {
         window.history.replaceState(null, null, gAppRoot + "#/home");
     }
     _popstate=0;
+    document.getElementById('header-title').innerHTML = '';
 }
 
 function resizeImg(iMage,resizeWidth,resizeHeight) {
@@ -3247,12 +3265,12 @@ function closeFontSize() {
     }
 }
 
-function switchNavOverlay() {
-    if ($("#navOverlay").hasClass("on")==false) {
+function switchNavOverlay(actionType) {
+    if (($("#navOverlay").hasClass("on")==false && actionType === undefined) || actionType === 'on') {
         turnonOverlay('navOverlay');
         addnavScroller('navList');
         $(".channelNavButton").addClass("open");
-    } else {
+    } else if (($("#navOverlay").hasClass("on")==true && actionType === undefined) || actionType === 'off') {
         closeOverlay();
         $(".channelNavButton").removeClass("open");
     }

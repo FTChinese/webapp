@@ -4,16 +4,10 @@
 
 <div id="quiz-container">
                                         <a class="section" onclick="showchannel('/index.php/ft/channel/phonetemplate.html?channel=newsquiz','智趣问答')"><span>FT商学院</span></a>
-                        <div class="oneStory first-child track-click" eventLabel="quiz: 0" onclick='showSlide("/index.php/ft/interactive/4526?i=2","一周新闻小测（4.18-4.22）", 0)'>
-                <div class="headline">一周新闻小测（4.18-4.22）</div>
-                <img src="http://i.ftimg.net/picture/9/000049339_piclink.jpg" class=leftimage width="167">
-                <div class=lead>十个题目，带你快速梳理近期全球财经新闻大事件</div>
-                <div class=clearfloat></div>
-            </div>
-                                                        <div class="oneStory track-click" eventLabel="quiz: 1" onclick='showSlide("/index.php/ft/interactive/4438?i=2","测测你的新闻IQ", 0)'>
+                        <div class="oneStory first-child track-click" eventLabel="quiz: 0" onclick='showSlide("/index.php/ft/interactive/4438?i=2","测测你的新闻IQ", 0)'>
                 <div class="headline">测测你的新闻IQ</div>
-                <img src="http://i.ftimg.net/picture/1/000061041_piclink.jpg" class=leftimage width="167">
-                <div class=lead>最新财经大事知多少：大成本回购的48万辆“作弊”汽车？被叫停的优步“高峰期定价”？和银联合作设计其支付产品的手机制造商？小测带你快速梳理当日财经新闻大事件。</div>
+                <img src="http://i.ftimg.net/picture/5/000062075_piclink.jpg" class=leftimage width="167">
+                <div class=lead>最新财经大事知多少：身陷现金和性贿赂丑闻的美国海军？欧盟的“创纪录罚单”？用披萨优惠鼓励更新的手机厂商？小测带你快速梳理当日财经新闻大事件。</div>
                 <div class=clearfloat></div>
             </div>
                                                     </div>
@@ -26,38 +20,33 @@
 
 <div id="speedread-container">
                                         <a class="section" onclick="showchannel('/index.php/ft/channel/phonetemplate.html?channel=speedread','金融英语速读')"><span>金融英语速读</span></a>
-                        <div class="oneStory first-child track-click" eventLabel="speedread: 0" onclick='showSlide("/index.php/ft/interactive/6718?i=2","FBI给黑客的百万赏金", 0)'>
-                <div class="headline">FBI给黑客的百万赏金</div>
-                <img src="http://i.ftimg.net/picture/3/000059283_piclink.jpg" class=leftimage width="167">
-                <div class=lead>为破解iPhone，FBI为付出了不少代价。局长James Comey说：“(付给解锁人的费用)比我在这个位置上所剩下的时间里挣的钱还要多，但我认为这很值得”。</div>
+                        <div class="oneStory first-child track-click" eventLabel="speedread: 0" onclick='showSlide("/index.php/ft/interactive/6993?i=2","中国广告的种族歧视", 0)'>
+                <div class="headline">中国广告的种族歧视</div>
+                <img src="http://i.ftimg.net/picture/0/000062080_piclink.jpg" class=leftimage width="167">
+                <div class=lead>一则中国的洗衣液广告，在西方媒体的转载之下，引发大量关于种族歧视的指控。制造商不得不改变几日前的说法，周六（5月28日）发表道歉声明。</div>
                 <div class=clearfloat></div>
             </div>
-                                                        <div class="oneStory track-click" eventLabel="speedread: 1" onclick='showSlide("/index.php/ft/interactive/6710?i=2","法国给麦当劳的当头一棒", 0)'>
-                <div class="headline">法国给麦当劳的当头一棒</div>
-                <img src="http://i.ftimg.net/picture/7/000061017_piclink.jpg" class=leftimage width="167">
-                <div class=lead>看来欧洲对于整顿跨国公司的税务问题下了决心，这个消息对正寻求迅速扩张的“麦叔叔”来说可真的不那么美好。</div>
+                                    </div>
+
+
+<div id="video-container">
+                                        <a class="section" onclick="showchannel('/index.php/ft/channel/phonetemplate.html?channel=video','视频')"><span>视频</span></a>
+                        <div class="oneStory first-child track-click" eventLabel="video: 0" onclick='watchVideo("9BA06D6FFF0D1ACE9C33DC5901307461","【秒懂】油价能在50美元上站稳吗？","1929","国际原油价格在近7个月来首次上涨至每桶50美元以上，显示过去两年里导致油价低迷的供应过剩局面开始缓解。不过许多分析师认为，油价要停留在这个价位上会很吃力。","http://i.ftimg.net/picture/3/000062083_piclink.jpg")'>
+                <div class="headline">【秒懂】油价能在50美元上站稳吗？</div>
+                <img src="http://i.ftimg.net/picture/3/000062083_piclink.jpg" class=leftimage width="167">
+                <div class=lead>国际原油价格在近7个月来首次上涨至每桶50美元以上，显示过去两年里导致油价低迷的供应过剩局面开始缓解。不过许多分析师认为，油价要停留在这个价位上会很吃力。</div>
                 <div class=clearfloat></div>
             </div>
                         </div>
 
-
-<div id="video-container">
-    </div>
-
                         <a class="section" onclick="showchannel('/index.php/ft/channel/phonetemplate.html?channel=photo','图辑')"><span>图辑</span></a>
-                <a photo-id="1013" class="oneStory first-child track-click" eventLabel="photo: 0" onclick="showSlide('/index.php/ft/photonews/1013?i=2','美国流行巨星Prince去世')">
-            <div class="headline">美国流行巨星Prince去世</div>
-            <img src="http://i.ftimg.net/photonews/2016/04/5719ad1180a360.33855822.jpg" class=leftimage width="167">
-            <div class=lead>他是美国乐坛最具影响力和最多产的歌手之一。美国时间周四早上9点半，被发现死于他的明尼苏达庄园，年仅57岁，死因尚未公布。</div>
+                <a photo-id="1029" class="oneStory first-child track-click" eventLabel="photo: 0" onclick="showSlide('/index.php/ft/photonews/1029?i=2','央行激进���策的风险')">
+            <div class="headline">央行激进政策的风险</div>
+            <img src="http://i.ftimg.net/photonews/2016/05/574bd7c7663826.46518361.jpg" class=leftimage width="167">
+            <div class=lead>高收入国家最重要的四家央行——美联储(Fed)、欧洲央行(ECB)、日本央行(BoJ)和英国央行(BoE)——的干预利率全都接近于零，它们采取了几乎比以往任何时候都更为激进的措施。而最新的分析数据显示，结果似乎收效甚微。</div>
             <div class=clearfloat></div>
         </a>
-                                <a photo-id="1012" class="oneStory track-click" eventLabel="photo: 1" onclick="showSlide('/index.php/ft/photonews/1012?i=2','走进无人机制造工厂')">
-            <div class="headline">走进无人机制造工厂</div>
-            <img src="http://i.ftimg.net/photonews/2016/04/5718919cb6fa22.77149424.jpg" class=leftimage width="167">
-            <div class=lead>无人机可以观察一切，而我们观察他们如何被生产。</div>
-            <div class=clearfloat></div>
-        </a>
-                        
+                            
 <script>
     //Move the Quiz to under the news section
     if ($("#middle-quiz").length === 0 ) {

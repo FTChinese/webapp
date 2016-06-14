@@ -57,6 +57,12 @@ var uaString=navigator.userAgent || navigator.vendor || "",deviceType="",k=windo
 var matchSpecial = false;
 var gSpecialAdId = '';
 var gAdContent;
+var parentLink = window.parent.location.href;
+var testFullPage = false;
+if (parentLink.indexOf('testfullpagead') > 0) {
+    testFullPage = true;
+}
+
 adCode=k.replace(/^.*adtype=([0-9A-Za-z\-]+).*$/,"$1");
 adId=k.replace(/^.*adid=([0-9A-Za-z]+).*$/,"$1");
 if (adCode=="ad300x250-SP" || (parent.window.gSpecial === true && adCode==="ad300x250-2")) {//code for special report VFTT
@@ -165,6 +171,12 @@ if (gSpecialAdId !== '' && matchSpecial === true) {
     }
 }//special report sponsor
 
+//test full page ad
+
+if (testFullPage === true && adCode === 'fullScreen') {
+    c = '20530107';
+}
+
 //console.log (adType + ': ' + c);
 if (adCode === 'fullScreen' && 1>2) {
 
@@ -262,7 +274,7 @@ try {
     if ((adType === 'halfpage' || adType === 'mpu') && (gImgTag>0||gDivTag>0||giFrameTag>0)) {
 
         gAdContent = document.getElementById("ad-content").getElementsByTagName("img")  || document.getElementById("ad-content").getElementsByTagName("iframe") || document.getElementById("ad-content").getElementsByTagName("div");
-        console.log (parent.document.getElementById(adId));
+        //console.log (parent.document.getElementById(adId));
         gAdContent = gAdContent[0];
         adHeight = gAdContent.style.height;
         adHeight = adHeight.replace(/px/,"");
