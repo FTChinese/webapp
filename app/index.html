@@ -541,14 +541,16 @@ function commonProblem() {
 </div>
 
 
-<div id=shareStory class="overlay close-self-only">
-<div class=overlayBG></div>
-<div class=inner>
+<div id="shareStory" class="overlay close-self-only">
+<div class="overlayBG"></div>
+<div class="inner">
 <div class="cell">
-<div class=settingbox>
-<div class=overlay-header>
-<div class="nutmeg-content_right rightmargin"><button onclick="closeShareArticle()" class="overlay_close-btn" aria-label="Settings"></button></div>
-分享
+<div class="settingbox">
+<div class="overlay-header">
+	<div class="nutmeg-content_right rightmargin">
+	<button onclick="closeShareArticle()" class="overlay_close-btn" aria-label="Settings"></button>
+	</div>
+	分享
 </div>
 <div id="shareScroller">
 <div class="standalonebutton"><a class="button ui-light-btn" id="shareEmail" target=_blank onclick="ga('send','event', 'PhoneApp', 'Share', 'Email');">电子邮件</a></div>
@@ -560,10 +562,10 @@ function commonProblem() {
 <div class="standalonebutton"><a class="button ui-light-btn" id="shareTwitter" target=_blank><span class=english>TWITTER</span></a></div>
 <div class="standalonebutton"><a class="button ui-light-btn" id="shareRenren" target=_blank>人人网</a></div>
 <div class="padding">
-<div>复制到手机上其他客户端</div>
-<textarea class="commentTextArea paste" rows=6 type="text" id="shareSocial" value="" /></textarea>
-<div>复制文章网址</div>
-<input class="commentTextArea paste" type="text" id="shareURL" value="" />
+	<div>复制到手机上其他客户端</div>
+	<textarea class="commentTextArea paste" rows=6 type="text" id="shareSocial" value=""></textarea>
+	<div>复制文章网址</div>
+	<input class="commentTextArea paste" type="text" id="shareURL" value="">
 </div>
 </div>
 </div>
@@ -572,12 +574,12 @@ function commonProblem() {
 </div>
 
 
-<div id=shareMobileOverlay class=overlay>
-<div class=overlayBG></div>
-<div class=inner>
-<div class=cell>
-<div class=settingbox>
-<div class=overlay-header>
+<div id="shareMobileOverlay" class="overlay">
+<div class="overlayBG"></div>
+<div class="inner">
+<div class="cell">
+<div class="settingbox">
+<div class="overlay-header">
 <div class="nutmeg-content_right rightmargin"><button onclick="closeOverlay()" class="overlay_close-btn" aria-label="Settings"></button></div>
 分享到微信
 </div>

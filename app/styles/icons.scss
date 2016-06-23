@@ -130,7 +130,7 @@ i.ft-icon-setting:after {
 	//background-image: url(https://image.webservices.ft.com/v1/images/raw/fticon:settings?format=svg&source=ftchinese&tint=%23ffffff,%23ffffff);
 	background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="#505050"><path d="M19.43 12.98c.04-.32.07-.64.07-.98s-.03-.66-.07-.98l2.11-1.65c.19-.15.24-.42.12-.64l-2-3.46c-.12-.22-.39-.3-.61-.22l-2.49 1c-.52-.4-1.08-.73-1.69-.98l-.38-2.65C14.46 2.18 14.25 2 14 2h-4c-.25 0-.46.18-.49.42l-.38 2.65c-.61.25-1.17.59-1.69.98l-2.49-1c-.23-.09-.49 0-.61.22l-2 3.46c-.13.22-.07.49.12.64l2.11 1.65c-.04.32-.07.65-.07.98s.03.66.07.98l-2.11 1.65c-.19.15-.24.42-.12.64l2 3.46c.12.22.39.3.61.22l2.49-1c.52.4 1.08.73 1.69.98l.38 2.65c.03.24.24.42.49.42h4c.25 0 .46-.18.49-.42l.38-2.65c.61-.25 1.17-.59 1.69-.98l2.49 1c.23.09.49 0 .61-.22l2-3.46c.12-.22.07-.49-.12-.64l-2.11-1.65zM12 15.5c-1.93 0-3.5-1.57-3.5-3.5s1.57-3.5 3.5-3.5 3.5 1.57 3.5 3.5-1.57 3.5-3.5 3.5z"/></svg>');
 }
-i.ft-icon-back-arrow:after {
+.ft-icon-back-arrow:after {
 	//background-image: url(https://image.webservices.ft.com/v1/images/raw/fticon:arrow-left?format=svg&source=ftchinese&tint=%23ffffff,%23ffffff);
 	background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 50 50" fill="white"><path d="M24.462 24.486l11.444-16.475c.526-.761.344-1.811-.413-2.336l-4.686-3.313c-.753-.533-1.794-.349-2.318.412l-14.409 20.747c-.146.207-.237.435-.279.671v.018l-.017.13-.005.056v.189l.005.048.017.139v.008c.042.236.134.464.279.675l14.41 20.747c.524.762 1.565.947 2.318.414l4.686-3.309c.757-.533.938-1.584.413-2.342l-11.445-16.479z"/></svg>');
 }
@@ -273,7 +273,7 @@ i.ft-icon-school:after {
 	i.ft-icon-school:after {
 		background-image: url(https://image.webservices.ft.com/v1/images/raw/http%3A%2F%2Fs.ftimg.net%2Fimages%2Fpng%2Fschool.png?source=ftchinese&width=18&height=18);
 	}
-	i.ft-icon-back-arrow:after {
+	.ft-icon-back-arrow:after {
 		background-image: url(https://image.webservices.ft.com/v1/images/raw/fticon:arrow-left?format=png&width=16&source=ftchinese&tint=%23ffffff,%23ffffff);
 	}
 	i.ft-icon-share:after {

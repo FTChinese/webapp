@@ -1,5 +1,5 @@
 //申明各种Global变量
-var _currentVersion = 1102; //当前的版本号
+var _currentVersion = 1105; //当前的版本号
 var _localStorage = 0;
 var exp_times = Math.round(new Date().getTime() / 1000) + 86400;
 var username;
@@ -2408,10 +2408,10 @@ function updateShare(domainUrl, mobileDomainUrl, contentType, contentId, content
     $('#shareTwitter').attr('href','http:\/\/twitter.com\/home?isad=1&status='+encodeURIComponent(contentLongTitle.substring(0,80)+'... ' + url));
     $('#shareRenren').attr('href','http:\/\/share.renren.com/share/buttonshare.do?isad=1&link=' + url + '&title='+encodeURIComponent(contentLongTitle.substring(0,76)));
     $('#shareLinkedIn').attr('href','https:\/\/www.linkedin.com/cws/share?isad=1&url=' + url +'&original_referer=https%3A%2F%2Fdeveloper.linkedin.com%2Fsites%2Fall%2Fthemes%2Fdlc%2Fsandbox.php%3F&token=&isFramed=true&lang=zh_CN&_ts=1422502780259.2795');
-    $('#shareSocial,#shareSinaWeibo').val(contentLongTitle + url);
-    $('#shareURL').val(url);
-    $('#shareMobile').val('【' + contentTitle + '】' + url + '#ccode=2G168002');
-    $('#shareEmail').attr('href','mailto:?subject='+contentTitle+'&body='+ contentLongTitle + url);
+    $('#shareSocial,#shareSinaWeibo').val(contentLongTitle + decodeURIComponent(url));
+    $('#shareURL').val(decodeURIComponent(url));
+    $('#shareMobile').val('【' + contentTitle + '】' + decodeURIComponent(url) + '#ccode=2G168002');
+    $('#shareEmail').attr('href','mailto:?subject='+contentTitle+'&body='+ contentLongTitle + decodeURIComponent(url));
     //如果是iOS原生应用，传参数给SDK分享微信
     $('#webappWeixin,#nativeWeixin').hide();
     if ((/phoneapp.html/i.test(location.href) && osVersion.indexOf('ios')>=0 && (osVersion.indexOf('ios7')<0)) || /android|isInSWIFT/i.test(location.href) || iOSShareWechat==1) {
@@ -3497,9 +3497,6 @@ function watchVideo(videoUrl, videoTitle, videoId, videoLead, videoImage){
         });
     }
     httpspv(gDeviceType + '/video/'+ videoId);
-
-    //updateShare(domainUrl, mobileDomainUrl, contentType, contentId, contentTitle, contentLongTitle, contentImage, contentDescription, shareMobile) 
-
     updateShare('http://www.ftchinese.com', 'http://www.ftchinese.com', '/video/', videoId, shareTitle, shareTitle, videoImage, shareLead, '');
 }
 

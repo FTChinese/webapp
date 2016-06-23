@@ -180,6 +180,11 @@ if (testFullPage === true && adCode === 'fullScreen') {
 //console.log (adType + ': ' + c);
 if (adCode === 'fullScreen' && 1>2) {
 
+} else if (c === '20220101' && 1>2) {
+    //test story page top banner here
+    var gParentAnchor = parent.document.getElementById('ad-' + adId).getElementsByTagName("a")[0];
+    gParentAnchor.style.backgroundColor = 'green';
+
 } else {
 document.writeln('<div class="'+adType+'" id="ad-content"><scr'+'ipt type="text/javascript" src="http://dolphin.ftimg.net/s?z=ft&c=' + c + adReachability() + '&t='+Math.round(Math.random() * 1000000)+'" charset="gbk" ></scr'+'ipt></div>');
 }
