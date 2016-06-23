@@ -1,5 +1,5 @@
 //申明各种Global变量
-var _currentVersion = 1105; //当前的版本号
+var _currentVersion = 1106; //当前的版本号
 var _localStorage = 0;
 var exp_times = Math.round(new Date().getTime() / 1000) + 86400;
 var username;
@@ -183,6 +183,7 @@ var gTouchMoveY = -1;
 //swipe  at least gMinSwipe px to go back
 var gMinSwipe = 72;
 var gStartSwipe = 15;
+var gSwipeEdge = 30;
 var gIsSwiping = false;
 var gMoveState = 0;
 var gStartPageStorage = '';
@@ -333,10 +334,12 @@ function startpage() {
                     //If the swiping is true
                     if (gIsSwiping === true) {
                         if ((gTouchMoveX - gTouchStartX > gMinSwipe && gMoveState === 0)) {
-                            if (gNowView==='fullbody') {
-                                switchNavOverlay('on');
-                            } else {
-                                histback('pinch');
+                            if (gTouchStartX < gSwipeEdge) {
+                                if (gNowView==='fullbody') {
+                                    switchNavOverlay('on');
+                                } else {
+                                    histback('pinch');
+                                }
                             }
                             ga('send','event', 'App Feature', 'Swipe', 'Back');
                             //console.log ('go right!');
@@ -778,6 +781,21 @@ function fillContent(loadType) {
         //禁止长按按钮弹出默认的选择框
     $('#fullbody,#channelview,#contentRail,#navOverlay').disableSelection();
     //gStartStatus = "fillContent end";
+
+    // 特别报导
+    gSpecialAnchors = [];
+    if ($(".specialanchor").length>0) {
+        $('.specialanchor').each(function(){
+            var adId = $(this).attr('adid') || '';
+            var sTag = $(this).attr('tag') || '';
+            var sTitle = $(this).attr('title') || '';
+            gSpecialAnchors.push({
+                "tag": sTag,
+                "title": sTitle,
+                "adid": adId
+            });
+        });
+    }
 }
 
 
