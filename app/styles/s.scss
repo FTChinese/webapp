@@ -572,7 +572,7 @@ a.darkgrey, .darkgrey {color:#333;}
 	figure {
 	    opacity: 1;
 	    .app-image {
-	    	display: none;
+	    	//display: none;
 	    }
 	}
 }
@@ -1432,4 +1432,39 @@ html.noScroller,.noScroller body,.noScroller .fullbody,.noScroller #storyScrolle
 }
 @media only screen and (width: 768px) {
     .banner.midBanner {display:block;}
+}
+
+
+// special report
+.item-container .headline {
+    margin-bottom: 14px;
+}
+.item-top.first-break {
+    padding-top: 14px;
+}
+@media only screen and (min-width: 490px) {
+    .item-container {
+        width: 50%;
+    }
+    .left-pad {
+        float: left;
+    }
+    .right-pad {
+        float: right;
+    }
+
+    .item-top {
+        clear: both;
+        border-top: 1px dotted #a7a59b;
+        padding-top: 14px;
+    }
+    .item-top.first-break {
+        border-width: 0;
+    }
+    .left-pad>div {
+        padding-right: 14px;
+    }
+    .right-pad>div {
+        padding-left: 14px;
+    }
 }

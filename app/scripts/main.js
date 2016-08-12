@@ -1,5 +1,5 @@
 //申明各种Global变量
-var _currentVersion = 1106; //当前的版本号
+var _currentVersion = 1111; //当前的版本号
 var _localStorage = 0;
 var exp_times = Math.round(new Date().getTime() / 1000) + 86400;
 var username;
@@ -51,6 +51,7 @@ var gShowStatusBar = 0;
 var gHomePageIsLatest = true; //The latest home page is displayed
 var gCurrentStoryId = '';
 var gNoticeAdded = false;
+var cg1 = '(not set)';
 
 //开机的时候检查屏幕宽度，以便节约流量
 //我们的基本假设是，不管横屏还是竖屏，只要宽度小于700，那就是手机；否则就是平板
@@ -783,6 +784,8 @@ function fillContent(loadType) {
     //gStartStatus = "fillContent end";
 
     // 特别报导
+    // 这段代码直接放到模版里面了
+    /*
     gSpecialAnchors = [];
     if ($(".specialanchor").length>0) {
         $('.specialanchor').each(function(){
@@ -796,6 +799,7 @@ function fillContent(loadType) {
             });
         });
     }
+    */
 }
 
 
@@ -1157,8 +1161,9 @@ function showAppImage(ele) {
 }
 
 function showThisImage(ele, imgUrl) {
-    ele.parent().css('background-image', 'url(' +imgUrl + ')');
-    ele.parent().parent().addClass('imageloaded');
+    //ele.parent().css('background-image', 'url(' +imgUrl + ')');
+    ele.parent().parent().addClass('imageloaded').removeClass('image').html('<img src="'+ imgUrl + '">');
+    //ele.parent().parent();
 }
 
 /*
@@ -2423,7 +2428,7 @@ function updateShare(domainUrl, mobileDomainUrl, contentType, contentId, content
     $('#shareSinaWeb').attr('href','http:\/\/service.weibo.com\/share\/share.php?appkey=4221537403&isad=1&url=' + url + '&title=' + contentLongTitle + '&ralateUid=1698233740&source=&sourceUrl=&content=utf-8&pic=');
     $('#shareQQ').attr('href','http:\/\/share.v.t.qq.com\/index.php?c=share&a=index&url=' + url + '&title=' + contentLongTitle + '&source=1000014&site=http:\/\/www.ftchinese.com&isad=1');
     $('#shareFacebook').attr('href','http:\/\/www.facebook.com\/sharer.php?isad=1&u=' + url + '&amp;t='+encodeURIComponent(contentLongTitle.substring(0,76)));
-    $('#shareTwitter').attr('href','http:\/\/twitter.com\/home?isad=1&status='+encodeURIComponent(contentLongTitle.substring(0,80)+'... ' + url));
+    $('#shareTwitter').attr('href','http:\/\/twitter.com\/home?isad=1&status='+contentLongTitle.substring(0,80)+'... ' + decodeURIComponent(url));
     $('#shareRenren').attr('href','http:\/\/share.renren.com/share/buttonshare.do?isad=1&link=' + url + '&title='+encodeURIComponent(contentLongTitle.substring(0,76)));
     $('#shareLinkedIn').attr('href','https:\/\/www.linkedin.com/cws/share?isad=1&url=' + url +'&original_referer=https%3A%2F%2Fdeveloper.linkedin.com%2Fsites%2Fall%2Fthemes%2Fdlc%2Fsandbox.php%3F&token=&isFramed=true&lang=zh_CN&_ts=1422502780259.2795');
     $('#shareSocial,#shareSinaWeibo').val(contentLongTitle + decodeURIComponent(url));
@@ -2533,6 +2538,10 @@ function checkDevice() {
         osVersion = "Android4";
     } else if (/Android 5/i.test(uaString) || /Android\/5/i.test(uaString)) {
         osVersion = "Android5";
+    } else if (/Android 6/i.test(uaString) || /Android\/6/i.test(uaString)) {
+        osVersion = "Android6";
+    } else if (/Android 7/i.test(uaString) || /Android\/7/i.test(uaString)) {
+        osVersion = "Android7";
     } else if (/Android/i.test(uaString)) {
         osVersion = "Android";
     } else if (/MSIE [0-9]+/i.test(uaString)) {
@@ -2670,6 +2679,7 @@ function httpspv(theurl) {
         document.title = gAppName;
     }
     var vtype="member", nowV, pagetype, userId = getCookie('USER_ID') || '', ftcteam='';
+
     if (username === undefined || username== null || username == "") {
         vtype="visitor";
     }
@@ -2706,7 +2716,18 @@ function httpspv(theurl) {
         ga('set', 'dimension2', vtype);
         if (userId !== "") {ga('set', 'dimension14', userId);}
         ga('set', 'dimension4', pagetype);
-        if (ftcteam !== "") {ga('set', 'dimension5', ftcteam);}        
+        if (ftcteam !== "") {ga('set', 'dimension5', ftcteam);}
+        ga('set', 'dimension17', langmode);
+        if (theurl.indexOf("interactive")>=0){
+            if (typeof window.interactiveType === 'string') {
+                cg1 = window.interactiveType;
+                ga('set', 'contentGroup1', cg1); 
+            }
+        } else if (cg1 !== '(not set)'){
+            cg1 = '(not set)';
+            ga('set', 'contentGroup1', null);
+        }
+
     } catch(ignore) {
     }
     if (_localStorage===1) {
@@ -3531,19 +3552,20 @@ function showSlide(slideUrl,slideTitle,requireLogin, interactiveType, openIniFra
     turnonOverlay("slideShow");
     urlMore = (url.indexOf("?")>0) ? "&" : "?";
     url = url + urlMore + randomTime;
+    if (typeof interactiveType === "string") {
+        interactiveTypeName = interactiveType;
+    }
     if (typeof openIniFrame !== 'undefined' && openIniFrame === true) {
         $("#slideShow").html('<iframe src="' + url + '" width="100%" height="100%" border=0 frameborder=0></iframe>');
+        httpspv(gDeviceType + '/'+ interactiveTypeName +'/'+ slideUrl);
     } else {
         $("#slideShow").html('<div id="bookstart" class=opening><span><font id="bookname" style="font-size:2em;">'+ slideTitle + '</font><p class=booklead id="booklead">获取内容...</p><p class=booklead id="loadstatus">触摸<b onclick="closeOverlay()">此处</b>返回</p></span></div>');
         $.get(url, function(data) {
             data = checkhttps(data);
             $("#slideShow").html(data);
+            httpspv(gDeviceType + '/'+ interactiveTypeName +'/'+ slideUrl);
         });
     }
-    if (typeof interactiveType === "string") {
-        interactiveTypeName = interactiveType;
-    }
-    httpspv(gDeviceType + '/'+ interactiveTypeName +'/'+ slideUrl);
 }
 
 function showPicture (link) {

@@ -180,10 +180,8 @@ if (testFullPage === true && adCode === 'fullScreen') {
 //console.log (adType + ': ' + c);
 if (adCode === 'fullScreen' && 1>2) {
 
-} else if (c === '20220101' && 1>2) {
+} else if (c === '20210003' && 1<0) {
     //test story page top banner here
-    var gParentAnchor = parent.document.getElementById('ad-' + adId).getElementsByTagName("a")[0];
-    gParentAnchor.style.backgroundColor = 'green';
 
 } else {
 document.writeln('<div class="'+adType+'" id="ad-content"><scr'+'ipt type="text/javascript" src="http://dolphin.ftimg.net/s?z=ft&c=' + c + adReachability() + '&t='+Math.round(Math.random() * 1000000)+'" charset="gbk" ></scr'+'ipt></div>');
@@ -208,6 +206,7 @@ adId = "ad-"+adId;
 
 
 try {
+    
     gATag = document.getElementById("ad-content").getElementsByTagName("a").length || 0;
     gVideoTag = document.getElementById("ad-content").getElementsByTagName("video").length || 0;
     giFrameTag = document.getElementById("ad-content").getElementsByTagName("iframe").length || 0;
@@ -215,8 +214,21 @@ try {
     gDivTag = document.getElementById("ad-content").getElementsByTagName("div").length || 0;
     gParentA = parent.document.getElementById(adId).getElementsByTagName("a")[0];
 
-    if (parent.window.useFTScroller===1 && gVideoTag === 0 && giFrameTag === 0 && (gATag===1 || (gATag === 0 && gImgTag === 0 && gDivTag === 0))) {
-        adLink = document.getElementById("ad-content").getElementsByTagName("a")[0].href;
+
+
+    if ((parent.window.useFTScroller===1 && gVideoTag === 0 && giFrameTag === 0 && (gATag===1 || (gATag === 0 && gImgTag === 0 && gDivTag === 0))) || (window.overlayLink !== undefined && window.overlayLink !== '')) {
+
+
+        if (window.overlayLink !== undefined && window.overlayLink !== '') {
+            adLink = window.overlayLink;
+        } else if (gATag === 1) {
+            adLink = document.getElementById("ad-content").getElementsByTagName("a")[0].href;
+        } else {
+            adLink = '';
+        }
+        if (adLink.indexOf('isad=1')<0) {
+            adLink = (adLink.indexOf("?")>0) ? adLink.replace(/\?/g,'?isad=1&') : adLink + '?isad=1';
+        }
         gParentA.className = "ad-overlay";
 
 //|(ftchinese\.com\/story\/)
@@ -277,21 +289,23 @@ adId = 'ad-' + adId;
 
 try {
     if ((adType === 'halfpage' || adType === 'mpu') && (gImgTag>0||gDivTag>0||giFrameTag>0)) {
-
-        gAdContent = document.getElementById("ad-content").getElementsByTagName("img")  || document.getElementById("ad-content").getElementsByTagName("iframe") || document.getElementById("ad-content").getElementsByTagName("div");
-        //console.log (parent.document.getElementById(adId));
-        gAdContent = gAdContent[0];
-        adHeight = gAdContent.style.height;
-        adHeight = adHeight.replace(/px/,"");
-        adHeight = parseInt(adHeight, 10) || 0;
-
-        // console.log ('ad height: ' + adHeight);
+        gAdContent = document.getElementById("ad-content").innerHTML;
+        if (/height:600px|x600/i.test(gAdContent)) {
+            adHeight = 600;
+        } else if (adType === 'halfpage' && /height:250px|x250/i.test(gAdContent)){
+            adHeight = 250;
+        } else if (adType === 'halfpage') {
+            adHeight = 600;
+        } else {
+            adHeight = 250;
+        }
         if (adHeight === 250) {
             parent.document.getElementById(adId).className = "adiframe mpu";
             parent.document.getElementById(adId).style.height = "250px";
         } else if (adHeight === 600) {
             parent.document.getElementById(adId).className = "adiframe halfpage";
             parent.document.getElementById(adId).style.height = "600px";
+            document.getElementById('ad-content').style.height = "600px";
         }
     } else { 
         //if no ad is delivered, hide the ad position altogether

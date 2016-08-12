@@ -18,15 +18,16 @@
                 <li class="channel economy" url="/index.php/ft/channel/phonetemplate.html?channel=economy">经济</li>
                 <li class="channel markets" url="/index.php/ft/channel/phonetemplate.html?channel=markets">金融市场</li>
                 <li class="channel business" url="/index.php/ft/channel/phonetemplate.html?channel=business">商业</li>
+                <li class="channel innovation" url="/index.php/ft/channel/phonetemplate.html?channel=innovation">创新经济</li>
                 <li class="channel management" url="/index.php/ft/channel/phonetemplate.html?channel=management">管理</li>
-                <li class="channel management" url="/index.php/ft/channel/phonetemplate.html?channel=specialreport">特别报道</li>
-                <li class="channel management" url="/index.php/ft/tag/与FT共进午餐?i=2">与FT共进午餐</li>
                 <li class="channel lifestyle" url="/index.php/ft/channel/phonetemplate.html?channel=lifestyle">生活时尚</li>
                 <li class="channel photo" url="/index.php/ft/channel/phonetemplate.html?channel=video">视频</li>
+                <li class="channel specialreport" url="/index.php/ft/channel/phonetemplate.html?channel=specialreport">特别报导</li>
+                <li class="channel management" url="/index.php/ft/channel/phonetemplate.html?channel=datanews">数据新闻</li>
                 <li class="channel vd" url="/index.php/ft/channel/phonetemplate.html?channel=photo">图辑</li>
                 <li class="channel vd" url="/index.php/ft/channel/phonetemplate.html?channel=newsquiz">互动小测</li>
                 <li class="channel vd" url="/index.php/ft/channel/phonetemplate.html?channel=speedread">金融英语速读</li>
-                <li class="channel vd" url="/index.php/ft/channel/phonetemplate.html?channel=audio&hideHead=yes&navFolder=academy&navName=navhorizontal">FT商学院电台</li>
+                <li class="channel markets" url="/index.php/ft/channel/phonetemplate.html?channel=fti">FT研究院</li>
                 <li class="channel hotstory" url="/index.php/ft/channel/phonetemplate.html?channel=month">热门文章</li>
                 <li class="channel clip require-log-in" url="/index.php/users/favstorylist?i=2">我的收藏</li>
             </ul>
@@ -55,41 +56,27 @@
 <div class="section">FT中文网专栏</div>
 <div class="loadonce righthd">
 
-<div url="/index.php/ft/column/007000005?i=2" class="channel oneStory more first-child">第一时间解读</div>
-<div url="/index.php/ft/column/007000058?i=2" class="channel oneStory more">中西两半录</div>
-<div url="/index.php/ft/column/007000002?i=2" class="channel oneStory more">朝九晚五</div>
-<div url="/index.php/ft/column/007000007?i=2" class="channel oneStory more">中国纪事</div>
-<div url="/index.php/ft/column/007000054?i=2" class="channel oneStory more">一知半解</div>
-<div url="/index.php/ft/column/007000006?i=2" class="channel oneStory more">媒体札记</div>
-<div url="/index.php/ft/column/007000044?i=2" class="channel oneStory more">天则横议</div>
-<div url="/index.php/ft/column/007000001?i=2" class="channel oneStory more">钱体育</div>
-<div url="/index.php/ft/column/007000009?i=2" class="channel oneStory more">第三眼</div>
-<div url="/index.php/ft/column/007000036?i=2" class="channel oneStory more">市场的边界</div>
-<div url="/index.php/ft/column/007000040?i=2" class="channel oneStory more">CMRC朗润经济评论</div>
-<div url="/index.php/ft/column/007000020?i=2" class="channel oneStory more">剃刀边缘</div>
+<div url="/index.php/ft/column/007000010?i=2" class="channel oneStory more first-child">中间论坛</div>
+<div url="/index.php/ft/column/007000005?i=2" class="channel oneStory more">第一时间解读</div>
 <div url="/index.php/ft/column/007000049?i=2" class="channel oneStory more">经济人</div>
-<div url="/index.php/ft/column/007000043?i=2" class="channel oneStory more">中国股事钩沉</div>
-<div url="/index.php/ft/column/007000004?i=2" class="channel oneStory more">远观中国</div>
-<div url="/index.php/ft/column/007000042?i=2" class="channel oneStory more">我是书虫</div>
-<div url="/index.php/ft/column/007000041?i=2" class="channel oneStory more">经济观察者</div>
-<div url="/index.php/ft/column/007000027?i=2" class="channel oneStory more">智库</div>
-<div url="/index.php/ft/column/007000047?i=2" class="channel oneStory more">沈时度势</div>
-<div url="/index.php/ft/column/007000038?i=2" class="channel oneStory more">中外对话</div>
-<div url="/index.php/ft/column/007000051?i=2" class="channel oneStory more">简化字不讲理</div>
-<div url="/index.php/ft/column/007000048?i=2" class="channel oneStory more">新百家</div>
-<div url="/index.php/ft/column/007000052?i=2" class="channel oneStory more">切问近思录</div>
-<div url="/index.php/ft/column/007000053?i=2" class="channel oneStory more">纽约范儿</div>
-<div url="/index.php/ft/column/007000008?i=2" class="channel oneStory more">中国公司观察</div>
-<div url="/index.php/ft/column/007000056?i=2" class="channel oneStory more">投资者的敌人</div>
-<div url="/index.php/ft/column/007000035?i=2" class="channel oneStory more">生活经济学</div>
-<div url="/index.php/ft/column/007000010?i=2" class="channel oneStory more">中间论坛</div>
-<div url="/index.php/ft/column/007000046?i=2" class="channel oneStory more">杏林守望者</div>
-<div url="/index.php/ft/column/007000055?i=2" class="channel oneStory more">名利场</div>
-<div url="/index.php/ft/column/007000059?i=2" class="channel oneStory more">时代的噪音</div>
-<div url="/index.php/ft/column/007000060?i=2" class="channel oneStory more">谈艺录</div>
-<div url="/index.php/ft/column/007000061?i=2" class="channel oneStory more">寻食记</div>
+<div url="/index.php/ft/column/007000007?i=2" class="channel oneStory more">中国纪事</div>
+<div url="/index.php/ft/column/007000044?i=2" class="channel oneStory more">天则横议</div>
 <div url="/index.php/ft/column/007000062?i=2" class="channel oneStory more">市值管理评论</div>
+<div url="/index.php/ft/column/007000060?i=2" class="channel oneStory more">谈艺录</div>
+<div url="/index.php/ft/column/007000036?i=2" class="channel oneStory more">市场的边界</div>
+<div url="/index.php/ft/column/007000004?i=2" class="channel oneStory more">远观中国</div>
+<div url="/index.php/ft/column/007000027?i=2" class="channel oneStory more">智库</div>
+<div url="/index.php/ft/column/007000059?i=2" class="channel oneStory more">时代的噪音</div>
+<div url="/index.php/ft/column/007000020?i=2" class="channel oneStory more">剃刀边缘</div>
+<div url="/index.php/ft/column/007000047?i=2" class="channel oneStory more">沈时度势</div>
 <div url="/index.php/ft/column/007000063?i=2" class="channel oneStory more">艺述东西</div>
+<div url="/index.php/ft/column/007000061?i=2" class="channel oneStory more">寻食记</div>
+<div url="/index.php/ft/column/007000041?i=2" class="channel oneStory more">经济观察者</div>
+<div url="/index.php/ft/column/007000038?i=2" class="channel oneStory more">中外对话</div>
+<div url="/index.php/ft/column/007000058?i=2" class="channel oneStory more">中西两半录</div>
+<div url="/index.php/ft/column/007000052?i=2" class="channel oneStory more">切问近思录</div>
+<div url="/index.php/ft/column/007000056?i=2" class="channel oneStory more">投资者的敌人</div>
+<div url="/index.php/ft/column/007000055?i=2" class="channel oneStory more">名利场</div>
 
 </div>
 
@@ -125,5 +112,5 @@
 <div class=copyright>
     <b><font face="arial">&copy; </font>英国金融时报</b> 有限公司 <font face="arial">2016</font>&nbsp;&nbsp;
     <span><acronym title="Financial Times">FT中文网</acronym>为英国金融时报的注册商标</span>
-</div>
+</div>
 
