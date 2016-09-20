@@ -685,11 +685,25 @@ function commonProblem() {
 </body>
 <!-- Google Analytics -->
 <script>
+
 (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
 (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
 m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
 })(window,document,'script','/log/ga.js','ga');
 ga('create', 'UA-1608715-1');ga('require', 'displayfeatures');
+var uaForMail=navigator.userAgent || navigator.vendor || "";
+var deviceName;
+if (/ipad/i.test(uaForMail)) {
+    deviceName = 'iPad';
+} else if (/OS [0-9]+\_/i.test(uaForMail) && /iphone|ipod/i.test(uaForMail)) {
+    deviceName = 'iPhone';
+} else if (/android/i.test(uaForMail)) {
+    deviceName = 'Android';
+} else {
+    deviceName = 'Other';
+}
+deviceName += ' App';
+ga('set', 'contentGroup4', deviceName);
 ga('send', 'pageview');
 </script>
 <!-- End Google Analytics -->
@@ -703,7 +717,6 @@ fa('create','UA-XXXX-Y',{'alwaysSendReferrer':true});fa('send','pageview');
 </script>
 <!-- End FTC Analytics -->
 <script>
-    var uaForMail=navigator.userAgent || navigator.vendor || "";
     uaForMail=uaForMail+"%0D%0A%0D%0Amy URL: " + location.href;
     function updateStartStatus(startMessage) {
     	document.getElementById("startFeedback").href="mailto:ftchinese.feedback@gmail.com?subject=Feedback about FTC Web App - ' +  + '&body=%0D%0A%0D%0A%0D%0A%0D%0A%0D%0A%0D%0A%0D%0A%0D%0AMy UA String for Your Reference: %0D%0A%0D%0A"+uaForMail+"%0D%0A%0D%0AResources version: "+window._currentVersion+"%0D%0A%0D%0AScreen Mode: "+screen.width+"X"+screen.height+"%0D%0A%0D%0Amy URL: " + location.href;

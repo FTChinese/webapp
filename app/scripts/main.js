@@ -1,5 +1,5 @@
 //申明各种Global变量
-var _currentVersion = 1111; //当前的版本号
+var _currentVersion = 1117; //当前的版本号
 var _localStorage = 0;
 var exp_times = Math.round(new Date().getTime() / 1000) + 86400;
 var username;
@@ -2609,10 +2609,10 @@ function checkDevice() {
 }
 
 function checkhttps(data) {
-    var url = window.location.href.toLowerCase();
-    if (url.indexOf('https:') >= 0 && url.indexOf('api.ftmailbox.com') >= 0) {
-        data = data.replace(/http:[\/\\]+i.ftimg.net[\/\\]+/g, 'https://api.ftmailbox.com/media/').replace(/http:[\/\\]+media.ftchinese.com[\/\\]+/g, 'https://api.ftmailbox.com/media/');
-    }
+    // var url = window.location.href.toLowerCase();
+    // if (url.indexOf('https:') >= 0 && url.indexOf('api.ftmailbox.com') >= 0) {
+    //     data = data.replace(/http:[\/\\]+i.ftimg.net[\/\\]+/g, 'https://api.ftmailbox.com/media/').replace(/http:[\/\\]+media.ftchinese.com[\/\\]+/g, 'https://api.ftmailbox.com/media/');
+    // }
     return data;
 }
 
@@ -2679,6 +2679,9 @@ function httpspv(theurl) {
         document.title = gAppName;
     }
     var vtype="member", nowV, pagetype, userId = getCookie('USER_ID') || '', ftcteam='';
+    var w = screenWidth;
+    var screenType;
+    var deviceName;
 
     if (username === undefined || username== null || username == "") {
         vtype="visitor";
@@ -2711,6 +2714,27 @@ function httpspv(theurl) {
     } else {
         pagetype="";
     }
+    
+    if (w >0) {
+        if (w>1220) {
+            screenType = 'XL: above 1220';
+        } else if (w>980) {
+            screenType = 'Large: 981-1220';
+        } else if (w>690) {
+            screenType = 'Medium: 691-981';
+        } else if (w>490) {
+            screenType = 'Small: 491-690';
+        } else {
+            screenType = 'Phone: under 491';
+        }
+        try {
+            ga('set', 'dimension18', screenType);
+            //console.log (screenType);
+        } catch (ignore) {
+
+        }
+    }
+    //console.log (deviceName);
     try {
         ga('set', 'dimension7', _currentVersion.toString());
         ga('set', 'dimension2', vtype);
