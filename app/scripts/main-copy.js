@@ -59,11 +59,12 @@ var cg1 = '(not set)';
 screenWidth = $(window).width();
 screenHeight = $(window).height();
 
-if (screenWidth >= 700) {
+if (screenWidth >= 700) {//√
     gStartPageTemplate = '/index.php/ft/channel/phonetemplate.html?channel=nexthome&screentype=wide&';
 } else {
     gStartPageTemplate = '/index.php/ft/channel/phonetemplate.html?channel=nexthome&';
 }
+
 var gApiUrl = {
     //'a10001':'',
     'efforts':0,
@@ -86,11 +87,12 @@ var gSpecialAnchors = [];
 var gTagData = [];
 var gIsInSWIFT = false;
 
-if (window.location.href.indexOf('isInSWIFT')>=0) {
+if (window.location.href.indexOf('isInSWIFT')>=0) {//√
     gIsInSWIFT = true;
 }
+
 //在本地测试
-if (window.location.hostname === 'localhost' || window.location.hostname.indexOf('192.168') === 0 || window.location.hostname.indexOf('10.113') === 0 || window.location.hostname.indexOf('127.0') === 0) {
+if (window.location.hostname === 'localhost' || window.location.hostname.indexOf('192.168') === 0 || window.location.hostname.indexOf('10.113') === 0 || window.location.hostname.indexOf('127.0') === 0) {//√
     gApiUrl.a10001 = 'api/ea001.json';
     gApiUrl.a10003 = 'api/ea003.json';
     gApiUrl.a10007 = 'api/ea007.json';
@@ -356,7 +358,7 @@ function startpage() {
                             gTouchStartX = -1;
                         }
                     }
-                    //console.log (gTouchMoveX - gTouchStartX + "=" + gTouchMoveX + "-" + gTouchStartX + " scrollerflag: " + window.gFTScrollerActive + " gIsSwiping: " + gIsSwiping);
+                   
                 }
             }, false);
 
@@ -387,17 +389,7 @@ function startpage() {
     $('body').on('click', '.outbound-link', function(){
         ga('send','event','Outbound Link in App', 'click', $(this).attr('href') + '/' + window.location.href);
     });
-    //openning a page in an iframe is not viable for now in iPhone native app
-    /*
-    $('body').on('click', '#special-container a, .open-in-iframe', function(){
-        var url = $(this).attr('href');
-        var title = $(this).find('.headline').eq(0).html() || '';
-        var lead = $(this).find('.lead').eq(0).html();
-        showchannel(url,title,0,true,lead);
-        //showSlide(url,title,0, 'interactive', true);
-        return false;
-    });
-    */
+    
     //click navOverlay to close navigation
     $('body').on('click', '#navOverlay', function(e){
         var k = e.target.id;
@@ -436,16 +428,6 @@ function loadFromLocalStorage(startpageStorage) {
     $('#homecontent').html(startpageStorage);
 }
 
-/*not working
-function removeStartCover() {
-    if (location.href.indexOf("-2014.html")>=0 && osVersion.indexOf("ios")>=0) {
-        if ($("#remove-cover").length === 0) {
-            $("body").append("<div id=remove-cover></div>");
-            $("#remove-cover").html("<iframe frameborder=0  marginheight=0 marginwidth=0 frameborder=0 scrolling=no width=1 height=1 src=/m/204.php?iOSAppIsLoaded></iframe>");
-        }
-    }
-}
-*/
 
 function fillContent(loadType) {
     //gStartStatus = "fillContent start";
@@ -865,7 +847,6 @@ function freezeScroll() {
         }
     }
     
-    //$('#tip').html("wst=" + wst + ", startFreeze = " + startFreeze + ", fixedHeight = " + fixedHeight + ", screenHeight = " + screenHeight + ", wst + screenHeight - startFreeze - fixedHeight = " + wstBottom + ", fullHeight: " + fullHeight + "wst + screenHeight - fullHeight: " + fullBottom + ", headHeight: " + headHeight + ", fStatus: " + fStatus).addClass('on');
 }
 
 function freezeCheck() {
@@ -895,255 +876,6 @@ function freezeCheck() {
 }
 
 
-
-//在获取到当天的文章JSON数据接口后，根据文章的priority，配图情况，以及其他信息，将它们插入到版面中，生成类似报纸的效果
-/*
-function fillPage(thedata) {
-    gStartStatus = "fillPage start";
-    //遍历接口的所有文章，根据其属性将其插入相应位置
-    var jsondata, cover1 = 0,  todaystamp,  storytotalnum = 0, longheadline, shortheadline, longlead, shortlead, coverImg, cauthor, tag, genre, topic, industry, priority, byline, onhomepage = 0, iconImg, bigButton, portraitImg="", errorMessage="", jsonHeadPosition, jsonWrong, specialTag="", specialTitle="";
-    var dataStatus = 'unknown';
-    //var backupAPIDate;
-    countInsert=[];
-    
-	//如果返回数据长度不足1000，说明此次返回的数据根本就不对，跳出函数
-	if (thedata.length<1000){return;}
-    thedata = checkhttps(thedata) || "";
-    try {
-        jsonHeadPosition = thedata.indexOf('{"head"');
-        if (jsonHeadPosition>0) {//如果返回的数据前有服务器返回的乱码（参见jsoneerror.html），则先去除它
-            jsonWrong = thedata.substring(0,100);
-            thedata = thedata.slice(jsonHeadPosition);
-            if (gOnlineAPI === true) {
-                trackErr(jsonWrong, "wrong jsondata live");
-            } else {
-                trackErr(jsonWrong, "wrong jsondata cache");
-            }
-        }
-        jsondata = $.parseJSON(thedata);
-    }catch(err){
-        thedata = thedata.substring(0,22);
-        if (gOnlineAPI === true) {
-            trackErr(err + "." + thedata, "fillPage jsondata");
-            dataStatus = 'online error';
-        } else {
-            trackErr(err + "." + thedata, "fillPage jsondata cache");
-            dataStatus = 'cache error';
-        }
-    }
-
-
-	//清空这个数据
-	thedata="";
-    thisday = new Date();
-	thisdayunix = Math.round(thisday.getTime() / 1000);
-
-    //如果第一次在线获取的数据返回错误
-    //则先尝试备份的API
-    //再尝试当天文章的API
-    if (dataStatus === 'online error') {
-
-        if (gApiUrl.efforts === 0) {
-            gApiUrl.efforts = 1;
-            gApiUrl.a10001 = gApiUrl.aBackUp;
-            //console.log ('try backup api: ' + gApiUrl.efforts);
-            filloneday();
-        } else if (gApiUrl.efforts === 1){
-            gApiUrl.efforts = 2;
-            backupAPIDate = thisday.getFullYear() + '/' + (thisday.getMonth() + 1) + '/' + thisday.getDate();
-            //console.log (backupAPIDate + ' First API Wrong, you should get the backup one!');
-            filloneday(backupAPIDate);
-        }
-    }
-
-	//检查数据格式是否符合标准
-    if (!jsondata || jsondata.length <= 1 || dataStatus === 'error') {
-        return;
-	}
-    
-    try {
-        if (jsondata.body.odatalist.length>=0) {
-            jsondata = jsondata.body.odatalist;
-        } else {   
-            ga('send','event', 'CatchError', 'API Error', '{errorcode: "' + jsondata.body.oelement.errorcode + '", host: "' + location.host + '"}');
-            fa('send','event', 'CatchError', 'API Error', '{errorcode: "' + jsondata.body.oelement.errorcode + '", host: "' + location.host + '"}');
-        }
-    } catch (ignore) {
-        //alert (ignore.toString());
-    }
-
-    //根据最新一条新闻的Pubdate确定出版时间
-    latestunix = jsondata[0].pubdate;
-    todaystamp = unixtochinese(jsondata[0].pubdate, 0);
-    todaystamp += ' 出版 | 刷新';
-    $('#datestamp').html(todaystamp);
-    
-    gSpecialAnchors = [];
-    if ($(".specialanchor").length>0) {
-        $('.specialanchor').each(function(){
-            var adId = $(this).attr('adid') || '';
-            var sTag = $(this).attr('tag') || '';
-            var sTitle = $(this).attr('title') || '';
-            gSpecialAnchors.push({
-                "tag": sTag,
-                "title": sTitle,
-                "adid": adId
-            });
-        });
-    }
-
-    // 首页至少要有20篇文章，而且昨天午后出版的文章也要上首页
-    $.each(jsondata, function(entryIndex, entry) {
-        var inserted = false;
-        allstories[entry.id] = entry;
-        //60*60*22 = 79200
-        if (((entry.last_publish_time && thisdayunix - entry.last_publish_time < 79200) || storytotalnum < 20 || (entry.pubdate && latestunix == entry.pubdate) || longholiday === 1) && (!entry.customlink)) {
-            onhomepage = 1;
-            storytotalnum += 1;
-            //console.log ("Show: " + entry.cheadline + ":" + (thisdayunix - entry.last_publish_time));
-        } else {
-			onhomepage = 0;
-            //console.log ("Remove: " + entry.cheadline + ":" + (thisdayunix - entry.last_publish_time));
-		}
-
-        //分析每条文章的各字段内容
-        if (onhomepage === 1) {
-            longheadline = entry.cheadline || ''; 
-            shortheadline = entry.cheadline || entry.cskylineheadline || ''; 
-            longlead = entry.clongleadbody || entry.cshortleadbody || entry.cskylinetext || ''; 
-            shortlead = entry.cskylinetext || entry.cshortleadbody || entry.clongleadbody || ''; 
-            cauthor = (entry.cauthor||'').replace(/,/g, '、') || ''; 
-			tag=entry.tag || '';
-            genre = entry.genre || '';
-            topic = entry.topic || '';
-            industry = entry.industry || '';
-			priority = entry.priority || 99;
-            byline = entry.cbyline_description || '';
-            byline = byline.replace(/作者[：:]/g, '').replace(/英国《金融时报》(.+)/g, 'FT$1') + ' ' + cauthor + ' ' + (entry.cbyline_status || '');
-			shortlead=shortlead.replace(/。$/g,"");
-            if (byline.length > 20 && byline.indexOf('英国《金融时报》') >= 0) {
-                byline = byline.replace(/英国《金融时报》 /g, '').replace(/英国《金融时报》/g, 'FT').replace(/为FT撰稿/g, '');
-            }
-            if (byline.toLowerCase().indexOf('lex专栏') >= 0) {
-                byline = byline.replace(/英国《金融时报》/g, '');
-            }
-            shortheadline = shortheadline.replace(/[Ll][Ee][Xx]专栏[：:]/g, '')
-            //    .replace(/分析[：:]/g, '').replace(/特写[：:]/g, '')
-                .replace(/中国国开行/g, '国开行').replace(/工商银行/g, '工行')
-                .replace(/建设银行/g, '建行').replace(/农业银行/g, '农行').replace(/通用电气/g, 'GE')
-                .replace(/FT社评[：:]/g,'');
-            if (entry.story_pic.icon) {
-                iconImg='<div class="icon image"><figure><img class="app-image" src="'+entry.story_pic.icon+'"></figure></div>';
-            } else {
-                iconImg='';
-            }
-
-            bigButton=entry.story_pic.cover || entry.story_pic.bigbutton || '';
-            if (bigButton !== '') {
-                bigButton = '<div class="image bigbutton"><figure><img class="app-image" src="'+bigButton+'"></figure></div>';
-            } else if (entry.story_pic.other  || entry.story_pic.smallbutton) {
-                bigButton = entry.story_pic.other  || entry.story_pic.smallbutton;
-                portraitImg = (tag.indexOf('插图')>=0) ? ' portrait-image' : '';
-                bigButton = '<div class="image bigbutton' + portraitImg + '"><figure><img class="app-image" src="'+bigButton+'"></figure></div>';
-            } else if (entry.story_pic.skyline !== undefined && entry.story_pic.skyline !== '') {
-                bigButton = entry.story_pic.skyline;
-                bigButton = '<div class="bigbutton skyline-image image"><figure><img class="app-image" src="'+bigButton+'"></figure></div>';
-            }
-            //console.log ("cover1: " + cover1);
-            //先处理Cover Story
-            if ((priority >= 1 && priority <= 10 && (cover1===0 || thisdayunix - entry.last_publish_time < 79200)) || (cover1===0 && entry.story_pic.cover)) {
-				if (entry.story_pic.cover) {
-                    //alert (coverImg);
-                    coverImg = entry.story_pic.cover;
-					coverImg = '<div class="coverIMG image"><figure><img class="app-image" src="' + coverImg + '"></figure></div>';
-				} else if (entry.story_pic.smallbutton || entry.story_pic.other) {
-                    coverImg=entry.story_pic.smallbutton || entry.story_pic.other;
-                    if (gIsInSWIFT === true) {
-                        coverImg=resizeImg(coverImg,600);
-                    }
-                    //coverImg='<div class="coverIMG image imageloaded"><figure style="background-image:url('+ entry.story_pic.cover +')"></figure></div>';
-					coverImg='<div class="coverIMG image"><figure><img class="app-image" src="' + coverImg + '"></figure></div>';
-				} else {
-					coverImg='';
-				}
-                coverImg=saveImgSize(coverImg);
-                insertCover('coveranchor',cover1,entry.id,shortheadline,coverImg,iconImg,longlead);
-                cover1 = cover1+1;
-            } else {                
-                if ($(".specialanchor").length>0) {
-                    $('.specialanchor').each(function(index){
-                        var specialanchorId = 'specialanchor' + index;
-                        var adId = $(this).attr('adid') || '';
-                        specialTag = $(this).attr('tag') || '';
-                        specialTitle = $(this).attr('title') || '';
-
-                        if ((tag.indexOf(specialTag) >= 0)) {
-                            $(this).attr('id', specialanchorId);
-                            insertArticle('special',specialanchorId,'\/index.php\/ft\/tag\/'+ specialTag +'?i=2',specialTitle,entry.id,shortheadline,iconImg,longlead,bigButton);
-                            inserted = true;
-                        } 
-                    });
-                }
-                if (inserted === true) {
-
-                    //if it is already inserted as a specia report, do nothing
-                } else if (genre.indexOf('news') >= 0 && genre.indexOf('analysis') < 0 && genre.indexOf('comment') < 0 && genre.indexOf('feature') < 0 && longheadline.indexOf("分析") !== 0) {
-                    insertArticle('news','newsanchor','news','新闻',entry.id,shortheadline,iconImg,shortlead,bigButton);
-                } else if ((longheadline.indexOf('媒体札记') >= 0 || tag.indexOf('媒体札记') >= 0) && $('#mediaanchor').length>0) {
-                    insertArticle('media','mediaanchor','\/index.php\/ft\/channel\/phonetemplate.html?column=007000006','媒体札记',entry.id,shortheadline,iconImg,longlead,bigButton);
-                } else if (topic.indexOf('people') >= 0 && genre.indexOf('letter') < 0) {
-                    insertArticle('people','peopleanchor','people','人物',entry.id,shortheadline,iconImg,longlead,bigButton);
-                } else if (topic.indexOf('politics') >= 0 && genre.indexOf('letter') < 0) {
-                    insertArticle('politics','politicsanchor','politics','政治与政策',entry.id,shortheadline,iconImg,longlead,bigButton);
-                } else if ((topic.indexOf('markets') >= 0 || topic.indexOf('economy') >= 0 || industry.indexOf('finance')>=0) && genre.indexOf('letter') < 0) {
-                    insertArticle('economy','economyanchor','economymarkets','经济与金融',entry.id,shortheadline,iconImg,longlead,bigButton);
-                } else if ((topic.indexOf('business') >= 0 || topic.indexOf('management') >= 0) && genre.indexOf('letter') < 0) {
-                    insertArticle('business','businessanchor','businessmanagement','商业与管理',entry.id,shortheadline,iconImg,longlead,bigButton);
-                } else if ((topic.indexOf('society') >= 0 || topic.indexOf('culture') >= 0) && genre.indexOf('letter') < 0) {
-                    insertArticle('society','societyanchor','societyculture','社会与文化',entry.id,shortheadline,iconImg,longlead,bigButton);
-                } else if ((topic.indexOf('lifestyle') >= 0 || topic.indexOf('travel') >= 0) && genre.indexOf('letter') < 0) {
-                    insertArticle('lifestyle','lifestyleanchor','lifestyle','生活时尚',entry.id,shortheadline,iconImg,longlead,bigButton);
-                } else if (topic.indexOf('book') >= 0 && genre.indexOf('letter') < 0) {
-                    insertArticle('book','bookanchor','book','读书',entry.id,shortheadline,iconImg,longlead,bigButton);
-                } else if (genre.indexOf('letter') >= 0) {
-                    insertArticle('letter','letteranchor','letter','读者有话说',entry.id,shortheadline,iconImg,longlead,bigButton);
-                } else if (tag.indexOf('50ideas')>=0){
-                    insertArticle('ideas','ideaanchor','/index.php/ft/tag/50ideas?i=2','50个塑造今日商业世界的观念',entry.id,shortheadline,iconImg,longlead,bigButton);
-                } else  {
-                    insertArticle('more','moreanchor','','更多',entry.id,shortheadline,iconImg,longlead,bigButton);
-                }
-            }
-        } else {
-			delete window.allstories[entry.id];
-		}
-        unusedEntryIndex = entryIndex;
-    });
-
-    //点击story阅读全文
-    addstoryclick();
-	removeBrokenIMG();
-
-    //display app images when loaded
-    showAppImage('fullbody');
-    
-    //检查用户是不是长时间没有获得新内容
-    try {
-        if (lateststory != "" && gOnlineAPI === true) {
-            lateststory = parseInt(lateststory, 10);
-            if (lateststory - latestunix > 86400) { //difference larger than 1 day
-                errorMessage = (lateststory - latestunix)/86400;
-                errorMessage = "Delay: " + errorMessage + " days. ";
-                trackErr(errorMessage, "API Delay");
-            }
-        }
-    } catch (ignore) {
-    
-    }
-    gOnlineAPI = false;
-    gStartStatus = "fillPage end";
-}
-*/
-
 function showAppImage(ele) {
     $('#' + ele + ' .image>figure>img').each(function() {
         var imgUrl = this.src || '';
@@ -1161,178 +893,19 @@ function showAppImage(ele) {
 }
 
 function showThisImage(ele, imgUrl) {
-    //ele.parent().css('background-image', 'url(' +imgUrl + ')');
+ 
     ele.parent().parent().addClass('imageloaded').removeClass('image').html('<img src="'+ imgUrl + '">');
-    //ele.parent().parent();
-}
 
-/*
-//插入头版文章
-function insertCover(insertID,insertCount,entryId,shortheadline,coverImg,iconImg,insertLead) {
-    var firstBigButton = '';
-    var iconCode=iconImg;
-    if (insertCount==0) {
-        $('#'+insertID).append('<div class="story oneStory first-child topStory track-click" eventLabel="'+insertID + ': ' + insertCount +'" storyid="' + entryId + '"><div class="cover headline narrow-screen">' + shortheadline + '</div>' + coverImg + '<div class="cover headline wide-screen">' + shortheadline + '</div><div class=lead>'+insertLead+'</div></div>');
-    } else {
-        if (screenWidth>=700 && coverImg!="") {
-            firstBigButton=coverImg.replace(/coverIMG image/g,'coverIMG middle-screen image');
-            iconCode=iconCode.replace(/icon image/g,'icon mobile-screen image');
-        }
-        $('#'+insertID).append('<div class="story oneStory track-click" eventLabel="'+insertID + ': ' + insertCount +'" storyid="' + entryId + '"><div class="headline narrow-screen more-cover">' + shortheadline + '</div>' + firstBigButton + '<div class="cover headline wide-screen">' + shortheadline + '</div>' + iconCode + '<div class=lead>'+insertLead+'</div></div>');
-    }
 }
-
-//插入下面的文章
-function insertArticle(insertCountProp,insertID,channelLink,channelTitle,entryId,shortheadline,iconImg,shortlead,bigButton) {
-    var currentInsert=countInsert[insertCountProp],firstChild='',sectionTitle='',channelURL=channelLink,channelOnClick="",storyTopBreak="",firstBigButton="",headlineNarrow="",headlineWide='<div class="headline">' + shortheadline + '</div>';
-    if (currentInsert === undefined) {
-        currentInsert = 0;
-    }
-    if (channelURL.indexOf("/")<0 && channelURL!=""){
-        channelURL='/index.php/ft/channel/phonetemplate.html?channel='+channelURL;
-    }
-    if (channelURL!=""){
-        channelOnClick=' onclick=\'showchannel(\"' + channelURL + '\",\"'+channelTitle+'\");\'';
-    }
-    if (currentInsert === 0) {
-        firstChild=' first-child';
-        sectionTitle='<a class="section"' + channelOnClick + '><span>'+channelTitle+'</span></a>';
-        storyTopBreak='first-break ';
-        if (screenWidth>=700) {
-            firstBigButton=bigButton;
-            firstChild = firstChild + ' hasBigButton';
-            headlineNarrow='<div class="headline narrow-screen">' + shortheadline + '</div>';
-            headlineWide='<div class="headline wide-screen">' + shortheadline + '</div>';
-            if (shortlead.length<=50) {
-                firstBigButton = firstBigButton.replace(/bigbutton/g,'bigbutton height-limit-96');
-            }
-        }
-    }
-    if (currentInsert % 2 ===0) {
-        firstChild = firstChild + " grid-1-2";
-        storyTopBreak=storyTopBreak + "break-1-2";
-        $('#'+insertID).removeClass("even-item").addClass("odd-item");
-    } else {
-        firstChild = firstChild + " grid-2-2";
-        storyTopBreak=storyTopBreak + "break-2-2";
-        $('#'+insertID).removeClass("odd-item").addClass("even-item");
-    }
-    storyTopBreak='<div class="'+storyTopBreak+'"></div>';
-    $('#'+insertID).append(sectionTitle + storyTopBreak + '<div class="story oneStory'+firstChild+' track-click"  eventLabel="'+ insertID + ': ' + currentInsert +'" storyid="' + entryId + '"><div class=storyInner>'+ headlineNarrow + firstBigButton+ headlineWide + iconImg + '<div class=lead>'+shortlead+'</div></div></div>');
-    //console.log (firstBigButton);
-    countInsert[insertCountProp] = currentInsert + 1;
-    gStartStatus = "fillPage end";
-}
-*/
 
 
 //获取某一天的所有文章
-function filloneday(onedaydate) {
-    //gStartStatus = "filloneday start";
+function filloneday(onedaydate) {//√
     var apiurl;
     var loadcontent;
     var savedhomepage;
     var uaStringFillPage;
-    //clearfields();
-    
-    //更新首页上的视频与互动部分
-    /*
-    if (typeof window.gCustom === "object") {
-        if (typeof window.gCustom.fetchItems === "object") {
-            $.each(window.gCustom.fetchItems, function(i,v) {
-                fetchItem(v.url+themi, v.storage, v.wrapper);
-                unusedEntryIndex = i;
-            });
-        }
-    } else if (!onedaydate || onedaydate == 'newyear') {
-        fetchItem(gHomePageVideo+themi, 'homepagevideo', '#homepageVideo');
-    }
-    */
-    /*
-    if (gStartPageAPI === true) {
-        if (onedaydate != '' && onedaydate != null) {
-            loadcontent='加载' + onedaydate.replace(/([0-9]{4})\-([0-9]+)\-([0-9]+)/g, '$1年$2月$3日')+'文章';
-            apiurl = '/index.php/jsapi/get_last_publish_story?day='+ onedaydate + '&';
-        } else {
-            //apiurl = '/index.php/jsapi/get_new_story?rows=30&';
-            apiurl = gApiUrl.a10001;
-            try{
-                if (_localStorage===1 && localStorage.getItem(gNewStoryStorageKey)) {
-                    savedhomepage = localStorage.getItem(gNewStoryStorageKey);
-                    clearfields();
-                    fillPage(savedhomepage);
-                    if (isOnline()=="possible") {
-                        loadcontent='检查最新的文章';
-                    }
-                    else {
-                        get_allimgdata_from_offline_db();
-                    }
-                } else {
-                    loadcontent='加载最新的文章';
-                }
-            }catch(err){
-                loadcontent='加载最新的文章';
-            }
-        }
-        if (isOnline()=="possible") {
-            $(".loadingStory").html('<div id="homeload"><div class="cell loadingStatus">'+loadcontent+'</div><div class="cell right"><div class="progresscontainer" style="width:auto;"><div id="homeprogressbar" class="progressbar standardprogressbar uses3d progressbg structureprogress" style="width:0%"></div></div></div></div>');
-            $("#homeprogressbar").animate({width:"10%"},300,function(){
-                
-                var message = {};
-                message.head = {};
-                message.head.transactiontype = '10001';
-                message.head.source = 'web';
-                message.body = {};
-                message.body.ielement = {};
-                message.body.ielement.num = 30;
-                gHomeAPIRequest = new Date().getTime();
 
-                $.ajax({
-                    method: gApi001Method,
-                    url: apiurl + '?' + themi,
-                    //data: JSON.stringify(message),
-                    dataType: 'text'
-                })
-                    .done(function(data) {
-                        gHomeAPISuccess = new Date().getTime();
-                        var timeSpent = gHomeAPISuccess - gHomeAPIRequest;
-                        ga('send', 'timing', 'App', 'API Request', timeSpent, 'Home Stories');
-                        if (data.length <= 300) {
-                            return;
-                        }
-                        clearfields();
-                        //console.log (data);
-                        gOnlineAPI = true;
-                        fillPage(data);
-                        saveoneday(onedaydate, data);
-                        notifysuccess();
-                        if (ipadstorage) {
-                            setTimeout(function() {
-                                ipadstorage.droptable();
-                                //save_allimg_to_offline_db();
-                            },10000);
-                        }
-                    }).fail(function(jqXHR){
-                        gOnlineAPI = false;
-                        gHomeAPIFail = new Date().getTime();
-                        var timeSpent = gHomeAPIFail - gHomeAPIRequest;
-                        trackFail(message.head.transactiontype + ":" + jqXHR.status + "," + jqXHR.statusText + "," + timeSpent, "Latest News");
-                    });
-
-                $('.video').remove();
-                $.get(giPadVideo+ onedaydate + themi, function(data) {
-                    if (data != null && data != '') {
-                        data = checkhttps(data);
-                        $('#videocoveranchor').html(data);
-                    }	
-                });
-            });
-        } else {
-            $(".loadingStory").html('<div id="homeload"><div class="cell loadingStatus"></div><div class="cell right"><a class="button light-btn">刷新</a></div></div>');
-            notifysuccess();
-        }
-    }
-    */
     setTimeout(function(){
         httpspv(gDeviceType + '/homepage');
     }, 2000);
@@ -1347,7 +920,7 @@ function filloneday(onedaydate) {
     //gStartStatus = "filloneday end";
 }
 
-function saveoneday(onedaydate, data) {
+function saveoneday(onedaydate, data) {//√
     if (!onedaydate) {
         data = checkhttps(data);
         try {
@@ -1359,26 +932,13 @@ function saveoneday(onedaydate, data) {
     }
 }
 
-function notifysuccess() {
+function notifysuccess() {//√
     if (typeof latestunix === 'string') {
     var todaystamp = unixtochinese(latestunix, 0);
         $('#homeload .loadingStatus').html(todaystamp + " 出版");
     }
-    // if ($("#homeprogressbar").length>0) {
-    //     $("#homeprogressbar").animate({width:"100%"}, 1500, function(){
-    //         $('#homeload .right').html('<a class="button light-btn">刷新</a>');
-    //         $('#homeload').unbind();
-    //     });
-    // }
 }
 
-/*
-function clearfields() {
-    notifysuccess();
-    $('#datestamp').empty();
-    $('#fullbody .toempty').empty();
-}
-*/
 
 function jumpToPage(){
     var hashURI = location.hash || "", _channel_name, _channel_title, k;
@@ -1404,7 +964,7 @@ function jumpToPage(){
 
 
 
-function loadStoryData(data) {
+function loadStoryData(data) {//√
     var jsonHeadPosition;
     var jsonWrong;
     var jsondata;
@@ -1458,13 +1018,13 @@ function loadStoryData(data) {
     });
 }
 
-function showDateStamp() {
+function showDateStamp() {//√
     var ele = $('#homeload .loadingStatus');
     var myStamp = ele.attr('data-pubdate');
     ele.html(myStamp);
 }
 
-function downloadStories(downloadType) {
+function downloadStories(downloadType) {//√
     var apiurl;
     var loadcontent;
     var savedhomepage;
@@ -1475,7 +1035,7 @@ function downloadStories(downloadType) {
     var connectionType = window.gConnectionType || 'unknown connection';
     try {
         updateStartStatus('running downloadStories');
-    } catch (ignore) {
+    } catc、、、h (ignore) {
 
     }
     if (gStartPageAPI === true) {
@@ -1549,7 +1109,7 @@ function loadToHome(data, loadType) {
     } 
 }
 
-function loadHomePage(loadType) {
+function loadHomePage(loadType) {//√
     var dateDescription = '';
     var dateStamp = '';
     var homePageRequest = new Date().getTime();
@@ -1693,45 +1253,6 @@ function refresh(forceDownload){
             }
         }, 2000);
     }
-    /*
-    if (location.href.indexOf("android")>=0) {
-        $("#refreshButton").addClass("blue");
-        requestTime = new Date().getTime();
-        $.ajax("/index.php/jsapi/get_last_updatetime?"+requestTime)
-            .done(function(data) {
-                $("#refreshButton").removeClass("blue");
-                var k=isNaN(parseInt(data,10));
-                if (k===false) {
-                    successTime=new Date().getTime();
-                    if (successTime-requestTime < 300 || forceDownload === true || gHomePageIsLatest === false) {
-                        window.location.reload();
-                    } else if (data==lateststory) {
-                        lateststory=data;
-                        $('#popup-title').html("提示");
-                        $('#popup-description').html("FT中文网没有发布更新的内容，仍然刷新？");
-                        $('#popup-content').html("<div class='standalonebutton'><button class='ui-light-btn' onclick=\"window.location.reload();\">确定</button></div><div class='standalonebutton last-child'><button class='ui-light-btn' onclick=\"$('#popup').removeClass('on');\">取消</button></div>");
-                        $('#popup').addClass('on');
-                    } else {
-                        lateststory=data;
-                        $('#popup-title').html("提示");
-                        $('#popup-description').html("您的网速似乎不大理想，仍然刷新？");
-                        $('#popup-content').html("<div class='standalonebutton'><button class='ui-light-btn' onclick=\"window.location.reload();\">确定</button></div><div class='standalonebutton last-child'><button class='ui-light-btn' onclick=\"$('#popup').removeClass('on');\">取消</button></div>");
-                        $('#popup').addClass('on');
-                    }
-                } else {
-                    $('#popup-title').html("提示");
-                    $('#popup-description').html("您现在无法正确获取FT中文网的数据，请稍后尝试刷新");
-                    $('#popup-content').html("<button class='ui-light-btn' onclick=\"$('#popup').removeClass('on');\">我知道了</button></div>");
-                    $('#popup').addClass('on');
-                }
-            })
-            .fail(function() {
-                $('#popup-title').html("提示");
-                $('#popup-description').html("您现在连接不到FT中文网的服务器，请稍后尝试刷新");
-                $('#popup-content').html("<button class='ui-light-btn' onclick=\"$('#popup').removeClass('on');\">我知道了</button></div>");
-                $('#popup').addClass('on');
-            });
-    } else */
     if (gIsInSWIFT === true || 1 === 1) {
         $('html').addClass('is-refreshing');
         $('#homeload .loadingStatus').html('检查新内容...');
@@ -1767,16 +1288,6 @@ function refresh(forceDownload){
 }
 
 
-/*
-function checkbreakingnews() {
-    $.get('/index.php/ft/channel/phonetemplate.html?channel=breaking', 
-    	function(data) { $('#breakingnews').html(data);});
-}
-*/
-
-
-
-
 
 function checkbreakingnews() {
     var message={};
@@ -1808,7 +1319,7 @@ function checkbreakingnews() {
 }
 
 
-function addstoryclick() {
+function addstoryclick() {//√
     $('.story').unbind().bind('click', function() {
         var storyid = $(this).attr('storyid'), 
             storyHeadline = $(this).find(".headline, .hl").html() || "";
@@ -1930,7 +1441,7 @@ function handlelinks() {
 }
 
 //将Unix时间戳转换为中文日期和星期
-function unixtochinese(thetime,datetype) {
+function unixtochinese(thetime,datetype) {//√
     var todaystamp,dayArray,dayChar,thehour,theminute,ampm;
     thisday = new Date(thetime * 1000);
     todaystamp = thisday.getFullYear() + '年' + (thisday.getMonth() + 1) + '月' + thisday.getDate() + '日 星期';
@@ -1961,7 +1472,7 @@ function gotowebapp(url) {
 
 
 
-//阅读文章
+//阅读文章：start
 function readstory(theid, theHeadline) {
     var h,theurl, backto, sv, allViewsId, jsondata, myid;
     if (useFTScroller===0) {
@@ -2076,6 +1587,7 @@ function removeTag(theCode) {
     }
     return k;
 }
+
 
 function displaystory(theid, language) {
     var columnintro = ''; 
@@ -2411,9 +1923,9 @@ function displaystory(theid, language) {
 
     if (nativeVerticalScroll === true) {
         document.getElementById('storyScroller').scrollTop = 0;
-    } 
+    } //复杂函数
 }
-//阅读文章
+//阅读文章:end
 
 
 //share to social buttons
@@ -2505,7 +2017,7 @@ function highchartsCheck(storyBody) {
 }
 
 
-//运行环境检测
+//运行环境检测:start//√
 function historyAPI() {
     var ua = navigator.userAgent || navigator.vendor || "";
      // Android 2
@@ -2518,14 +2030,14 @@ function historyAPI() {
     }
 }
 
-function isOnline() {//iOS和BB10可以准确判断离线状态，某些Android设备会返回完全错误的信息
+function isOnline() {//iOS和BB10可以准确判断离线状态，某些Android设备会返回完全错误的信息//√
     if ((osVersion.indexOf("ios")>=0 || osVersion == "bb10") && navigator && navigator.onLine==false) {
         return "no";
     }
     return "possible";
 }
 
-function checkDevice() {
+function checkDevice() {//√
     if (/OS [0-9]+\_/i.test(uaString) && (/iPhone/i.test(uaString) || /iPad/i.test(uaString) || /iPod/i.test(uaString))) {
         osVersion = "ios" + uaString.replace(/^.*OS ([0-9]+).*$/ig,"$1");
     } else if (/BB10/i.test(uaString) && /mobile/i.test(uaString)) {
@@ -2608,7 +2120,7 @@ function checkDevice() {
     }
 }
 
-function checkhttps(data) {
+function checkhttps(data) {//√
     // var url = window.location.href.toLowerCase();
     // if (url.indexOf('https:') >= 0 && url.indexOf('api.ftmailbox.com') >= 0) {
     //     data = data.replace(/http:[\/\\]+i.ftimg.net[\/\\]+/g, 'https://api.ftmailbox.com/media/').replace(/http:[\/\\]+media.ftchinese.com[\/\\]+/g, 'https://api.ftmailbox.com/media/');
@@ -2616,11 +2128,11 @@ function checkhttps(data) {
     return data;
 }
 
-function removehttps(data) {
+function removehttps(data) {//√
     return data.replace(/https:[\/\\]+api.ftmailbox.com[\/\\]+media[\/\\]+/g, 'http://i.ftimg.net/');
 }
 
-function getpvalue(theurl, thep) {
+function getpvalue(theurl, thep) {//√
     var k,thev;
     if (theurl.toLowerCase().indexOf(thep + "=")>1) {
         k = theurl.toLowerCase().indexOf(thep) + thep.length + 1;
@@ -2632,22 +2144,22 @@ function getpvalue(theurl, thep) {
     return thev;
 }
 
-//运行环境检测
+//运行环境检测:end
 
-//错误处理
-function removeBrokenIMG() {
+/****错误处理：start*******/
+function removeBrokenIMG() {//√
 	$("img").unbind().bind("error",function(){
 		$(this).remove();
 	});
 }
 
-function pauseallvideo() {
+function pauseallvideo() {//√
 	$("video").each(function(){this.pause();});
 }
+/****错误处理：end*******/
 
-
-//错误追踪
-function trackErr(err, err_location) {
+/**********ga追踪:start*********/
+function trackErr(err, err_location) {//√
     var k=err.toString() + ". ua string: " + uaString + ". url: " + location.href + ". version: " + _currentVersion;
     if (_localStorage===1) {
         ga('send','event', 'CatchError', err_location, k);
@@ -2658,7 +2170,7 @@ function trackErr(err, err_location) {
 }
 
 //服务器请求失败追踪
-function trackFail(err, err_location) {
+function trackFail(err, err_location) {//√
     var k=err.toString() + ". url: " + location.href + ". version: " + _currentVersion;
     if (_localStorage===1) {
         ga('send','event', 'CatchError', err_location, k);
@@ -2806,9 +2318,10 @@ function recordAction(theAction) {
 }
 
 //流量追踪
+/**********ga追踪:end*********/
 
-//离线存储
-function getCookie(name){
+/***********离线存储:start*******/
+function getCookie(name){//√
     var start,len,end;
     try {
         start = document.cookie.indexOf(name+"=");
@@ -2823,7 +2336,7 @@ function getCookie(name){
     }
 }
 
-function setCookie (name, value , sec , path , domain) {
+function setCookie (name, value , sec , path , domain) {//√
     try {
         var argv = arguments,
             argc,
@@ -2845,14 +2358,14 @@ function setCookie (name, value , sec , path , domain) {
     }
 }
 
-function deleteCookie (name) {
+function deleteCookie (name) {//√
     var exp = new Date(), cval = getCookie (name);
     exp.setTime (exp.getTime() - 1);
     document.cookie = name + "=" + cval + "; expires=" + exp.toGMTString();
 }
 
 
-function saveLocalStorage(thekey,thevalue) {
+function saveLocalStorage(thekey,thevalue) {//√
     try {
         localStorage.removeItem(thekey);
         localStorage.setItem(thekey, thevalue);
@@ -2860,7 +2373,7 @@ function saveLocalStorage(thekey,thevalue) {
     }
 }
 
-function savevalue(thekey,thevalue) {
+function savevalue(thekey,thevalue) {//√
     try {
         saveLocalStorage(thekey, thevalue);
     } catch (err) {
@@ -2868,7 +2381,7 @@ function savevalue(thekey,thevalue) {
     }
 }
 
-function getvalue(thekey) {
+function getvalue(thekey) {//√
     var thevalue="";
     try {
         thevalue=localStorage.getItem(thekey);
@@ -2908,11 +2421,12 @@ function get_allimgdata_from_offline_db() {
 }
 
 
-//离线存储
+/***********离线存储:end*******/
 
 
 
-//界面操作
+
+/***************界面操作:start*************/
 function getURLParameter(url, name) {
   return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(url)||[undefined,""])[1].replace(/\+/g, '%20'))||null;
 }
@@ -3096,7 +2610,7 @@ function showchannel(url, channel, requireLogin, openIniFrame, channelDescriptio
 	removeBrokenIMG();
 }
 
-function startslides() {
+function startslides() {//√
     var cv = $('#channelview'),
         lasttouch = -1,
         thistouch,
@@ -3216,7 +2730,7 @@ function histback(gesture) {
     }
 }
 
-function closead() {
+function closead() {//√
     document.body.className = gNowView;
     if (useFTScroller===0) {setTimeout(function() {window.scrollTo(0, scrollHeight);},10);}
     $('body').css('background', '#FFF1E0');
@@ -3269,23 +2783,9 @@ function resizeImg(iMage,resizeWidth,resizeHeight) {
 //check out the screen width and device pixel ratio to deliver only the necessary size of image
 function saveImgSize(iMage,maxImageWidth){
     return iMage;
-    /*
-    var r=iMage,s=1,w=$(window).width();
-    if (r.indexOf('r.ftimg.net') < 0) {
-        if (typeof maxImageWidth === "number") {
-            w = maxImageWidth;
-        }
-        if (typeof window.devicePixelRatio === "number") {
-            s = (window.devicePixelRatio >=2) ? 2 : 1;
-        }
-        w=s*w;
-        r=resizeImg(r,w);
-    }
-    return r;    
-    */
-}
 
-function turnonOverlay(theId) {
+
+function turnonOverlay(theId) {//√
     $(".overlay").removeClass("on");
     $("#"+theId).addClass("on");
     if (noFixedPosition==1) {
@@ -3294,7 +2794,7 @@ function turnonOverlay(theId) {
     }
 }
 
-function closeOverlay() {
+function closeOverlay() {//√
     pauseallvideo();
     $(".overlay").removeClass("on");
     $("button.open").removeClass("open");
@@ -3333,7 +2833,7 @@ function switchNavOverlay(actionType) {
     }
 }
 
-function shareArticle() {
+function shareArticle() {//√
     $("#shareStory").addClass("on");
     if (noFixedPosition==1) {
         scrollOverlay=window.pageYOffset;
@@ -3344,11 +2844,11 @@ function shareArticle() {
     }
 }
 
-function closeShareArticle() {
+function closeShareArticle() {//√
     $("#shareStory").removeClass("on");
 }
 
-function openClip(){
+function openClip(){//√
 	turnonOverlay('clipStory');
 	$("#addfavlink").empty('');	
 	$("#clipButton").show();
@@ -3503,7 +3003,7 @@ function checkLogin() {
     }
 }
 
-function adclick() {
+function adclick() {//√
     var lo = window.location.href.toLowerCase();
 	if (lo.indexOf('phone.html') > 0) {
     	$('a[href^="open"]').each(function(){
@@ -3689,10 +3189,10 @@ function searchHist(savedSearch) {
         updateSavedSearch(keys);
     });
 }
-//界面操作
+/***************界面操作:end*************/
 
 
-//滚动处理
+/***************滚动处理：start*********/
 function reflowscroller() {
     if (useFTScroller===0) {return;}
     if (typeof theScroller ==="object") {
@@ -3838,9 +3338,10 @@ function checkSectionScroller($currentSlide){
 		$currentSlide.find(".navrightcontainer").hide();			
 	}
 }
-//滚动处理
+/***************滚动处理：end*********/
 
-//读者评论
+
+/*************读者评论:start***********/
 function loadcomment(storyid, theid, type) {
     if (window.location.hostname === 'localhost') {
         return;
@@ -4060,7 +3561,7 @@ function cmt_reply(id,ctype) {
         });
     }
 }
-//读者评论
+/********downloadStories***读者评论:end***************/
 
 function addLoadEvent(func) {
     var oldonload = window.onload; 
@@ -4081,17 +3582,7 @@ function init_union_adv() {
     return false;
 }
 
-//navigator.connection.type is not supported by most browsers yet
-/*
-function updateConnectionClass() {   
-    var root = document.documentElement,   
-        types = "unknown ethernet wifi 2g 3g 4g none".split(" ");   
-    for (var i = 0, n = types.length; i < n; i++) {   
-        root.classList.remove("network-" + types[i]);   
-    }   
-    root.classList.add("network-" + navigator.connection.type);   
-} 
-*/
+
 
 //in native iOS app, tap status bar will trigger this
 function scrollToTop() {
@@ -4142,7 +3633,6 @@ $.fn.extend({
 try {
     checkDevice();
     startpage();
-    //window.onload = window.ononline = window.onoffline = updateConnectionClass;
 }catch(err){
     trackErr(err + ", where: " + gStartStatus, "startpage");
 }
