@@ -2116,6 +2116,7 @@ function displaystory(theid, language) {
     var storyGenre = allId.genre || '';
     var eauthor = allId.eauthor || 'FTChinese';
     var insertAd = 3;
+    var insertAd2 = 10;
     langmode = language;
     //文章的scroller
     addStoryScroller();
@@ -2249,7 +2250,12 @@ function displaystory(theid, language) {
     if ($('#storyview .storybody p').eq(insertAd - 1).find('b').length > 0) {
         insertAd = 4;
     }
+    if ($('#storyview .storybody p').eq(insertAd2 - 1).find('b').length > 0) {
+        insertAd2 = 11;
+    }
+    // insert ad position into story page
     $('<div class="adiframe mpu-phone for-phone" type="250" frame="ad300x250-story"></div>').insertBefore($('#storyview .storybody p').eq(insertAd));
+    //$('<div class="adiframe mpu-phone for-phone" type="250" frame="ad300x250-story"></div>').insertBefore($('#storyview .storybody p').eq(insertAd2));
     if (byline.replace(/ /g,"")==""){byline = "FT中文网";}
     storyTag = ',' + storyTag + ',';
     storyTag = storyTag.replace(/，/g, ',')

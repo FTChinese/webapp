@@ -65,6 +65,8 @@ if (parentLink.indexOf('testfullpagead') > 0) {
 
 adCode=k.replace(/^.*adtype=([0-9A-Za-z\-]+).*$/,"$1");
 adId=k.replace(/^.*adid=([0-9A-Za-z]+).*$/,"$1");
+
+
 if (adCode=="ad300x250-SP" || (parent.window.gSpecial === true && adCode==="ad300x250-2")) {//code for special report VFTT
     c="20400004";
     adType="mpu";
@@ -95,7 +97,10 @@ if (adCode=="ad300x250-SP" || (parent.window.gSpecial === true && adCode==="ad30
     } else {
     adchannelId = "2023";
     }
-    if (adCode==="midBanner") {
+    if (adCode === 'ad300x250-home-vw') {
+        adPositionId="0118";
+        adType="mpu-phone";
+    } else if (adCode==="midBanner") {
         if (bodyWidth>450) {
             adPositionId="0105";
         } else {
@@ -183,6 +188,13 @@ if (testFullPage === true && adCode === 'fullScreen') {
     c = '20530107';
 }
 
+
+try {
+    window.parent.ga('send', 'event', 'Ad Request', c.substring(0,4), c.substring(4,8), {'nonInteraction':1});
+} catch(ignore) {
+
+}
+
 //console.log (adType + ': ' + c);
 if (adCode === 'fullScreen' && 1>2) {
 
@@ -193,6 +205,11 @@ document.writeln('<div class="'+adType+'" id="ad-content"><scr'+'ipt type="text/
 }
 
 
+try {
+    window.parent.ga('send', 'event', 'Ad Impression', c.substring(0,4), c.substring(4,8), {'nonInteraction':1});
+} catch(ignore) {
+
+}
 </script>
 
 <script>
