@@ -106,9 +106,7 @@
 <!--story view start-->
 <div id=storyview class=fullbodyView>
     <div id=storyScroller>
-
                 <div class="adiframe banner" type="50" frame="ad300"></div>
-
         
         <div class=layout-a_region-3>
             <div class=inner>
@@ -694,6 +692,5 @@ background-color: rgba(0,0,0,0.14) !important;
     </ul>
 </div>
 
-<div id="tip" class="tip"></div>
-
+<div id="tip" class="tip"></div>
 

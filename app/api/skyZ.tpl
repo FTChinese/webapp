@@ -89,7 +89,7 @@
 <div url="/index.php/ft/column/007000022?i=2" class="channel oneStory more">卧底经济学家</div>
 <div url="/index.php/ft/column/007000064?i=2" class="channel oneStory more">爱德华•卢斯</div>
 <div url="/index.php/ft/column/007000024?i=2" class="channel oneStory more">吉莲•邰蒂</div>
-<div url="/index.php/ft/column/007000025?i=2" class="channel oneStory more">吉迪恩•拉赫曼</div>
+<div url="/index.php/ft/column/007000025?i=2" class="channel oneStory more">���迪恩•拉赫曼</div>
 <div url="/index.php/ft/column/007000015?i=2" class="channel oneStory more">约翰•加普</div>
 <div url="/index.php/ft/column/007000032?i=2" class="channel oneStory more">菲利普•斯蒂芬斯</div>
 <div url="/index.php/ft/column/007000014?i=2" class="channel oneStory more">斯特凡•斯特恩</div>

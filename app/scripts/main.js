@@ -1,5 +1,5 @@
 //申明各种Global变量
-var _currentVersion = 1117; //当前的版本号
+var _currentVersion = 1119; //当前的版本号
 var _localStorage = 0;
 var exp_times = Math.round(new Date().getTime() / 1000) + 86400;
 var username;
@@ -2045,8 +2045,14 @@ function readstory(theid, theHeadline) {
                 allstories[myid] = jsondata;
                 // display the story only when Id matches
                 // otherwise reader will be interupted when connection is slow
-                if (gCurrentStoryId === myid) {
+                // display story only when the loader is present
+                // otherwise the story body will scroll to top while reader is reading 
+                if (gCurrentStoryId === myid && sv.find('.storybody .loader-container').length > 0) {
                     displaystory(myid, langmode);
+                } else if (gCurrentStoryId !== myid) {
+                    ga('send','event','Stop displaystory', 'Another Story', myid, {'nonInteraction':1});
+                } else if (sv.find('.storybody .loader-container').length === 0) {
+                    ga('send','event','Stop displaystory', 'Already Reading', myid, {'nonInteraction':1});
                 }
             }).fail(function(jqXHR){
                 if (gCurrentStoryId === theid) {
@@ -2117,6 +2123,14 @@ function displaystory(theid, language) {
     var eauthor = allId.eauthor || 'FTChinese';
     var insertAd = 3;
     var insertAd2 = 10;
+    var insertAdCharCount = 0;
+    var currentPara = '';
+    var paraGraphs;
+    var pCount;
+    var pCountLimit;
+    var insertAdForVW;
+    var regIsTitle = /^<b>.*<\/b>$/i;
+    var regIsImage = /<img/i;
     langmode = language;
     //文章的scroller
     addStoryScroller();
@@ -2247,15 +2261,51 @@ function displaystory(theid, language) {
         if (allId.ebody && allId.ebody.length > 30) {$('.chbutton').addClass('nowreading');} else {$('.cebutton,.enbutton,.chbutton').addClass('nowreading');}
         storyHeadline = allId.cheadline;
     }
-    if ($('#storyview .storybody p').eq(insertAd - 1).find('b').length > 0) {
-        insertAd = 4;
+
+
+
+    // business logic on how to insert MPU ads into story body
+    paraGraphs = $('#storyview .storybody p, #storyview .storybody div');
+    pCount = 0;
+
+    insertAdForVW = ($('#fullbody [frame=ad300x250-home-vw]').length >0)? true: false;
+
+    if (insertAdForVW === true) {
+        // this means VW's ad is on
+        // two mpu ads need to be displayed in story
+        for (pCount=0; insertAdCharCount<70 && pCount<100; pCount++) {
+            currentPara = paraGraphs.eq(pCount);
+            if (currentPara.html() && !regIsTitle.test(currentPara.html()) && !regIsImage.test(currentPara.html())) {
+                insertAdCharCount += currentPara.html().length;
+            }
+            // console.log (currentPara.html());
+            // console.log (insertAdCharCount + '/' + k);
+        }
+        insertAd2 = pCount;
+        pCountLimit = 270;
+        
+    } else {
+        pCountLimit = 220;
     }
-    if ($('#storyview .storybody p').eq(insertAd2 - 1).find('b').length > 0) {
-        insertAd2 = 11;
+    insertAdCharCount = 0;
+    for (pCount=pCount; insertAdCharCount<pCountLimit && pCount<100; pCount++) {
+        currentPara = paraGraphs.eq(pCount);
+        if (currentPara.html() && !regIsTitle.test(currentPara.html()) && !regIsImage.test(currentPara.html())) {
+            insertAdCharCount += currentPara.html().length;
+        }
+        // console.log (currentPara.html());
+        // console.log (regIsImage.test(currentPara.html()));
     }
+    insertAd = pCount;
     // insert ad position into story page
-    $('<div class="adiframe mpu-phone for-phone" type="250" frame="ad300x250-story"></div>').insertBefore($('#storyview .storybody p').eq(insertAd));
-    //$('<div class="adiframe mpu-phone for-phone" type="250" frame="ad300x250-story"></div>').insertBefore($('#storyview .storybody p').eq(insertAd2));
+    $('<div class="adiframe mpu-phone for-phone" type="250" frame="ad300x250-story"></div>').insertBefore(paraGraphs.eq(insertAd));
+    if (insertAdForVW === true) {
+        $('<div class="adiframe mpu-phone for-phone" type="250" frame="ad300x250-story-vw"></div>').insertBefore(paraGraphs.eq(insertAd2));        
+    }
+
+
+    
+
     if (byline.replace(/ /g,"")==""){byline = "FT中文网";}
     storyTag = ',' + storyTag + ',';
     storyTag = storyTag.replace(/，/g, ',')
@@ -2567,7 +2617,7 @@ function checkDevice() {
     // stop using it for now and revisit the issue in the future
     
     
-    if (/Android[4-9]/i.test(osVersion) || /ios[5-9]/i.test(osVersion)) {
+    if (/Android[4-9]/i.test(osVersion) || /ios[5-9]/i.test(osVersion) || /ios1[0-9]/i.test(osVersion)) {
         nativeVerticalScroll = true;
     }
     

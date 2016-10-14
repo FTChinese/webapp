@@ -124,6 +124,9 @@ if (adCode=="ad300x250-SP" || (parent.window.gSpecial === true && adCode==="ad30
     } else if (adCode=="ad300x250-story") {
         adPositionId="0004";
         adType="mpu-phone";
+    } else if (adCode=="ad300x250-story-vw") {
+        adPositionId="0119";
+        adType="mpu-phone";
     } else if (adCode=="banner-bottom-home") {
         adPositionId="0114";
         adType="ad50";
@@ -189,16 +192,10 @@ if (testFullPage === true && adCode === 'fullScreen') {
 }
 
 
-try {
-    window.parent.ga('send', 'event', 'Ad Request', c.substring(0,4), c.substring(4,8), {'nonInteraction':1});
-} catch(ignore) {
-
-}
-
 //console.log (adType + ': ' + c);
 if (adCode === 'fullScreen' && 1>2) {
 
-} else if (c === '20220003' && 1<0) {
+} else if (c === '20220101' && 1>1) {
 
 } else {
 document.writeln('<div class="'+adType+'" id="ad-content"><scr'+'ipt type="text/javascript" src="http://dolphin.ftimg.net/s?z=ft&c=' + c + adReachability() + '&t='+Math.round(Math.random() * 1000000)+'" charset="gbk" ></scr'+'ipt></div>');
@@ -254,8 +251,9 @@ try {
 
     if ((parent.window.useFTScroller===1 && gVideoTag === 0 && giFrameTag === 0 && (gATag===1 || (gATag === 0 && gImgTag === 0 && gDivTag === 0))) || (window.overlayLink !== undefined && window.overlayLink !== '')) {
 
-
-        if (window.overlayLink !== undefined && window.overlayLink !== '') {
+        if (typeof window.forceLink === 'string') {
+            adLink = window.forceLink;
+        } else if (window.overlayLink !== undefined && window.overlayLink !== '') {
             adLink = window.overlayLink;
         } else if (gATag === 1) {
             adLink = document.getElementById("ad-content").getElementsByTagName("a")[0].href;
