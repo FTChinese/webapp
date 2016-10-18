@@ -253,6 +253,9 @@ try {
 
         if (typeof window.forceLink === 'string') {
             adLink = window.forceLink;
+            if (document.getElementById('ad-content')) {
+                document.getElementById('ad-content').style.width = '100%';
+            }
         } else if (window.overlayLink !== undefined && window.overlayLink !== '') {
             adLink = window.overlayLink;
         } else if (gATag === 1) {

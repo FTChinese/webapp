@@ -51,6 +51,7 @@ var gShowStatusBar = 0;
 var gHomePageIsLatest = true; //The latest home page is displayed
 var gCurrentStoryId = '';
 var gNoticeAdded = false;
+var gStartPageStorage = '';
 var cg1 = '(not set)';
 
 //开机的时候检查屏幕宽度，以便节约流量
@@ -177,17 +178,7 @@ var iOSShareWechat = 0;
 if (JSON.parse) {$.parseJSON = JSON.parse;}
 
 
-var gTouchStartX = -1;
-var gTouchMoveX = -1;
-var gTouchStartY = -1;
-var gTouchMoveY = -1;
-//swipe  at least gMinSwipe px to go back
-var gMinSwipe = 72;
-var gStartSwipe = 15;
-var gSwipeEdge = 30;
-var gIsSwiping = false;
-var gMoveState = 0;
-var gStartPageStorage = '';
+
 
 //functions
 function updateTimeStamp() {
@@ -295,81 +286,9 @@ function startpage() {
         checkbreakingnews();
     },100000);
     if (isOnline()=="possible") {checkbreakingnews();}
-    //gStartStatus = "startpage useFTScroller";
-    if (useFTScroller === 1) {
-        try {
-            document.getElementById('fullbodycontainer').addEventListener('touchstart', function(e) {
-                gNowView = document.body.className;
-                gIsSwiping = false;
-                if (typeof window.gFTScrollerActive === "object" || $('#slideShow').hasClass('on') === true ) {
-                    gTouchStartX = -1;
-                    gTouchStartY = -1;
-                    return false;
-                }
-                gTouchStartX = e.changedTouches[0].clientX;
-                gTouchStartY = e.changedTouches[0].clientY;
-            }, false);
+    
+    initSwipeGesture();
 
-            document.getElementById('fullbodycontainer').addEventListener('touchmove', function(e) {
-                var xDistance;
-                var yDistance;
-                gNowView = document.body.className;
-                //if (gNowView==='fullbody') {return;}
-                if ( (typeof window.gFTScrollerActive === "object" && gIsSwiping === false) || $('#slideShow').hasClass('on') === true ) {
-                    gTouchStartX = -1;
-                    gTouchMoveX = -1;
-                    gTouchStartY = -1;
-                    gTouchMoveY = -1;
-                    return false;
-                }
-                gTouchMoveX = e.changedTouches[0].clientX;
-                gTouchMoveY = e.changedTouches[0].clientY;
-                xDistance = Math.abs(gTouchMoveX - gTouchStartX);
-                yDistance = Math.abs(gTouchMoveY - gTouchStartY);
-                if (gTouchStartX !== -1) {
-                    //whether the user is swiping or scrolling
-                    if (((xDistance > gStartSwipe && gMoveState ===0) || (xDistance > gMinSwipe && gMoveState<0)) && typeof window.gFTScrollerActive !== "object" && yDistance < 30 && yDistance/xDistance < 0.5) {
-                        window.gFTScrollerActive = {};
-                        gIsSwiping = true;
-                    }
-                    //If the swiping is true
-                    if (gIsSwiping === true) {
-                        if ((gTouchMoveX - gTouchStartX > gMinSwipe && gMoveState === 0)) {
-                            if (gTouchStartX < gSwipeEdge) {
-                                if (gNowView==='fullbody') {
-                                    switchNavOverlay('on');
-                                } else {
-                                    histback('pinch');
-                                }
-                            }
-                            ga('send','event', 'App Feature', 'Swipe', 'Back');
-                            //console.log ('go right!');
-                            gTouchStartX = -1;
-                        } else if (gTouchMoveX - gTouchStartX < -gMinSwipe && gMoveState ===0){
-                            if (gNowView==='fullbody') {
-                                switchNavOverlay('off');
-                            }
-                            //console.log ('go left!');
-                            gTouchStartX = -1;
-                        } else if ((gTouchMoveX - gTouchStartX > gMinSwipe && gMoveState<0) || (gTouchMoveX - gTouchStartX < -gMinSwipe && gMoveState>0)) {
-                            //console.log ('donot go!');
-                            gTouchStartX = -1;
-                        }
-                    }
-                    //console.log (gTouchMoveX - gTouchStartX + "=" + gTouchMoveX + "-" + gTouchStartX + " scrollerflag: " + window.gFTScrollerActive + " gIsSwiping: " + gIsSwiping);
-                }
-            }, false);
-
-            document.getElementById('fullbodycontainer').addEventListener('touchend', function(e) {
-                gTouchStartX = -1;
-                gTouchMoveX = -1;
-                window.gFTScrollerActive = false;
-                gIsSwiping = false;
-            }, false);
-        } catch (ignore){
-        
-        }
-    }
     //Delegate Click Events for Any New Development
     //gStartStatus = "startpage inline-video-container";
     $('body').on('click','.inline-video-container',function(){
