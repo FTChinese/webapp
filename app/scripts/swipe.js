@@ -51,6 +51,9 @@ function initSwipeGesture() {
     var _histDelStory = [];
     var _histDelStoryNum = 0;
 
+    var _touchStartT;
+    var _touchEndT;
+
     if (window.useFTScroller === 1) {
         if (document.createElement('div').style.transform !== undefined) {
             _vendorCSSPrefix = '';
@@ -80,7 +83,10 @@ function initSwipeGesture() {
                 // gNowView reflects the current view
                 // update it from document.body anyway
                 // in case other parts of the code has bugs
-                gNowView = document.body.className;//gNowView没必要在touchstart里面获取吧？
+                gNowView = document.body.className;
+                _screenWidth = screen.width;
+                _touchStartT = (new Date()).getTime();
+
 
                 // when touchstart, reset the swiping status
                 _isSwiping = false;
@@ -239,7 +245,16 @@ function initSwipeGesture() {
 
             swipables.container.addEventListener('touchend', function(e) {
                 //alert("touchend");
+                var timeSpent;
                 window.gFTScrollerActive = false;
+                _touchEndT = (new Date()).getTime();
+                timeSpent = _touchEndT - _touchStartT;
+
+                if (timeSpent > 0 && timeSpent < 1000) {
+                    
+                }
+
+
 
                 if (_isSwiping === true) {//
                     e.preventDefault();//待查证：touchend默认行为是什么？？看不出来
