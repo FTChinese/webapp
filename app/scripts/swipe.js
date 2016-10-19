@@ -6,7 +6,11 @@ function initSwipeGesture() {
         // navigation menu
         'navOverlay': document.getElementById('navOverlay'),
         // slide show
-        'slideShow': document.getElementById('slideShow')
+        'slideShow': document.getElementById('slideShow'),
+        // fullbody view
+        'fullbody': document.getElementById('fullbody'),
+        // story view
+        'storyview': document.getElementById('storyview')
     };
     // initial parameters
     var _touchStartX = -1;
@@ -24,8 +28,7 @@ function initSwipeGesture() {
     // if a user is scrolling vertically
     var _minVerticalScroll = 30;
     var _isSwiping = false;
-    var _moveState = 0;
-
+   
     // Determine the browser engine and prefix, trying to use the unprefixed version where available.
     var _vendorCSSPrefix;
     var _vendorStylePropertyPrefix;
@@ -35,6 +38,9 @@ function initSwipeGesture() {
 
     // meature width of navigation
     var _navListWidth = document.getElementById('navList').offsetWidth || 270;//这就是导航菜单的宽度
+
+    // meature width of screen
+    var _screenWidth = screen.width;
 
     if (window.useFTScroller === 1) {
         if (document.createElement('div').style.transform !== undefined) {
@@ -86,11 +92,18 @@ function initSwipeGesture() {
                 // horizontal move distance
                 var xDistance;
                 // vertical movement distance
-                var xDirection;
-                //手指横向滑动的方向
                 var yDistance;
-                // for visual feedback
+                
+                //手指横向滑动的方向
+                var xDirection;
+                // 手指横向滑动的距离，for visual feedback
                 var translateX;
+
+                // 文章页的translatex:
+                //var storyviewX;
+                // 当前页面要退回的上级页面的translatex:
+                var parentTranslateX;
+
                 // if the user is locked in the swiping mode
                 // disable vertical scrolling
                 // this works for iOS 7 and above
@@ -151,6 +164,21 @@ function initSwipeGesture() {
                             swipables.navOverlay.style[_transitionProperty] = 'all 0s ease-in-out';
                             swipables.navOverlay.style[_transformProperty] = 'translate3d('+translateX+'px, 0, 0)';
                              //swipables.navOverlay.style[_transformProperty] = 'translateX('-translateX+'px)';
+
+                        } else if(gNowView == 'storyview') {///如果是处在文章页的情况下
+                            if(xDirection == "toRight"){
+                                //对于文章页，直接拉到右边去，故该处x值是从0变到100%的，就等于xDistance
+                                translateX = xDistance;//translateX始终为正，往右滑动距离越大，translateX越大，这样才能实现元素向右动
+
+                                swipables.storyview.style[_transitionProperty] = 'all 0s ease-in-out';
+                                swipables.storyview.style[_transformProperty] = 'translate3d('+translateX+'px,0,0)';
+
+                                //对于主页，是从左边拉到中间去，故该处x值是从-100%变到0的，就等于xDistance - 屏幕宽度。
+                                parentTranslateX = xDistance - _screenWidth;
+                                swipables.fullbody.style[_transitionProperty] = 'all 0s ease-in-out';
+                                swipables.fullbody.style[_transformProperty] = 'translate3d('+parentTranslateX+'px,0,0)';
+                            }
+
                         }
 
                     }
@@ -161,14 +189,23 @@ function initSwipeGesture() {
                 //alert("touchend");
                 window.gFTScrollerActive = false;
 
-                if (_isSwiping === true) {//如果刚刚还是确实是在进行横向滑动，则就还不用执行touchend事件，应该还是继续执行touchmove事件
-                    e.preventDefault();
+                if (_isSwiping === true) {//
+                    e.preventDefault();//待查证：touchend默认行为是什么？？看不出来
                 }
                 _touchMoveX = e.changedTouches[0].clientX;//手指离开屏幕时的横坐标位置
                 _touchMoveY = e.changedTouches[0].clientY;//手指离开屏幕时的纵坐标位置
                 try {
-                    swipables.navOverlay.style.removeProperty(_transitionProperty);//移除_transitionProperty属性
-                    swipables.navOverlay.style.removeProperty(_transformProperty);//移除_transformProperty属性
+                    if(gNowView==='fullbody'){
+                        swipables.navOverlay.style.removeProperty(_transitionProperty);//移除_transitionProperty属性
+                        swipables.navOverlay.style.removeProperty(_transformProperty);//移除_transformProperty属性
+                    } else if(gNowView === 'storyview'){
+                        swipables.storyview.style.removeProperty(_transitionProperty);
+                        swipables.storyview.style.removeProperty(_transformProperty);
+
+                        swipables.fullbody.style.removeProperty(_transitionProperty);
+                        swipables.fullbody.style.removeProperty(_transformProperty);
+                    }
+                    
                 } catch (ignore) {
 
                 }
@@ -176,7 +213,7 @@ function initSwipeGesture() {
                 //If the swiping is true
                 if (_isSwiping === true) {
 
-                    if ((_touchMoveX - _touchStartX > _minSwipe && _moveState === 0)) {//只有滑动距离大于72px，才设置'on'的阴影效果
+                    if ((_touchMoveX - _touchStartX > _minSwipe)) {//滑动距离向右大于72px，直接自动拉满
                         if (gNowView==='fullbody') {
                             switchNavOverlay('on');
                             //swipables.navOverlay.classList.add("darkbg");
@@ -186,17 +223,15 @@ function initSwipeGesture() {
                         ga('send','event', 'App Feature', 'Swipe', 'Back');
                         //console.log ('go right!');
                         _touchStartX = -1;
-                    } else if (_touchMoveX - _touchStartX < -_minSwipe && _moveState ===0){
+                    } else if (_touchMoveX - _touchStartX < -_minSwipe){//如果滑动距离是向左的大于72px，直接自动收回
                         if (gNowView==='fullbody') {
                             switchNavOverlay('off');
 
                         }
-                        //console.log ('go left!');
+                        console.log ('go left!');
                         _touchStartX = -1;
-                    } else if ((_touchMoveX - _touchStartX > _minSwipe && _moveState<0) || (_touchMoveX - _touchStartX < -_minSwipe && _moveState>0)) {
-                        //console.log ('donot go!');
-                        _touchStartX = -1;
-                    }
+                    } 
+
                 }
                 _touchStartX = -1;
                 _touchMoveX = -1;
