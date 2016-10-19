@@ -1,5 +1,5 @@
 //申明各种Global变量
-var _currentVersion = 1117; //当前的版本号
+var _currentVersion = 1121; //当前的版本号
 var _localStorage = 0;
 var exp_times = Math.round(new Date().getTime() / 1000) + 86400;
 var username;
@@ -51,6 +51,7 @@ var gShowStatusBar = 0;
 var gHomePageIsLatest = true; //The latest home page is displayed
 var gCurrentStoryId = '';
 var gNoticeAdded = false;
+var gStartPageStorage = '';
 var cg1 = '(not set)';
 
 //开机的时候检查屏幕宽度，以便节约流量
@@ -177,17 +178,7 @@ var iOSShareWechat = 0;
 if (JSON.parse) {$.parseJSON = JSON.parse;}
 
 
-var gTouchStartX = -1;
-var gTouchMoveX = -1;
-var gTouchStartY = -1;
-var gTouchMoveY = -1;
-//swipe  at least gMinSwipe px to go back
-var gMinSwipe = 72;
-var gStartSwipe = 15;
-var gSwipeEdge = 30;
-var gIsSwiping = false;
-var gMoveState = 0;
-var gStartPageStorage = '';
+
 
 //functions
 function updateTimeStamp() {
@@ -295,81 +286,9 @@ function startpage() {
         checkbreakingnews();
     },100000);
     if (isOnline()=="possible") {checkbreakingnews();}
-    //gStartStatus = "startpage useFTScroller";
-    if (useFTScroller === 1) {
-        try {
-            document.getElementById('fullbodycontainer').addEventListener('touchstart', function(e) {
-                gNowView = document.body.className;
-                gIsSwiping = false;
-                if (typeof window.gFTScrollerActive === "object" || $('#slideShow').hasClass('on') === true ) {
-                    gTouchStartX = -1;
-                    gTouchStartY = -1;
-                    return false;
-                }
-                gTouchStartX = e.changedTouches[0].clientX;
-                gTouchStartY = e.changedTouches[0].clientY;
-            }, false);
+    
+    initSwipeGesture();
 
-            document.getElementById('fullbodycontainer').addEventListener('touchmove', function(e) {
-                var xDistance;
-                var yDistance;
-                gNowView = document.body.className;
-                //if (gNowView==='fullbody') {return;}
-                if ( (typeof window.gFTScrollerActive === "object" && gIsSwiping === false) || $('#slideShow').hasClass('on') === true ) {
-                    gTouchStartX = -1;
-                    gTouchMoveX = -1;
-                    gTouchStartY = -1;
-                    gTouchMoveY = -1;
-                    return false;
-                }
-                gTouchMoveX = e.changedTouches[0].clientX;
-                gTouchMoveY = e.changedTouches[0].clientY;
-                xDistance = Math.abs(gTouchMoveX - gTouchStartX);
-                yDistance = Math.abs(gTouchMoveY - gTouchStartY);
-                if (gTouchStartX !== -1) {
-                    //whether the user is swiping or scrolling
-                    if (((xDistance > gStartSwipe && gMoveState ===0) || (xDistance > gMinSwipe && gMoveState<0)) && typeof window.gFTScrollerActive !== "object" && yDistance < 30 && yDistance/xDistance < 0.5) {
-                        window.gFTScrollerActive = {};
-                        gIsSwiping = true;
-                    }
-                    //If the swiping is true
-                    if (gIsSwiping === true) {
-                        if ((gTouchMoveX - gTouchStartX > gMinSwipe && gMoveState === 0)) {
-                            if (gTouchStartX < gSwipeEdge) {
-                                if (gNowView==='fullbody') {
-                                    switchNavOverlay('on');
-                                } else {
-                                    histback('pinch');
-                                }
-                            }
-                            ga('send','event', 'App Feature', 'Swipe', 'Back');
-                            //console.log ('go right!');
-                            gTouchStartX = -1;
-                        } else if (gTouchMoveX - gTouchStartX < -gMinSwipe && gMoveState ===0){
-                            if (gNowView==='fullbody') {
-                                switchNavOverlay('off');
-                            }
-                            //console.log ('go left!');
-                            gTouchStartX = -1;
-                        } else if ((gTouchMoveX - gTouchStartX > gMinSwipe && gMoveState<0) || (gTouchMoveX - gTouchStartX < -gMinSwipe && gMoveState>0)) {
-                            //console.log ('donot go!');
-                            gTouchStartX = -1;
-                        }
-                    }
-                    //console.log (gTouchMoveX - gTouchStartX + "=" + gTouchMoveX + "-" + gTouchStartX + " scrollerflag: " + window.gFTScrollerActive + " gIsSwiping: " + gIsSwiping);
-                }
-            }, false);
-
-            document.getElementById('fullbodycontainer').addEventListener('touchend', function(e) {
-                gTouchStartX = -1;
-                gTouchMoveX = -1;
-                window.gFTScrollerActive = false;
-                gIsSwiping = false;
-            }, false);
-        } catch (ignore){
-        
-        }
-    }
     //Delegate Click Events for Any New Development
     //gStartStatus = "startpage inline-video-container";
     $('body').on('click','.inline-video-container',function(){
@@ -2045,8 +1964,14 @@ function readstory(theid, theHeadline) {
                 allstories[myid] = jsondata;
                 // display the story only when Id matches
                 // otherwise reader will be interupted when connection is slow
-                if (gCurrentStoryId === myid) {
+                // display story only when the loader is present
+                // otherwise the story body will scroll to top while reader is reading 
+                if (gCurrentStoryId === myid && sv.find('.storybody .loader-container').length > 0) {
                     displaystory(myid, langmode);
+                } else if (gCurrentStoryId !== myid) {
+                    ga('send','event','Stop displaystory', 'Another Story', myid, {'nonInteraction':1});
+                } else if (sv.find('.storybody .loader-container').length === 0) {
+                    ga('send','event','Stop displaystory', 'Already Reading', myid, {'nonInteraction':1});
                 }
             }).fail(function(jqXHR){
                 if (gCurrentStoryId === theid) {
@@ -2116,6 +2041,15 @@ function displaystory(theid, language) {
     var storyGenre = allId.genre || '';
     var eauthor = allId.eauthor || 'FTChinese';
     var insertAd = 3;
+    var insertAd2 = 10;
+    var insertAdCharCount = 0;
+    var currentPara = '';
+    var paraGraphs;
+    var pCount;
+    var pCountLimit;
+    var insertAdForVW;
+    var regIsTitle = /^<b>.*<\/b>$/i;
+    var regIsImage = /<img/i;
     langmode = language;
     //文章的scroller
     addStoryScroller();
@@ -2246,10 +2180,51 @@ function displaystory(theid, language) {
         if (allId.ebody && allId.ebody.length > 30) {$('.chbutton').addClass('nowreading');} else {$('.cebutton,.enbutton,.chbutton').addClass('nowreading');}
         storyHeadline = allId.cheadline;
     }
-    if ($('#storyview .storybody p').eq(insertAd - 1).find('b').length > 0) {
-        insertAd = 4;
+
+
+
+    // business logic on how to insert MPU ads into story body
+    paraGraphs = $('#storyview .storybody p, #storyview .storybody div');
+    pCount = 0;
+
+    insertAdForVW = ($('#fullbody [frame=ad300x250-home-vw]').length >0)? true: false;
+
+    if (insertAdForVW === true) {
+        // this means VW's ad is on
+        // two mpu ads need to be displayed in story
+        for (pCount=0; insertAdCharCount<70 && pCount<100; pCount++) {
+            currentPara = paraGraphs.eq(pCount);
+            if (currentPara.html() && !regIsTitle.test(currentPara.html()) && !regIsImage.test(currentPara.html())) {
+                insertAdCharCount += currentPara.html().length;
+            }
+            // console.log (currentPara.html());
+            // console.log (insertAdCharCount + '/' + k);
+        }
+        insertAd2 = pCount;
+        pCountLimit = 270;
+        
+    } else {
+        pCountLimit = 220;
     }
-    $('<div class="adiframe mpu-phone for-phone" type="250" frame="ad300x250-story"></div>').insertBefore($('#storyview .storybody p').eq(insertAd));
+    insertAdCharCount = 0;
+    for (pCount=pCount; insertAdCharCount<pCountLimit && pCount<100; pCount++) {
+        currentPara = paraGraphs.eq(pCount);
+        if (currentPara.html() && !regIsTitle.test(currentPara.html()) && !regIsImage.test(currentPara.html())) {
+            insertAdCharCount += currentPara.html().length;
+        }
+        // console.log (currentPara.html());
+        // console.log (regIsImage.test(currentPara.html()));
+    }
+    insertAd = pCount;
+    // insert ad position into story page
+    $('<div class="adiframe mpu-phone for-phone" type="250" frame="ad300x250-story"></div>').insertBefore(paraGraphs.eq(insertAd));
+    if (insertAdForVW === true) {
+        $('<div class="adiframe mpu-phone for-phone" type="250" frame="ad300x250-story-vw"></div>').insertBefore(paraGraphs.eq(insertAd2));        
+    }
+
+
+    
+
     if (byline.replace(/ /g,"")==""){byline = "FT中文网";}
     storyTag = ',' + storyTag + ',';
     storyTag = storyTag.replace(/，/g, ',')
@@ -2561,7 +2536,7 @@ function checkDevice() {
     // stop using it for now and revisit the issue in the future
     
     
-    if (/Android[4-9]/i.test(osVersion) || /ios[5-9]/i.test(osVersion)) {
+    if (/Android[4-9]/i.test(osVersion) || /ios[5-9]/i.test(osVersion) || /ios1[0-9]/i.test(osVersion)) {
         nativeVerticalScroll = true;
     }
     
@@ -2782,7 +2757,7 @@ function httpspv(theurl) {
                     document.getElementById(FrameID).contentDocument.location.reload(true);
                 } else {
                     if (useFTScroller===1) {adOverlay = '<a target=_blank class="ad-overlay"></a>';}
-                    $(this).html('<iframe id="' + nowV + index + '" src="/phone/ad.html?isad=0#adtype=' + adFrame + '&adid=' + nowV + index + '" frameborder=0  marginheight="0" marginwidth="0" frameborder="0" scrolling="no" width="'+adwidth+'" height="100%"></iframe>' + adOverlay);
+                    $(this).html('<iframe id="' + nowV + index + '" src="/phone/ad.html?isad=0&v=' + _currentVersion + '#adtype=' + adFrame + '&adid=' + nowV + index + '" frameborder=0  marginheight="0" marginwidth="0" frameborder="0" scrolling="no" width="'+adwidth+'" height="100%"></iframe>' + adOverlay);
                     $(this).attr("id","ad-" + nowV + index);
                 }
             }
@@ -2940,6 +2915,11 @@ function showchannel(url, channel, requireLogin, openIniFrame, channelDescriptio
     var channelHeight = $(window).height() - 45;
     var channelDetail = channelDescription || '';
     var orignialUrl = url;
+    var channelUrl = url;
+
+    if (window.location.hostname === 'localhost' || window.location.hostname.indexOf('192.168') === 0 || window.location.hostname.indexOf('10.113') === 0 || window.location.hostname.indexOf('127.0') === 0) {
+        channelUrl = '/api/channel.html';
+    }
 
     //extract tag information from url
     gTagData = url.replace(/^.*channel=/,'').replace(/^.*tag\//,'').replace(/\?.*$/g,'');
@@ -3010,7 +2990,7 @@ function showchannel(url, channel, requireLogin, openIniFrame, channelDescriptio
     } else {
         $.ajax({
             method: 'GET',
-            url: url, 
+            url: channelUrl, 
         }).done(function(data, textStatus) {
             var pageTitle;
             //$("#progressbar").animate({width:"100%"},300,function(){

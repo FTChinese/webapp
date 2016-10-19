@@ -34,16 +34,24 @@
 	//background-image: url(https://image.webservices.ft.com/v1/images/raw/fticon:brand-ft-logo-square?format=svg&source=ftchinese&tint=%23fff1e0,%23fff1e0);
 	background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="white"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/></svg>');
 }
-.navList li.china:before, i.ft-icon-ch:after {
+.navList li.china:before {
 	//background-image: url(https://image.webservices.ft.com/v1/images/raw/fticon:section-special-report?format=svg&source=ftchinese&tint=%23ffffff,%23ffffff);
 	background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100" fill="white"><path d="M77.397.5l15.647 16.317v81.683h-81.634v-13.638h-5.455v-16.317h5.455v-10.91h-5.455v-16.318h5.455v-10.862h-5.455v-16.365h5.455v-13.59h65.987zm-65.987 19.045v5.455h8.135v-5.455h-8.135zm0 27.227v5.455h8.135v-5.455h-8.135zm0 27.228v5.455h8.135v-5.455h-8.135zm52.206-20.768l-2.058-12.011 8.709-8.518-12.059-1.723-5.359-10.91-5.407 10.91-12.059 1.723 8.757 8.518-2.058 12.011 10.767-5.694 10.767 5.694z"/></svg>');
+}
+i.ft-icon-ch:after {
+	//background-image: url(https://image.webservices.ft.com/v1/images/raw/fticon:section-special-report?format=svg&source=ftchinese&tint=%23ffffff,%23ffffff);
+	background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100" fill="#505050"><path d="M77.397.5l15.647 16.317v81.683h-81.634v-13.638h-5.455v-16.317h5.455v-10.91h-5.455v-16.318h5.455v-10.862h-5.455v-16.365h5.455v-13.59h65.987zm-65.987 19.045v5.455h8.135v-5.455h-8.135zm0 27.227v5.455h8.135v-5.455h-8.135zm0 27.228v5.455h8.135v-5.455h-8.135zm52.206-20.768l-2.058-12.011 8.709-8.518-12.059-1.723-5.359-10.91-5.407 10.91-12.059 1.723 8.757 8.518-2.058 12.011 10.767-5.694 10.767 5.694z"/></svg>');
 }
 i.ft-icon-ce:after {
 	background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="#505050"><path d="M0 0h24v24h-24z" fill="none"/><path d="M12.87 15.07l-2.54-2.51.03-.03c1.74-1.94 2.98-4.17 3.71-6.53h2.93v-2h-7v-2h-2v2h-7v1.99h11.17c-.67 1.93-1.73 3.76-3.17 5.36-.93-1.03-1.7-2.16-2.31-3.35h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02 1.42 1.42 5-5 3.11 3.11.76-2.04zm5.63-5.07h-2l-4.5 12h2l1.12-3h4.75l1.13 3h2l-4.5-12zm-2.62 7l1.62-4.33 1.62 4.33h-3.24z"/></svg>');
 }
-.navList li.global:before, i.ft-icon-en:after {
+.navList li.global:before {
 	//background-image: url(https://image.webservices.ft.com/v1/images/raw/fticon:section-world?format=svg&source=ftchinese&tint=%23ffffff,%23ffffff);
 	background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="white"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zm6.93 6h-2.95c-.32-1.25-.78-2.45-1.38-3.56 1.84.63 3.37 1.91 4.33 3.56zM12 4.04c.83 1.2 1.48 2.53 1.91 3.96h-3.82c.43-1.43 1.08-2.76 1.91-3.96zM4.26 14C4.1 13.36 4 12.69 4 12s.1-1.36.26-2h3.38c-.08.66-.14 1.32-.14 2 0 .68.06 1.34.14 2H4.26zm.82 2h2.95c.32 1.25.78 2.45 1.38 3.56-1.84-.63-3.37-1.9-4.33-3.56zm2.95-8H5.08c.96-1.66 2.49-2.93 4.33-3.56C8.81 5.55 8.35 6.75 8.03 8zM12 19.96c-.83-1.2-1.48-2.53-1.91-3.96h3.82c-.43 1.43-1.08 2.76-1.91 3.96zM14.34 14H9.66c-.09-.66-.16-1.32-.16-2 0-.68.07-1.35.16-2h4.68c.09.65.16 1.32.16 2 0 .68-.07 1.34-.16 2zm.25 5.56c.6-1.11 1.06-2.31 1.38-3.56h2.95c-.96 1.65-2.49 2.93-4.33 3.56zM16.36 14c.08-.66.14-1.32.14-2 0-.68-.06-1.34-.14-2h3.38c.16.64.26 1.31.26 2s-.1 1.36-.26 2h-3.38z"/></svg>');
+}
+i.ft-icon-en:after {
+	//background-image: url(https://image.webservices.ft.com/v1/images/raw/fticon:section-world?format=svg&source=ftchinese&tint=%23ffffff,%23ffffff);
+	background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="#505050"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zm6.93 6h-2.95c-.32-1.25-.78-2.45-1.38-3.56 1.84.63 3.37 1.91 4.33 3.56zM12 4.04c.83 1.2 1.48 2.53 1.91 3.96h-3.82c.43-1.43 1.08-2.76 1.91-3.96zM4.26 14C4.1 13.36 4 12.69 4 12s.1-1.36.26-2h3.38c-.08.66-.14 1.32-.14 2 0 .68.06 1.34.14 2H4.26zm.82 2h2.95c.32 1.25.78 2.45 1.38 3.56-1.84-.63-3.37-1.9-4.33-3.56zm2.95-8H5.08c.96-1.66 2.49-2.93 4.33-3.56C8.81 5.55 8.35 6.75 8.03 8zM12 19.96c-.83-1.2-1.48-2.53-1.91-3.96h3.82c-.43 1.43-1.08 2.76-1.91 3.96zM14.34 14H9.66c-.09-.66-.16-1.32-.16-2 0-.68.07-1.35.16-2h4.68c.09.65.16 1.32.16 2 0 .68-.07 1.34-.16 2zm.25 5.56c.6-1.11 1.06-2.31 1.38-3.56h2.95c-.96 1.65-2.49 2.93-4.33 3.56zM16.36 14c.08-.66.14-1.32.14-2 0-.68-.06-1.34-.14-2h3.38c.16.64.26 1.31.26 2s-.1 1.36-.26 2h-3.38z"/></svg>');
 }
 .navList li.opinion:before {
 	//background-image: url(https://image.webservices.ft.com/v1/images/raw/fticon:comment?format=svg&source=ftchinese&tint=%23ffffff,%23ffffff);
@@ -77,9 +85,13 @@ i.ft-icon-ce:after {
 	//background-image: url(https://image.webservices.ft.com/v1/images/raw/fticon:thumb-up?format=svg&source=ftchinese&tint=%23ffffff,%23ffffff);
 	background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100" fill="white"><path d="M76.815 58.912l-.662.069c1.092.187 2.026.709 2.805 1.567.778.86 1.236 1.905 1.376 3.136.14 1.44-.197 2.724-1.01 3.85-.813 1.127-1.87 1.76-3.171 1.899l-1.638.174c.836.302 1.545.871 2.125 1.707.581.837.929 1.812 1.046 2.927.139 1.463-.14 2.753-.836 3.867-.697 1.115-1.615 1.73-2.753 1.847l-13.064 1.324c-6.48 1.067-11.719 1.603-15.713 1.603-2.253 0-4.396-.128-6.428-.384-2.033-.256-3.699-.569-5-.94l-3.955-1.132c-1.335-.384-2.438-.709-3.31-.976-.871-.268-1.899-.431-3.083-.488s-2.253.063-3.205.366v-26.514c0-.301.528-.645 1.585-1.027l3.17-1.149c1.057-.384 1.585-.715 1.585-.993l2.578-5.052c1.719-3.345 3.472-6.834 5.261-10.47 1.789-3.635 2.752-5.743 2.892-6.323.301-1.254.487-6.317.557-15.19l.313-.174c.209-.14.493-.273.854-.401.36-.127.772-.255 1.237-.383.464-.127.981-.168 1.551-.122.569.047 1.144.157 1.725.331.58.174 1.178.517 1.794 1.028.615.511 1.196 1.156 1.742 1.934.545.779 1.068 1.812 1.568 3.101.499 1.289.923 2.758 1.271 4.407.441 2.137.767 4.1.976 5.888.209 1.789.308 3.264.296 4.425-.012 1.162-.104 2.207-.279 3.136-.174.929-.359 1.637-.557 2.125-.198.488-.424.9-.68 1.237-.255.337-.43.54-.522.61-.093.069-.174.116-.244.139l2.997-.035 21.008-2.16c1.277-.116 2.416.296 3.414 1.237.999.94 1.573 2.137 1.725 3.588.151 1.452-.168 2.741-.958 3.867-.79 1.127-1.823 1.76-3.101 1.898l-6.306.628.034.243 7.909-.801c1.463-.162 2.764.221 3.902 1.149 1.138.93 1.782 2.125 1.934 3.589.15 1.463-.239 2.764-1.168 3.901-.927 1.139-2.124 1.777-3.587 1.917z"/></svg>');
 }
-.navList li.clip:before, i.ft-icon-clippings:after {
+.navList li.clip:before {
 	//background-image: url(https://image.webservices.ft.com/v1/images/raw/fticon:clippings?format=svg&source=ftchinese&tint=%23ffffff,%23ffffff);
 	background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100" fill="white"><path d="M6.208 82.657c-2.828-2.903-4.243-6.4-4.243-10.488 0-4.089 1.409-7.573 4.226-10.464 2.199-2.249 4.818-3.636 7.857-4.14 3.039-.508 5.882-.099 8.525 1.211l9.638-10.157-8.896-9.381c-2.718 1.557-5.677 2.106-8.878 1.65-3.2-.457-5.949-1.859-8.247-4.207-2.817-2.891-4.226-6.382-4.226-10.472 0-4.088 1.415-7.586 4.243-10.489 2.83-2.903 6.233-4.355 10.213-4.355 3.978 0 7.388 1.445 10.229 4.336 2.102 2.151 3.422 4.714 3.967 7.691.542 2.979.258 5.79-.853 8.433l9.192 9.601 20.498-21.685h13.492l-27.242 28.804-6.746 7.19-9.527 10.007c1.335 2.718 1.755 5.646 1.26 8.8-.493 3.149-1.842 5.867-4.041 8.142-2.841 2.891-6.25 4.338-10.229 4.338-3.979-.001-7.382-1.461-10.212-4.365zm5.449-61.339c-1.323 1.346-1.982 2.977-1.982 4.892 0 1.915.659 3.547 1.982 4.893 1.322 1.346 2.91 2.021 4.764 2.021 1.852 0 3.439-.674 4.762-2.021 1.322-1.346 1.983-2.979 1.983-4.893 0-1.915-.661-3.545-1.983-4.892-1.323-1.348-2.91-2.02-4.762-2.02-1.854 0-3.442.672-4.764 2.02zm0 45.957c-1.323 1.348-1.982 2.977-1.982 4.894 0 1.915.659 3.545 1.982 4.893 1.322 1.345 2.91 2.025 4.764 2.025 1.852 0 3.439-.681 4.762-2.025 1.322-1.348 1.983-2.978 1.983-4.893 0-1.917-.661-3.546-1.983-4.894-1.323-1.348-2.91-2.012-4.762-2.012-1.854.001-3.442.665-4.764 2.012zm25.019-16.322c-.629-.642-.943-1.419-.943-2.321 0-.903.314-1.667.943-2.311.631-.642 1.391-.963 2.281-.963s1.644.321 2.262.963c.616.644.926 1.408.926 2.311 0 .902-.31 1.68-.926 2.321-.618.643-1.372.965-2.262.965s-1.65-.322-2.281-.965zm6.136 8.861l6.782-7.082 23.352 24.834h-13.492l-16.642-17.752zm24.353-7.34v-5.783h11.562v5.783h-11.562zm19.273 0v-5.744h11.527v11.525h-5.781v-5.781h-5.746zm5.746 13.492h5.781v11.565h-5.781v-11.565z"/></svg>');
+}
+i.ft-icon-clippings:after {
+	//background-image: url(https://image.webservices.ft.com/v1/images/raw/fticon:clippings?format=svg&source=ftchinese&tint=%23ffffff,%23ffffff);
+	background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100" fill="#505050"><path d="M6.208 82.657c-2.828-2.903-4.243-6.4-4.243-10.488 0-4.089 1.409-7.573 4.226-10.464 2.199-2.249 4.818-3.636 7.857-4.14 3.039-.508 5.882-.099 8.525 1.211l9.638-10.157-8.896-9.381c-2.718 1.557-5.677 2.106-8.878 1.65-3.2-.457-5.949-1.859-8.247-4.207-2.817-2.891-4.226-6.382-4.226-10.472 0-4.088 1.415-7.586 4.243-10.489 2.83-2.903 6.233-4.355 10.213-4.355 3.978 0 7.388 1.445 10.229 4.336 2.102 2.151 3.422 4.714 3.967 7.691.542 2.979.258 5.79-.853 8.433l9.192 9.601 20.498-21.685h13.492l-27.242 28.804-6.746 7.19-9.527 10.007c1.335 2.718 1.755 5.646 1.26 8.8-.493 3.149-1.842 5.867-4.041 8.142-2.841 2.891-6.25 4.338-10.229 4.338-3.979-.001-7.382-1.461-10.212-4.365zm5.449-61.339c-1.323 1.346-1.982 2.977-1.982 4.892 0 1.915.659 3.547 1.982 4.893 1.322 1.346 2.91 2.021 4.764 2.021 1.852 0 3.439-.674 4.762-2.021 1.322-1.346 1.983-2.979 1.983-4.893 0-1.915-.661-3.545-1.983-4.892-1.323-1.348-2.91-2.02-4.762-2.02-1.854 0-3.442.672-4.764 2.02zm0 45.957c-1.323 1.348-1.982 2.977-1.982 4.894 0 1.915.659 3.545 1.982 4.893 1.322 1.345 2.91 2.025 4.764 2.025 1.852 0 3.439-.681 4.762-2.025 1.322-1.348 1.983-2.978 1.983-4.893 0-1.917-.661-3.546-1.983-4.894-1.323-1.348-2.91-2.012-4.762-2.012-1.854.001-3.442.665-4.764 2.012zm25.019-16.322c-.629-.642-.943-1.419-.943-2.321 0-.903.314-1.667.943-2.311.631-.642 1.391-.963 2.281-.963s1.644.321 2.262.963c.616.644.926 1.408.926 2.311 0 .902-.31 1.68-.926 2.321-.618.643-1.372.965-2.262.965s-1.65-.322-2.281-.965zm6.136 8.861l6.782-7.082 23.352 24.834h-13.492l-16.642-17.752zm24.353-7.34v-5.783h11.562v5.783h-11.562zm19.273 0v-5.744h11.527v11.525h-5.781v-5.781h-5.746zm5.746 13.492h5.781v11.565h-5.781v-11.565z"/></svg>');
 }
 .navList li.specialreport:before {
 	//background-image: url(https://image.webservices.ft.com/v1/images/raw/fticon:section-magazine?format=svg&source=ftchinese&tint=%23ffffff,%23ffffff);
@@ -116,7 +128,7 @@ i.ft-icon-refresh:after {
 }
 i.ft-icon-sections:after {
 	//background-image: url(https://image.webservices.ft.com/v1/images/raw/fticon:hamburger?format=svg&source=ftchinese&tint=%23ffffff,%23ffffff);
-	background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100" fill="white"><path d="M1.5 20.139v-4.929c0-1.35.478-2.503 1.433-3.458s2.108-1.433 3.458-1.433h88.219c1.324 0 2.471.478 3.438 1.433s1.452 2.108 1.452 3.458v4.929c0 1.324-.484 2.47-1.452 3.438s-2.114 1.451-3.438 1.451h-88.219c-1.35 0-2.503-.483-3.458-1.451-.955-.968-1.433-2.114-1.433-3.438zm0 31.825v-4.89c0-1.376.478-2.547 1.433-3.502.955-.949 2.108-1.426 3.458-1.426h88.219c1.324 0 2.471.478 3.438 1.426.968.955 1.452 2.126 1.452 3.502v4.89c0 1.324-.484 2.471-1.452 3.438-.968.969-2.114 1.452-3.438 1.452h-88.219c-1.35 0-2.503-.483-3.458-1.452-.955-.967-1.433-2.114-1.433-3.438zm0 26.936c0-1.351.478-2.51 1.433-3.465s2.108-1.426 3.458-1.426h88.219c1.324 0 2.471.471 3.438 1.426s1.452 2.115 1.452 3.465v4.891c0 1.375-.484 2.533-1.452 3.476-.968.943-2.114 1.415-3.438 1.415h-88.219c-1.35 0-2.503-.472-3.458-1.415-.955-.943-1.433-2.101-1.433-3.476v-4.891z"/></svg>');
+	background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100" fill="#505050"><path d="M1.5 20.139v-4.929c0-1.35.478-2.503 1.433-3.458s2.108-1.433 3.458-1.433h88.219c1.324 0 2.471.478 3.438 1.433s1.452 2.108 1.452 3.458v4.929c0 1.324-.484 2.47-1.452 3.438s-2.114 1.451-3.438 1.451h-88.219c-1.35 0-2.503-.483-3.458-1.451-.955-.968-1.433-2.114-1.433-3.438zm0 31.825v-4.89c0-1.376.478-2.547 1.433-3.502.955-.949 2.108-1.426 3.458-1.426h88.219c1.324 0 2.471.478 3.438 1.426.968.955 1.452 2.126 1.452 3.502v4.89c0 1.324-.484 2.471-1.452 3.438-.968.969-2.114 1.452-3.438 1.452h-88.219c-1.35 0-2.503-.483-3.458-1.452-.955-.967-1.433-2.114-1.433-3.438zm0 26.936c0-1.351.478-2.51 1.433-3.465s2.108-1.426 3.458-1.426h88.219c1.324 0 2.471.471 3.438 1.426s1.452 2.115 1.452 3.465v4.891c0 1.375-.484 2.533-1.452 3.476-.968.943-2.114 1.415-3.438 1.415h-88.219c-1.35 0-2.503-.472-3.458-1.415-.955-.943-1.433-2.101-1.433-3.476v-4.891z"/></svg>');
 }
 i.ft-icon-profile:after {
 	//background-image: url(https://image.webservices.ft.com/v1/images/raw/fticon:profile?format=svg&source=ftchinese&tint=%23ffffff,%23ffffff);
@@ -124,7 +136,7 @@ i.ft-icon-profile:after {
 }
 i.ft-icon-search:after {
 	//background-image: url(https://image.webservices.ft.com/v1/images/raw/fticon:search?format=svg&source=ftchinese&tint=%23ffffff,%23ffffff);
-	background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="white"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>');
+	background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="#505050"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>');
 }
 i.ft-icon-setting:after {
 	//background-image: url(https://image.webservices.ft.com/v1/images/raw/fticon:settings?format=svg&source=ftchinese&tint=%23ffffff,%23ffffff);
@@ -132,11 +144,14 @@ i.ft-icon-setting:after {
 }
 .ft-icon-back-arrow:after {
 	//background-image: url(https://image.webservices.ft.com/v1/images/raw/fticon:arrow-left?format=svg&source=ftchinese&tint=%23ffffff,%23ffffff);
-	background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 50 50" fill="white"><path d="M24.462 24.486l11.444-16.475c.526-.761.344-1.811-.413-2.336l-4.686-3.313c-.753-.533-1.794-.349-2.318.412l-14.409 20.747c-.146.207-.237.435-.279.671v.018l-.017.13-.005.056v.189l.005.048.017.139v.008c.042.236.134.464.279.675l14.41 20.747c.524.762 1.565.947 2.318.414l4.686-3.309c.757-.533.938-1.584.413-2.342l-11.445-16.479z"/></svg>');
+	background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 50 50" fill="#505050"><path d="M24.462 24.486l11.444-16.475c.526-.761.344-1.811-.413-2.336l-4.686-3.313c-.753-.533-1.794-.349-2.318.412l-14.409 20.747c-.146.207-.237.435-.279.671v.018l-.017.13-.005.056v.189l.005.048.017.139v.008c.042.236.134.464.279.675l14.41 20.747c.524.762 1.565.947 2.318.414l4.686-3.309c.757-.533.938-1.584.413-2.342l-11.445-16.479z"/></svg>');
 }
 i.ft-icon-share:after {
 	//background-image: url(https://image.webservices.ft.com/v1/images/raw/fticon:share?format=svg&source=ftchinese&tint=%23ffffff,%23ffffff);
-	background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" version="1" width="100" height="100" viewBox="0 0 100 100" fill="white"><path d="M71.78 59.429c-3.602 0-6.844 1.551-9.087 4.026l-21.948-10.837c.129-.714.202-1.45.202-2.201l-.013-.454 22.706-11.923c2.166 1.922 5.017 3.092 8.141 3.092 6.775 0 12.265-5.491 12.265-12.267 0-6.773-5.489-12.267-12.265-12.267s-12.265 5.493-12.265 12.267c0 .506.033 1.003.093 1.494l-22.064 11.587c-2.232-2.339-5.378-3.796-8.865-3.796-6.773 0-12.266 5.492-12.266 12.267 0 6.775 5.492 12.264 12.266 12.264 2.854 0 5.478-.976 7.562-2.612l23.277 11.492-.003.135c0 6.773 5.489 12.267 12.265 12.267s12.265-5.493 12.265-12.269c-.001-6.774-5.49-12.265-12.266-12.265z"/></svg>');
+	background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" version="1" width="100" height="100" viewBox="0 0 100 100" fill="#505050"><path d="M71.78 59.429c-3.602 0-6.844 1.551-9.087 4.026l-21.948-10.837c.129-.714.202-1.45.202-2.201l-.013-.454 22.706-11.923c2.166 1.922 5.017 3.092 8.141 3.092 6.775 0 12.265-5.491 12.265-12.267 0-6.773-5.489-12.267-12.265-12.267s-12.265 5.493-12.265 12.267c0 .506.033 1.003.093 1.494l-22.064 11.587c-2.232-2.339-5.378-3.796-8.865-3.796-6.773 0-12.266 5.492-12.266 12.267 0 6.775 5.492 12.264 12.266 12.264 2.854 0 5.478-.976 7.562-2.612l23.277 11.492-.003.135c0 6.773 5.489 12.267 12.265 12.267s12.265-5.493 12.265-12.269c-.001-6.774-5.49-12.265-12.266-12.265z"/></svg>');
+}
+i.ft-icon-font-size:after {
+	background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100" fill="#505050"><path d="M1 78.057l21.878-59.113h13.046L57.57 78.057H44.353l-4.358-12.324H18.347l-4.53 12.324H1zM21.666 55.89h15.01L29.37 33.72H29.2l-7.534 22.17zm40.84 22.167l14.52-39.4h8.63L100 78.057h-8.745l-2.916-7.39H74.022l-3.03 7.39h-8.486zm13.71-14.778h9.93l-4.82-14.78h-.114l-4.995 14.78z"/></svg>');
 }
 i.ft-icon-language:after {
 	background-image: url('data:image/svg+xml;utf8,
@@ -205,7 +220,7 @@ i.ft-icon-school:after {
 		background-image: url(../images/png/timer.png);
 	}
 	i.ft-icon-ce:after{
-		background-image: url(../images/png/translate.png);
+		background-image: url(http://s.ftimg.net/images/png/ic_translate_black_18dp.png);
 	}
 	.navList li.home:before {
 		background-image: url(https://image.webservices.ft.com/v1/images/raw/fticon:brand-ft-logo-square?format=png&source=ftchinese&tint=%23fff1e0,%23fff1e0&width=22);
@@ -214,10 +229,13 @@ i.ft-icon-school:after {
 		background-image: url(https://image.webservices.ft.com/v1/images/raw/fticon:section-special-report?format=png&width=22&source=ftchinese&tint=%23ffffff,%23ffffff);
 	}
 	i.ft-icon-ch:after {
-		background-image: url(https://image.webservices.ft.com/v1/images/raw/fticon:section-special-report?format=png&width=16&source=ftchinese&tint=%23ffffff,%23ffffff);
+		background-image: url(https://image.webservices.ft.com/v1/images/raw/fticon:section-special-report?format=png&width=16&source=ftchinese);
 	}
-	.navList li.global:before, i.ft-icon-en:after {
-		background-image: url(https://image.webservices.ft.com/v1/images/raw/http%3A%2F%2Fs.ftimg.net%2Fimages%2Fpng%2Fenglish.png?source=ftchinese&width=18&height=18);
+	.navList li.global:before {
+		background-image: url(http://s.ftimg.net/images/png/english.png);
+	}
+	i.ft-icon-en:after {
+		background-image: url(http://s.ftimg.net/images/png/ic_language_black_18dp.png);
 	}
 	.navList li.opinion:before {
 		background-image: url(https://image.webservices.ft.com/v1/images/raw/fticon:comment?format=png&width=22&source=ftchinese&tint=%23ffffff,%23ffffff);
@@ -247,7 +265,7 @@ i.ft-icon-school:after {
 		background-image: url(https://image.webservices.ft.com/v1/images/raw/fticon:clippings?format=png&width=22&source=ftchinese&tint=%23ffffff,%23ffffff);
 	}
 	i.ft-icon-clippings:after {
-		background-image: url(https://image.webservices.ft.com/v1/images/raw/fticon:clippings?format=png&width=16&source=ftchinese&tint=%23ffffff,%23ffffff);
+		background-image: url(https://image.webservices.ft.com/v1/images/raw/fticon:clippings?format=png&width=16&source=ftchinese);
 	}
 	.navList li.specialreport:before {
 		background-image: url(https://image.webservices.ft.com/v1/images/raw/fticon:section-magazine?format=png&width=22&source=ftchinese&tint=%23ffffff,%23ffffff);
@@ -259,13 +277,13 @@ i.ft-icon-school:after {
 		background-image: url(https://image.webservices.ft.com/v1/images/raw/http%3A%2F%2Fs.ftimg.net%2Fimages%2Fpng%2Frefreshnew.png?source=ftchinese&width=18&height=18);
 	}
 	i.ft-icon-sections:after {
-		background-image: url(https://image.webservices.ft.com/v1/images/raw/fticon:hamburger?format=png&width=16&source=ftchinese&tint=%23ffffff,%23ffffff);
+		background-image: url(//image.webservices.ft.com/v1/images/raw/fticon:hamburger?format=png&width=16&source=ftchinese);
 	}
 	i.ft-icon-profile:after {
 		background-image: url(https://image.webservices.ft.com/v1/images/raw/http%3A%2F%2Fs.ftimg.net%2Fimages%2Fpng%2Fmyft.png?source=ftchinese&width=18&height=18);
 	}
 	i.ft-icon-search:after {
-		background-image: url(https://image.webservices.ft.com/v1/images/raw/fticon:search?format=png&width=16&source=ftchinese&tint=%23ffffff,%23ffffff);
+		background-image: url(https://image.webservices.ft.com/v1/images/raw/fticon:search?format=png&width=16&source=ftchinese);
 	}
 	i.ft-icon-setting:after {
 		background-image: url(https://image.webservices.ft.com/v1/images/raw/http%3A%2F%2Fs.ftimg.net%2Fimages%2Fpng%2Fsetting.png?source=ftchinese&width=18&height=18);
@@ -274,9 +292,9 @@ i.ft-icon-school:after {
 		background-image: url(https://image.webservices.ft.com/v1/images/raw/http%3A%2F%2Fs.ftimg.net%2Fimages%2Fpng%2Fschool.png?source=ftchinese&width=18&height=18);
 	}
 	.ft-icon-back-arrow:after {
-		background-image: url(https://image.webservices.ft.com/v1/images/raw/fticon:arrow-left?format=png&width=16&source=ftchinese&tint=%23ffffff,%23ffffff);
+		background-image: url(https://image.webservices.ft.com/v1/images/raw/fticon:arrow-left?format=png&width=16&source=ftchinese);
 	}
 	i.ft-icon-share:after {
-		background-image: url(https://image.webservices.ft.com/v1/images/raw/fticon:share?format=png&width=16&source=ftchinese&tint=%23ffffff,%23ffffff);
+		background-image: url(https://image.webservices.ft.com/v1/images/raw/fticon:share?format=png&width=16&source=ftchinese);
 	}
 }
