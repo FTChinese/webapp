@@ -1,5 +1,5 @@
 //申明各种Global变量
-var _currentVersion = 1120; //当前的版本号
+var _currentVersion = 1121; //当前的版本号
 var _localStorage = 0;
 var exp_times = Math.round(new Date().getTime() / 1000) + 86400;
 var username;
@@ -2757,7 +2757,7 @@ function httpspv(theurl) {
                     document.getElementById(FrameID).contentDocument.location.reload(true);
                 } else {
                     if (useFTScroller===1) {adOverlay = '<a target=_blank class="ad-overlay"></a>';}
-                    $(this).html('<iframe id="' + nowV + index + '" src="/phone/ad.html?isad=0#adtype=' + adFrame + '&adid=' + nowV + index + '" frameborder=0  marginheight="0" marginwidth="0" frameborder="0" scrolling="no" width="'+adwidth+'" height="100%"></iframe>' + adOverlay);
+                    $(this).html('<iframe id="' + nowV + index + '" src="/phone/ad.html?isad=0&v=' + _currentVersion + '#adtype=' + adFrame + '&adid=' + nowV + index + '" frameborder=0  marginheight="0" marginwidth="0" frameborder="0" scrolling="no" width="'+adwidth+'" height="100%"></iframe>' + adOverlay);
                     $(this).attr("id","ad-" + nowV + index);
                 }
             }
@@ -2921,6 +2921,11 @@ function showchannel(url, channel, requireLogin, openIniFrame, channelDescriptio
     var channelHeight = $(window).height() - 45;
     var channelDetail = channelDescription || '';
     var orignialUrl = url;
+    var channelUrl = url;
+
+    if (window.location.hostname === 'localhost' || window.location.hostname.indexOf('192.168') === 0 || window.location.hostname.indexOf('10.113') === 0 || window.location.hostname.indexOf('127.0') === 0) {
+        channelUrl = '/api/channel.html';
+    }
 
     //extract tag information from url
     gTagData = url.replace(/^.*channel=/,'').replace(/^.*tag\//,'').replace(/\?.*$/g,'');
@@ -2991,7 +2996,7 @@ function showchannel(url, channel, requireLogin, openIniFrame, channelDescriptio
     } else {
         $.ajax({
             method: 'GET',
-            url: url, 
+            url: channelUrl, 
         }).done(function(data, textStatus) {
             var pageTitle;
             //$("#progressbar").animate({width:"100%"},300,function(){
