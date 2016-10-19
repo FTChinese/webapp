@@ -1152,13 +1152,16 @@ color: rgba(255,255,255,0.4);
 	height:auto;
 	overflow:hidden;
 	z-index:5998;
+	
 	&.on {
-		background-color: rgba(0,0,0,0.3);
+		background-color: rgba(0,0,0,0.3);//wyc modify
 		-webkit-transform: translate3d(0, 0, 0);
 		-moz-transform: translate3d(0, 0, 0);
-		transform: translate3d(0, 0, 0);
+		transform: translate3d(0, 0, 0);		
 	}
+	
 }
+
 .right-rail-fix{bottom:14px;z-index:5998;right:0;position:absolute;width:328px;-webkit-transition: all 0.5s ease-in-out;-ms-transition: all 0.5s ease-in-out;-webkit-transform: translate3d(0,100%,0);-moz-transform: translate3d(0, 100%, 0);transform: translate3d(0, 100%, 0);display:none;}
 .right-rail-fix.on{-webkit-transform: translate3d(0, 0, 0);-moz-transform: translate3d(0, 0, 0);transform: translate3d(0, 0, 0);}
 .f1 .fixed-content{display:none;}
