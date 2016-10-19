@@ -103,6 +103,7 @@ gulp.task('ea', function () {
   message.head.transactiontype = '10007';
   postDatatoFile('http://m.ftchinese.com/eaclient/apijson.php', message, './app/api/ea007.json');
   getUrltoFile ('http://m.ftchinese.com/index.php/ft/channel/phonetemplate.html?channel=nexthome', './app/api/homecontent.html');
+  getUrltoFile ('http://m.ftchinese.com/index.php/ft/channel/phonetemplate.html?channel=china', './app/api/channel.html');
   //getUrltoFile ('http://m.ftchinese.com/index.php/ft/channel/phonetemplate.html?channel=homecontentsource&date=20160108', './app/api/homecontent.html');
   getUrltoFile ('http://m.ftchinese.com/index.php/ft/channel/phonetemplate.html?channel=nexthome&screentype=wide', './app/api/homecontentwide.html');
   getUrltoFile ('http://m.ftchinese.com/index.php/ft/channel/phonetemplate.html?', './app/api/home.tpl');
