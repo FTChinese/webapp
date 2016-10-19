@@ -10,7 +10,9 @@ function initSwipeGesture() {
         // fullbody view
         'fullbody': document.getElementById('fullbody'),
         // story view
-        'storyview': document.getElementById('storyview')
+        'storyview': document.getElementById('storyview'),
+        // channel view
+        'channelview':document.getElementById('channelview')
     };
     // initial parameters
     var _touchStartX = -1;
@@ -42,6 +44,13 @@ function initSwipeGesture() {
     // meature width of screen
     var _screenWidth = screen.width;
 
+    // 这一页记为
+    //gNowView = document.body.className;
+    // 上一页记为_PreView
+    var _preView = "";
+    var _histDelStory = [];
+    var _histDelStoryNum = 0;
+
     if (window.useFTScroller === 1) {
         if (document.createElement('div').style.transform !== undefined) {
             _vendorCSSPrefix = '';
@@ -71,11 +80,29 @@ function initSwipeGesture() {
                 // gNowView reflects the current view
                 // update it from document.body anyway
                 // in case other parts of the code has bugs
-                gNowView = document.body.className;
+                gNowView = document.body.className;//gNowView没必要在touchstart里面获取吧？
 
                 // when touchstart, reset the swiping status
                 _isSwiping = false;
 
+                _histDelStory = hist.filter(function(item){
+                    return (item.url.indexOf("story") == -1);
+                })
+                console.info("hist:"+hist);
+                console.info("_histDelStory:"+_histDelStory);
+               
+
+                if(gNowView == "storyview"){
+                     _histDelStoryNum = _histDelStory.length;
+                     if(_histDelStoryNum == 0){//只有从主页点进来的文章，_histNum才等于1
+                        _preView = "fullbody";
+                    } else {
+                        _preView = "channelview";
+                    }
+                    console.log("gNowView: "+ gNowView);
+                    console.log("_preView: "+ _preView);
+                } 
+                
                 // if 1. user is swiping on an FTScroller like the horizonal navigation on home
                 // or 2. user is viewing a slide show
                 // no need to trigger swiping gesture
@@ -102,7 +129,7 @@ function initSwipeGesture() {
                 // 文章页的translatex:
                 //var storyviewX;
                 // 当前页面要退回的上级页面的translatex:
-                var parentTranslateX;
+                var previewTranslateX;
 
                 // if the user is locked in the swiping mode
                 // disable vertical scrolling
@@ -165,7 +192,7 @@ function initSwipeGesture() {
                             swipables.navOverlay.style[_transformProperty] = 'translate3d('+translateX+'px, 0, 0)';
                              //swipables.navOverlay.style[_transformProperty] = 'translateX('-translateX+'px)';
 
-                        } else if(gNowView == 'storyview') {///如果是处在文章页的情况下
+                        } else if(gNowView == 'storyview') {///如果是处在文章页的情况下,只用考虑向有滑动
                             if(xDirection == "toRight"){
                                 //对于文章页，直接拉到右边去，故该处x值是从0变到100%的，就等于xDistance
                                 translateX = xDistance;//translateX始终为正，往右滑动距离越大，translateX越大，这样才能实现元素向右动
@@ -173,12 +200,37 @@ function initSwipeGesture() {
                                 swipables.storyview.style[_transitionProperty] = 'all 0s ease-in-out';
                                 swipables.storyview.style[_transformProperty] = 'translate3d('+translateX+'px,0,0)';
 
-                                //对于主页，是从左边拉到中间去，故该处x值是从-100%变到0的，就等于xDistance - 屏幕宽度。
-                                parentTranslateX = xDistance - _screenWidth;
-                                swipables.fullbody.style[_transitionProperty] = 'all 0s ease-in-out';
-                                swipables.fullbody.style[_transformProperty] = 'translate3d('+parentTranslateX+'px,0,0)';
+                                
+                                ///上一页不管是主页or频道页，都是从左边拉到中间去，故该处x值是从-100%变到0的，就等于(xDistance - 屏幕宽度)
+                                previewTranslateX = xDistance - _screenWidth;
+
+
+                                ///这里要判断其上一页是主页or频道页
+                                if(_preView == "fullbody"){
+                                     
+                                    swipables.fullbody.style[_transitionProperty] = 'all 0s ease-in-out';
+                                    swipables.fullbody.style[_transformProperty] = 'translate3d('+previewTranslateX+'px,0,0)';
+                                } else if(_preView == "channelview") {
+                                    swipables.channelview.style[_transitionProperty] = 'all 0s ease-in-out';
+                                    swipables.channelview.style[_transformProperty] = 'translate3d('+previewTranslateX+'px,0,0)';
+                                }
+                               
                             }
 
+                        } else if(gNowView == "channelview") {
+                            if(xDirection == "toRight"){
+                                //对于频道页，直接拉到右边去，故该处x值是从0变到100%的，就等于xDistance
+                                translateX = xDistance;
+
+                                swipables.channelview.style[_transitionProperty] = 'all 0s ease-in-out';
+                                swipables.channelview.style[_transformProperty] = 'translate3d('+translateX+'px,0,0)';
+
+                                //那么preView肯定是主页了
+                                ///上一页是主页，是从左边拉到中间去，故该处x值是从-100%变到0的，就等于(xDistance - 屏幕宽度)
+                                previewTranslateX = xDistance - _screenWidth;
+                                 swipables.fullbody.style[_transitionProperty] = 'all 0s ease-in-out';
+                                    swipables.fullbody.style[_transformProperty] = 'translate3d('+previewTranslateX+'px,0,0)';
+                            }
                         }
 
                     }
@@ -202,8 +254,20 @@ function initSwipeGesture() {
                         swipables.storyview.style.removeProperty(_transitionProperty);
                         swipables.storyview.style.removeProperty(_transformProperty);
 
+                        if(_preView == 'fullbody'){
+                            swipables.fullbody.style.removeProperty(_transitionProperty);
+                            swipables.fullbody.style.removeProperty(_transformProperty);
+                        } else if (_preView == 'channelview') {
+                            swipables.channelview.style.removeProperty(_transitionProperty);
+                            swipables.channelview.style.removeProperty(_transformProperty);
+                        }
+                        
+                    } else if (gNowView == 'channelview') {
+                        swipables.channelview.style.removeProperty(_transitionProperty);
+                        swipables.channelview.style.removeProperty(_transformProperty);
                         swipables.fullbody.style.removeProperty(_transitionProperty);
                         swipables.fullbody.style.removeProperty(_transformProperty);
+
                     }
                     
                 } catch (ignore) {
@@ -220,6 +284,8 @@ function initSwipeGesture() {
                         } else {
                             histback('pinch');
                         }
+
+
                         ga('send','event', 'App Feature', 'Swipe', 'Back');
                         //console.log ('go right!');
                         _touchStartX = -1;
@@ -228,7 +294,7 @@ function initSwipeGesture() {
                             switchNavOverlay('off');
 
                         }
-                        console.log ('go left!');
+                        //console.log ('go left!');
                         _touchStartX = -1;
                     } 
 
