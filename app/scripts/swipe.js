@@ -14,7 +14,12 @@ function initSwipeGesture() {
         // channel view
         'channelview':document.getElementById('channelview')
     };
+
     ///测试用值，待删
+    var testDiv = document.createElement("div");
+    testDiv.innerHTML = '<div id="monitor" style="position:fixed;z-index:10000;width:200px;height:350px;left:150px;top:300px;background-color:#fff;color:black;display:none;"><div id = "monitordata"></div><div id = "monitortype"></div><div id = "realtransition"></div></div>'
+    document.body.appendChild(testDiv);
+
     var monitordata=document.getElementById("monitordata");
     var monitortype=document.getElementById("monitortype");
     var monitorrealtransition = document.getElementById("realtransition");
@@ -98,7 +103,7 @@ function initSwipeGesture() {
         '.hasScroller #fullbody,.hasScroller .storyview #channelview{'+_vendorCSSPrefix+'transform:translate3d(-100%,0,0);}',
         '.hasScroller #storyview,.hasScroller .fullbody #channelview,.hasScroller #channelview {'+_vendorCSSPrefix+'transform: translate3d(100%, 0, 0); }',
         '.hasScroller .fullbody #fullbody,.hasScroller .storyview #storyview,.hasScroller .channelview #channelview {'+ _vendorCSSPrefix +'transform: translate3d(0, 0, 0); }'
-    ]
+    ];
 
     if (newStyleNode.styleSheet) {
         newStyleNode.styleSheet.cssText = _styleText.join('\n');
@@ -128,7 +133,7 @@ function initSwipeGesture() {
 
                 _histDelStory = hist.filter(function(item){
                     return (item.url.indexOf("story") == -1);
-                })
+                });
                
 
                 if(gNowView == "storyview"){
