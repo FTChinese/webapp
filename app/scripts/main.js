@@ -2050,6 +2050,7 @@ function displaystory(theid, language) {
     var insertAdForVW;
     var regIsTitle = /^<b>.*<\/b>$/i;
     var regIsImage = /<img/i;
+    var actualLanguage;
     langmode = language;
     //文章的scroller
     addStoryScroller();
@@ -2093,7 +2094,7 @@ function displaystory(theid, language) {
 
     if (language == 'en' && allId.ebody && allId.ebody.length > 30) {
         $('#storyview').addClass('enview').find('.storytitle').html(allId.eheadline);
-
+        actualLanguage = 'en';
         byline = (allstories[theid].ebyline_description || 'By') + ' ' + eauthor;
 
         $('#storyview .storybody').html(storyimage).append(allId.ebody);
@@ -2101,6 +2102,7 @@ function displaystory(theid, language) {
         storyHeadline = allId.eheadline;
     } else if (language == 'ce' && allId.ebody && allId.ebody.length > 30) {
         $('#storyview').addClass('ceview').find('.storytitle').html(allId.eheadline).append('<br>' + allId.cheadline);
+        actualLanguage = 'ce';
 
         byline = (allId.cbyline_description||'').replace(/作者[：:]/g, '') + ' ' + (allId.cauthor||'').replace(/,/g, '、') + ' ' + (allId.cbyline_status||'');
 
@@ -2157,6 +2159,7 @@ function displaystory(theid, language) {
         storyHeadline = allId.eheadline;
     } else {
         $('#storyview').removeClass('ceview').find('.storytitle').html(allId.cheadline);
+        actualLanguage = 'ch';
         byline = (allId.cbyline_description||'').replace(/作者[：:]/g, '') + ' ' + (allId.cauthor||'').replace(/,/g, '、') + ' ' + (allId.cbyline_status || '');
         //alert (allId.cbody);
         $('#storyview .storybody').html(storyimage).append(allId.cbody.replace(/<p>(<div.*<\/div>)<\/p>/g,'$1'));
@@ -2184,9 +2187,12 @@ function displaystory(theid, language) {
 
 
     // business logic on how to insert MPU ads into story body
-    paraGraphs = $('#storyview .storybody p, #storyview .storybody div');
+    if (actualLanguage === 'ce') {
+        paraGraphs = $('#storyview .cbodyt');
+    } else {
+        paraGraphs = $('#storyview .storybody p, #storyview .storybody div');
+    }
     pCount = 0;
-
     insertAdForVW = ($('#fullbody [frame=ad300x250-home-vw]').length >0)? true: false;
 
     if (insertAdForVW === true) {
@@ -2197,29 +2203,37 @@ function displaystory(theid, language) {
             if (currentPara.html() && !regIsTitle.test(currentPara.html()) && !regIsImage.test(currentPara.html())) {
                 insertAdCharCount += currentPara.html().length;
             }
-            // console.log (currentPara.html());
-            // console.log (insertAdCharCount + '/' + k);
         }
         insertAd2 = pCount;
         pCountLimit = 270;
-        
     } else {
         pCountLimit = 220;
+    }
+    if (actualLanguage === 'en') {
+        pCountLimit = 3 * pCountLimit;
     }
     insertAdCharCount = 0;
     for (pCount=pCount; insertAdCharCount<pCountLimit && pCount<100; pCount++) {
         currentPara = paraGraphs.eq(pCount);
-        if (currentPara.html() && !regIsTitle.test(currentPara.html()) && !regIsImage.test(currentPara.html())) {
+        if (currentPara.html() && !regIsTitle.test(currentPara.html()) && !regIsImage.test(currentPara.html()) && !currentPara.hasClass('centerButton')) {
             insertAdCharCount += currentPara.html().length;
         }
-        // console.log (currentPara.html());
-        // console.log (regIsImage.test(currentPara.html()));
     }
     insertAd = pCount;
+
+
     // insert ad position into story page
-    $('<div class="adiframe mpu-phone for-phone" type="250" frame="ad300x250-story"></div>').insertBefore(paraGraphs.eq(insertAd));
+    // insert to the end of the target paragraph
+
+    if (insertAd > 0) {
+        insertAd = insertAd - 1;
+    }
+    $('<div class="adiframe mpu-phone for-phone" type="250" frame="ad300x250-story"></div>').insertAfter(paraGraphs.eq(insertAd));
     if (insertAdForVW === true) {
-        $('<div class="adiframe mpu-phone for-phone" type="250" frame="ad300x250-story-vw"></div>').insertBefore(paraGraphs.eq(insertAd2));        
+        if (insertAd2 > 0) {
+            insertAd2 = insertAd2 -1;
+        }
+        $('<div class="adiframe mpu-phone for-phone" type="250" frame="ad300x250-story-vw"></div>').insertAfter(paraGraphs.eq(insertAd2));        
     }
 
 
