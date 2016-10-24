@@ -98,7 +98,7 @@ function initSwipeGesture() {
         '.hasScroller #fullbody,.hasScroller .storyview #channelview{'+_vendorCSSPrefix+'transform:translate3d(-100%,0,0);}',
         '.hasScroller #storyview,.hasScroller .fullbody #channelview,.hasScroller #channelview {'+_vendorCSSPrefix+'transform: translate3d(100%, 0, 0); }',
         '.hasScroller .fullbody #fullbody,.hasScroller .storyview #storyview,.hasScroller .channelview #channelview {'+ _vendorCSSPrefix +'transform: translate3d(0, 0, 0); }'
-    ]
+    ];
 
     if (newStyleNode.styleSheet) {
         newStyleNode.styleSheet.cssText = _styleText.join('\n');
@@ -128,7 +128,7 @@ function initSwipeGesture() {
 
                 _histDelStory = hist.filter(function(item){
                     return (item.url.indexOf("story") == -1);
-                })
+                });
                
 
                 if(gNowView == "storyview"){
