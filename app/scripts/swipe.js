@@ -14,7 +14,12 @@ function initSwipeGesture() {
         // channel view
         'channelview':document.getElementById('channelview')
     };
+
     ///测试用值，待删
+    var testDiv = document.createElement("div");
+    testDiv.innerHTML = '<div id="monitor" style="position:fixed;z-index:10000;width:200px;height:350px;left:150px;top:300px;background-color:#fff;color:black;display:none;"><div id = "monitordata"></div><div id = "monitortype"></div><div id = "realtransition"></div></div>'
+    document.body.appendChild(testDiv);
+
     var monitordata=document.getElementById("monitordata");
     var monitortype=document.getElementById("monitortype");
     var monitorrealtransition = document.getElementById("realtransition");
