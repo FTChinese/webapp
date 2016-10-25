@@ -17,8 +17,15 @@ function initSwipeGesture() {
 
     ///测试用值，待删
     var testDiv = document.createElement("div");
-    testDiv.innerHTML = '<div id="monitor" style="position:fixed;z-index:10000;width:200px;height:350px;left:150px;top:300px;background-color:#fff;color:black;display:none;"><div id = "monitordata"></div><div id = "monitortype"></div><div id = "realtransition"></div></div>'
+
+    testDiv.id = "monitor";
+    testDiv.setAttribute("style","position:fixed;z-index:10000;width:220px;height:400px;left:150px;top:250px;background-color:white;color:black;display:none;") ;
+    //testDiv.style="position:fixed;z-index:10000;width:220px;height:350px;left:150px;top:300px;background-color:white;color:black;display:none;";//这句话不知道为什么移动端不兼容
+
+    testDiv.innerHTML = '<div id = "monitordata"></div><div id = "monitortype"></div><div id = "realtransition"></div>';
+
     document.body.appendChild(testDiv);
+
 
     var monitordata=document.getElementById("monitordata");
     var monitortype=document.getElementById("monitortype");
@@ -62,7 +69,16 @@ function initSwipeGesture() {
 
     var _touchStartT;
     var _touchEndT;
+    var _touchMoveT;
 
+
+    var _eventHistory = [];
+    
+	var _speedThred = 0.3;//单位是px/ms吧？
+    var _timeSpentThres = 200;//单位ms,滑动时间阈值，如果滑动时间小于timeSpentThres，则按快速情况处理
+    
+    var a = 5;//针对restTms的参数;
+    var a2 = 5;//针对restTms2的参数
      /*************处理前缀问题block:start*************/
     ///要保证transform/transition前缀在js和css中完全一致
     if (document.createElement('div').style.transform !== undefined) {
@@ -91,7 +107,7 @@ function initSwipeGesture() {
 
 
     var stylesheetContainerNode = document.getElementsByTagName('head')[0] || document.documentElement;
-    console.log(stylesheetContainerNode);
+
     var newStyleNode = document.createElement('style');
     newStyleNode.type = 'text/css';  
 
@@ -125,12 +141,13 @@ function initSwipeGesture() {
                 // in case other parts of the code has bugs
                 gNowView = document.body.className;
                 _screenWidth = screen.width;
-                _touchStartT = (new Date()).getTime();
+                _touchStartT = e.timeStamp;//这样直接得到时间戳，而不用(new Date()).getTime()
 
 
                 // when touchstart, reset the swiping status
                 _isSwiping = false;
 
+                /// 过滤掉hist数组中的文章页信息，这样就只留下了频道页信息
                 _histDelStory = hist.filter(function(item){
                     return (item.url.indexOf("story") == -1);
                 });
@@ -138,7 +155,7 @@ function initSwipeGesture() {
 
                 if(gNowView == "storyview"){
                      _histDelStoryNum = _histDelStory.length;
-                     if(_histDelStoryNum == 0){//只有从主页点进来的文章，_histNum才等于1
+                     if(_histDelStoryNum == 0){//只有从主页点进来的文章，_histDelStoryNum才等于1
                         _preView = "fullbody";
                     } else {
                         _preView = "channelview";
@@ -156,6 +173,12 @@ function initSwipeGesture() {
                 }
                 _touchStartX = e.changedTouches[0].clientX;
                 _touchStartY = e.changedTouches[0].clientY;
+
+                /**version2: start**/
+                _eventHistory.length = 0;
+                _eventHistory.push({x:_touchStartX, y:_touchStartY,t: _touchStartT});
+                /**version2: end**/
+
             }, false);
 
             swipables.container.addEventListener('touchmove', function(e) {
@@ -193,6 +216,8 @@ function initSwipeGesture() {
                 }
                 _touchMoveX = e.changedTouches[0].clientX;//获取滑动过程中手指的横坐标位置
                 _touchMoveY = e.changedTouches[0].clientY;//获取滑动过程中手指的纵坐标位置
+                _touchMoveT = e.timeStamp;
+
                 xDistance = Math.abs(_touchMoveX - _touchStartX);//手指横向滑动距离
 
                 xDirection = (_touchMoveX-_touchStartX)>0? "toRight":"toLeft";
@@ -276,15 +301,23 @@ function initSwipeGesture() {
                             }
                         }
 
+                        /**version2 add:start**/
+                        _eventHistory.push({x:_touchMoveX,y:_touchMoveY,t:_touchMoveT});
+
+                        if(_eventHistory.length > 30){
+                        	_eventHistory.splice(0,15);//只保留最后15个点
+                        }
+                        /**version2 add:end**/
+
                     }
                 }
+
+
             }, false);
 
             swipables.container.addEventListener('touchend', function(e) {
-                if(_isSwiping === true){
+                if(_isSwiping === true) {
                     e.preventDefault();
-
-
 
                     window.gFTScrollerActive = false;
 
@@ -296,31 +329,69 @@ function initSwipeGesture() {
 
                     _touchEndT = (new Date()).getTime();
                     var timeSpent = _touchEndT - _touchStartT;
-                    var a = 5;//计算剩余transition时间的参数
-                    //alert(a);
-                    var restTms =(_screenWidth - touchDistance) * timeSpent / Math.abs(touchDistance) / a;//以ms为单位
+                    
+                    var restTms =(_screenWidth - Math.abs(touchDistance)) * timeSpent / Math.abs(touchDistance) / a;//以ms为单位
                     //restTms = 0;
+                    if(restTms>500){
+                    	restTms=500;
+                    }
                   
-                    //var restT = restTms/1000;//以s为单位
-                    var timeSpentThres = 200;//单位ms,滑动时间阈值，如果滑动时间大于timeSpentThres，则按正常情况处理；如果滑动时间小于timeSpentThres，则按快速情况处理
+                    
                     var baseView = gNowView;//专门存储touchstart事件刚刚触发时的基准页面
                                             //当setTimeout事件发生后，baseView就不再等于gNowView
 
-                    
                     var transitionPropertyByRestT = 'all '+ restTms +'ms ease-in-out';
+
+                     /**version2 add:start**/
+                    var lenOfEventHistory = _eventHistory.length;
+                    var lastPosition = _eventHistory[lenOfEventHistory-1];
+                    var comparitonPosition = _eventHistory[lenOfEventHistory-2];
+                    for(var i = lenOfEventHistory-3;i>=0;i--) {
+                    	if (lastPosition.t - _eventHistory[i].t > 100) {
+                    		break;
+                    	}
+                    	comparitonPosition = _eventHistory[i];
+                    }
+
+                    var movementTime = lastPosition.t - comparitonPosition.t;
+                    if (!movementTime) {
+                    	movementTime = 16;
+                    }
+
+                    var movementSpeed = Math.abs(lastPosition.x - comparitonPosition.x)/movementTime;//movementSpeed就是速率
+
+                    var restTms2 = 0;
+
+                    if (movementSpeed<_speedThred){
+                    	restTms2 = 0;//在这里应该就是使用正常的慢速情况
+                    } else {
+                    	restTms2 = 2*(_screenWidth - Math.abs(touchDistance))/movementSpeed/a2;//t=2s/v,匀减速运动
+                    }
+                    if(restTms2>500){
+                    	restTms2=500;
+                    }
+
+                    var transitionPropertyByRestT2 = 'all '+ restTms2 +'ms ease-in-out';
+                    /**version2 add:end**/
+
+                    
                     monitordata.innerHTML ="_transitionProperty: "+ _transitionProperty+"\n"+"_transformProperty: "+_transformProperty+"\n"+
                         "_touchMoveX:"+_touchMoveX +"\n"+
                         "_touchStartX:"+_touchStartX+"\n"+
                         "touchDistance:"+touchDistance+"\n"+
+                        "timeSpent: "+timeSpent+"\n"+
                         "restTms:"+restTms+"\n"+
-                        "transitionP:"+transitionPropertyByRestT; 
-
+                        //"transitionP: "+transitionPropertyByRestT+"\n"+
+                        "restTms2: " +restTms2+"\n" +
+                        //"transitionP2:"+transitionPropertyByRestT2;
+                        "movementTime: " +movementTime+"\n"+
+                        "movementSpeed: "+movementSpeed; 
 
 
                     if(touchDistance>_minSwipe){//如果是向右滑动超过72px
                        
-                        if (timeSpent > 0 && timeSpent < timeSpentThres) {//情况1：快速向右滑动超过72
-                            monitortype.innerHTML="fastMoveToRight>72";
+                        if (timeSpent > 0 && timeSpent < _timeSpentThres) {//情况1：快速向右滑动超过72
+                            monitortype.innerHTML="fastToRight>72";
 
                             /* 一、首先
                              * 1.移除相关元素上在touchmove阶段设置的_transformProperty值
@@ -331,7 +402,8 @@ function initSwipeGesture() {
                                 swipables.navOverlay.style.removeProperty(_transformProperty);//移除_transformProperty属性
                                 switchNavOverlay('on');//使用css的on的值
                                 swipables.navOverlay.style[_transitionProperty] = transitionPropertyByRestT;
-                                monitorrealtransition.innerHTML= "realtransition:"+swipables.navOverlay.style[_transitionProperty];//测试观察用
+                                //monitorrealtransition.innerHTML= "realTransition:"+swipables.navOverlay.style[_transitionProperty];//测试观察用
+                                monitorrealtransition.innerHTML= "realTransition:"+document.defaultView.getComputedStyle(swipables.navOverlay)[_transitionProperty];//通过计算样式获取其实际transition值
                             } else if(baseView == 'storyview'){
                                
                                 
@@ -354,7 +426,8 @@ function initSwipeGesture() {
 
                                      swipables.channelview.style[_transitionProperty] = transitionPropertyByRestT;//设置fullbody的_transitionProperty
                                 }   
-                                monitorrealtransition.innerHTML= "realtransition:"+swipables.storyview.style[_transitionProperty];//测试观察用
+                                //monitorrealtransition.innerHTML= "realtransition:"+swipables.storyview.style[_transitionProperty];//测试观察用
+                                monitorrealtransition.innerHTML= "realTransition:"+document.defaultView.getComputedStyle(swipables.storyview)[_transitionProperty];
                               
 
                             } else if(baseView == 'channelview'){
@@ -365,7 +438,8 @@ function initSwipeGesture() {
                                 swipables.channelview.style[_transitionProperty] = transitionPropertyByRestT;
                                 swipables.fullbody.style[_transitionProperty] = transitionPropertyByRestT;
 
-                                monitorrealtransition.innerHTML= "realtransition:"+swipables.channelview.style[_transitionProperty];//测试观察用
+                                //monitorrealtransition.innerHTML= "realtransition:"+swipables.channelview.style[_transitionProperty];//测试观察用
+                                monitorrealtransition.innerHTML= "realTransition:"+document.defaultView.getComputedStyle(swipables.channelview)[_transitionProperty];
                             }  
 
                             /* 二、其次，_transitionProperty执行完后要将其移除，否则影响下一次使用
@@ -394,16 +468,88 @@ function initSwipeGesture() {
 
                             },restTms);
 
-                        } else {//情况2：正常向右滑动超过72
+                        } else if(timeSpent >= _timeSpentThres && restTms2>0) {//情况2：先慢后快向右滑动超过72
+                            monitortype.innerHTML="slowToFastToRight>72";
+                            /**version2:start**/
+                            if(baseView =='fullbody'){
+                                swipables.navOverlay.style.removeProperty(_transformProperty);//移除_transformProperty属性
+                                switchNavOverlay('on');//使用css的on的值
+                                swipables.navOverlay.style[_transitionProperty] = transitionPropertyByRestT2;
+                                //monitorrealtransition.innerHTML= "realtransition:"+swipables.navOverlay.style[_transitionProperty];//测试观察用
+                                monitorrealtransition.innerHTML= "realTransition:"+document.defaultView.getComputedStyle(swipables.navOverlay)[_transitionProperty];
+                            } else if(baseView == 'storyview'){
+                                if(_preView == "fullbody"){
+                                    swipables.storyview.style.removeProperty(_transformProperty);//移除storyview的_transformProperty
+                                    swipables.fullbody.style.removeProperty(_transformProperty);//移除fullbody的_transformProperty
 
-                            /*
-                              正常情况下，那就只需要把相关元素的_transformProperty和_transitionProperty（来自touchmove阶段设置的）移除，再恢复css原状。
+                                    histback('pinch');//恢复正常的回退后的transform属性
+
+                                    swipables.storyview.style[_transitionProperty] = transitionPropertyByRestT2;//设置storyview的_transitionProperty                     
+                                    swipables.fullbody.style[_transitionProperty] = transitionPropertyByRestT2;//设置fullbody的_transitionProperty
+                                
+                                } else if(_preView == "channelview") {
+                                    swipables.storyview.style.removeProperty(_transformProperty);//移除storyview的_transformProperty
+                                    swipables.channelview.style.removeProperty(_transformProperty);//移除channelview的_transformProperty
+                                                                        
+                                    histback('pinch');//恢复正常的回退后的transform属性
+
+                                    swipables.storyview.style[_transitionProperty] = transitionPropertyByRestT2;
+
+                                    swipables.channelview.style[_transitionProperty] = transitionPropertyByRestT2;//设置fullbody的_transitionProperty
+                                }   
+                                //monitorrealtransition.innerHTML= "realtransition:"+swipables.storyview.style[_transitionProperty];//测试观察用
+                                monitorrealtransition.innerHTML= "realTransition:"+document.defaultView.getComputedStyle(swipables.storyview)[_transitionProperty];
+                              
+
+                            } else if(baseView == 'channelview'){
+                                swipables.channelview.style.removeProperty(_transformProperty);
+                                swipables.fullbody.style.removeProperty(_transformProperty);
+
+                                histback('pinch');
+                                swipables.channelview.style[_transitionProperty] = transitionPropertyByRestT2;
+                                swipables.fullbody.style[_transitionProperty] = transitionPropertyByRestT2;
+
+                                //monitorrealtransition.innerHTML= "realtransition:"+swipables.channelview.style[_transitionProperty];//测试观察用
+                                monitorrealtransition.innerHTML= "realTransition:"+document.defaultView.getComputedStyle(swipables.channelview)[_transitionProperty];
+                            }  
+                    
+                            window.setTimeout(function(){
+                                if(baseView==='fullbody'){
+                                    swipables.navOverlay.style.removeProperty(_transitionProperty);//移除_transitionProperty属性
+                                    
+                                } else if(baseView === 'storyview'){
+                                    swipables.storyview.style.removeProperty(_transitionProperty);
+                                  
+
+                                    if(_preView == 'fullbody'){
+                                        swipables.fullbody.style.removeProperty(_transitionProperty);
+                                      
+                                    } else if (_preView == 'channelview') {
+                                        swipables.channelview.style.removeProperty(_transitionProperty);
+                                       
+                                    }
+                                    
+                                } else if (baseView == 'channelview') {
+                                    swipables.channelview.style.removeProperty(_transitionProperty);
+                                    swipables.fullbody.style.removeProperty(_transitionProperty);
+                                }
+
+                            },restTms2);
+                            /** version2:end **/
+                            
+                        } else{//情况3：m慢速向右滑动超过72
+                        //说明：即timeSpent>=timeSpentThres && restTms2==0，结束时的速度小于0.01,restTms2才等于0
+                        	monitortype.innerHTML="slowToRight>72";
+
+                        	/*** 只需要把相关元素的_transformProperty和_transitionProperty（来自touchmove阶段设置的）移除，再恢复css原状。
                             */
-                            monitortype.innerHTML="normalMoveToRight>72";
+                            
                             if(baseView==='fullbody'){
                                 swipables.navOverlay.style.removeProperty(_transformProperty);//移除_transformProperty属性
                                 swipables.navOverlay.style.removeProperty(_transitionProperty);//移除_transitionProperty属性
                                 switchNavOverlay('on');
+
+                                monitorrealtransition.innerHTML= "realTransition:"+document.defaultView.getComputedStyle(swipables.navOverlay)[_transitionProperty];
                             } else if(baseView === 'storyview'){  
                                 swipables.storyview.style.removeProperty(_transformProperty);
                                 swipables.storyview.style.removeProperty(_transitionProperty);
@@ -417,13 +563,16 @@ function initSwipeGesture() {
                                 }
 
                                 histback('pinch');
+                                monitorrealtransition.innerHTML= "realTransition:"+document.defaultView.getComputedStyle(swipables.storyview)[_transitionProperty];
                             } else if (baseView == 'channelview') { 
                                 swipables.channelview.style.removeProperty(_transformProperty);
                                 swipables.channelview.style.removeProperty(_transitionProperty);
                                 swipables.fullbody.style.removeProperty(_transformProperty);
                                 swipables.fullbody.style.removeProperty(_transitionProperty);
                                 histback('pinch');
+                                monitorrealtransition.innerHTML= "realTransition:"+document.defaultView.getComputedStyle(swipables.channelview)[_transitionProperty];
                             }
+
                         }
 
                         ga('send','event', 'App Feature', 'Swipe', 'Back');
@@ -432,12 +581,11 @@ function initSwipeGesture() {
                     
                     } else if (touchDistance <-_minSwipe){//如果是向左滑动超过72px
 
-                        if (timeSpent > 0 && timeSpent < timeSpentThres){//情况3：快速向左滑动超过72
-                            monitortype.innerHTML="fastMoveToLeft>72";
+                        if (timeSpent > 0 && timeSpent < _timeSpentThres){//情况4：快速向左滑动超过72
+                            monitortype.innerHTML="fastToLeft>72";
                             /*
                              * 快速向左滑动，只有首页导航菜单页收回的情况，即baseview在fullbody.
                              * 办法同快速向右滑动超过72px，即移除相关元素的_transformProperty,然后通过恢复css恢复其transform，然后设置_transitionProperty。当然，restTms后要移除掉_transitionProperty
-
                             */
 
                             if(baseView =='fullbody'){
@@ -445,7 +593,8 @@ function initSwipeGesture() {
                                 switchNavOverlay('off');
                                 swipables.navOverlay.style[_transitionProperty] = transitionPropertyByRestT;
 
-                                monitorrealtransition.innerHTML= "realtransition:"+swipables.navOverlay.style[_transitionProperty];//测试观察用
+                                //monitorrealtransition.innerHTML= "realtransition:"+swipables.navOverlay.style[_transitionProperty];//测试观察用
+                                monitorrealtransition.innerHTML= "realTransition:"+document.defaultView.getComputedStyle(swipables.navOverlay)[_transitionProperty];
                             }
 
                             window.setTimeout(function(){
@@ -456,23 +605,44 @@ function initSwipeGesture() {
                             },restTms);
 
 
-                        } else {///情况4：正常向左滑动超过72
-                            monitortype.innerHTML="normalMoveToLeft>72";
-                            /*
-                              正常情况下，那就只需要把相关元素的_transformProperty和_transitionProperty（来自touchmove阶段设置的）移除，再恢复css原状。
+                        } else if(timeSpent>=_timeSpentThres&&restTms2>0){///情况5：先慢后快向左滑动超过72
+                            monitortype.innerHTML="flowToFastToLeft>72";
+
+                            /** version2:start **/
+                            if(baseView =='fullbody'){
+                                swipables.navOverlay.style.removeProperty(_transformProperty);
+                                switchNavOverlay('off');
+                                swipables.navOverlay.style[_transitionProperty] = transitionPropertyByRestT2;
+
+                                //monitorrealtransition.innerHTML= "realtransition:"+swipables.navOverlay.style[_transitionProperty];//测试观察用
+                                monitorrealtransition.innerHTML= "realTransition:"+document.defaultView.getComputedStyle(swipables.navOverlay)[_transitionProperty];
+                            }
+
+                            window.setTimeout(function(){
+                                if(baseView=='fullbody'){
+                                    swipables.navOverlay.style.removeProperty(_transitionProperty);//移除_transitionProperty属性
+                                    //移除_transformProperty属性
+                                }
+                            },restTms2);
+                            /** version2:end **/
+
+                        } else {///情况6：慢速向左滑动超过72
+                            monitortype.innerHTML="flowToLeft>72";
+							/* 只需要把相关元素的_transformProperty和_transitionProperty（来自touchmove阶段设置的）移除，再恢复css原状。
                             */
+                            
                             if(baseView =='fullbody'){
                                 swipables.navOverlay.style.removeProperty(_transitionProperty);//移除_transitionProperty属性
                                 swipables.navOverlay.style.removeProperty(_transformProperty);//移除_transformProperty属性
         
                                 switchNavOverlay('off');
+                                monitorrealtransition.innerHTML= "realTransition:"+document.defaultView.getComputedStyle(swipables.navOverlay)[_transitionProperty];
                             }
+                            
                         }
-                         
                         //console.log ('go left!');
-                       
 
-                    } else if (touchDistance <= _minSwipe && touchDistance>=-_minSwipe){///情况5：如果向左向右滑动都没超过72px
+                    } else if (touchDistance <= _minSwipe && touchDistance>=-_minSwipe){///情况7：如果向左向右滑动都没超过72px
                         monitortype.innerHTML="moveToLeftOrRight<72";
                             /* 此时直接移除相关元素上的_transitionProperty和_transformProperty就好
                             */
@@ -500,7 +670,7 @@ function initSwipeGesture() {
                         }
                     }
                 
-                }else{///疑问：还是想不出来isSwipe如果不为true，为什么还要移除这些属性，疑问这些属性都是在touchmove阶段设置的，且设置的前提条件就是isSwipe === true
+                } else {///疑问：还是想不出来isSwipe如果不为true，为什么还要移除这些属性，疑问这些属性都是在touchmove阶段设置的，且设置的前提条件就是isSwipe === true
                     if(baseView =='fullbody'){
                         swipables.navOverlay.style.removeProperty(_transitionProperty);//移除_transitionProperty属性
                         swipables.navOverlay.style.removeProperty(_transformProperty);//移除_transformProperty属性
