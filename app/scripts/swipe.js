@@ -427,166 +427,285 @@ function initSwipeGesture() {
                         "movementSpeed: "+movementSpeed; 
                     /***测试用:end***/
 
+                   
+                    /* function dealWithSlide
+                     * @parameter: 
+                     *  option = {
+                            operatedView1:'navOverlay'/'storyview'/'channelview',
+                            operatedView2:''/'fullbody'/'channelview',
+                            setToutCb:switchNavOverlay/switchNavOverlay/histback,
+                            setToutCbP = "on"/"off"/"pinch",
+                            t:restTms/restTms2/500,
+                            transiP:transitionPropertyByRestT/transitionPropertyByRestT2/transitionPropertyBy500(default),
+                            transfP_View1:transformPropertyAtL/transformPropertyAtM/transformPropertyAtR,
+                            transfP_View2:transformPropertyAtL/transformPropertyAtM/transformPropertyAtR/''
+                        }
+                    */
+                    var dealWithSlide = function(option){
+                        if(option.operatedView1 && typeof option.operatedView1 == 'string'){
+                            var operatedView1 = document.getElementById(option.operatedView1);
+                        } else {
+                            var operatedView1 = document.getElementById("navOverlay");
+                        }
+                        if(option.operatedView2 && typeof option.operatedView2 == 'string'){
+                            var operatedView2 = document.getElementById(option.operatedView2);
+                        } else {
+                            var operatedView2 = null;
+                        }
+
+                        if(option.transiP){
+                            operatedView1.style[_transitionProperty] = option.transiP;
+                            if(operatedView2){
+                                operatedView2.style[_transitionProperty] = option.transiP;
+                            }
+                        } else {
+                            operatedView1.style[_transitionProperty] = transitionPropertyBy500;
+                            if(operatedView2){
+                                operatedView2.style[_transitionProperty] = transitionPropertyBy500;
+                            }
+                        }
+
+                        if(option.transfP_View1){
+                            operatedView1.style[_transformProperty] = option.transfP_View1;
+                        } else {
+                            operatedView1.style[_transformProperty] = transformPropertyAtM;
+                        }
+
+                        if(operatedView2){
+                            if(option.transfP_View2){
+                                operatedView2.style[_transformProperty] = option.transfP_View2;
+                            } else{
+                                operatedView2.style[_transformProperty] = transformPropertyAtM;
+                            }
+                        }
+                        
+                        if((typeof option.t != 'number')|| option.t<=0){
+                            option.t = 500;
+                        }
+                        setTimeout(function(){
+                            removeAllTransfAndTransi();
+                            option.setToutCb(option.setToutCbP);
+                        },option.t);
+                    };
+
+                    var option ={
+                        operatedView1:'navOverlay',
+                        operatedView2:'',
+                        setToutCb:switchNavOverlay,
+                        setToutCbP:'on',
+                        t:500,
+                        transiP:transitionPropertyBy500,
+                        transfP_View1:transformPropertyAtM,
+                        transfP_View2:''
+                    };
  
                     if(touchDistance>_minSwipe){//如果是向右滑动超过72px
                        
                         if (timeSpent > 0 && timeSpent < _timeSpentThres) {//情况1：快速向右滑动超过72——即timeSpent位于(0,200)
                             //monitortype.innerHTML="fastToRight>72"; 
                             if(baseView =='fullbody'){
-                                swipables.navOverlay.style[_transitionProperty] = transitionPropertyByRestT;
-                                swipables.navOverlay.style[_transformProperty] = transformPropertyAtM; 
-                                //setRealInnerHTML(swipables.navOverlay);
-                                setTimeout(function(){ 
-                                    removeAllTransfAndTransi();
-                                    switchNavOverlay('on');
-                                },restTms);
+                                option = {
+                                    operatedView1:'navOverlay',
+                                    operatedView2:'',
+                                    setToutCb:switchNavOverlay,
+                                    setToutCbP:'on',
+                                    t:restTms,
+                                    transiP:transitionPropertyByRestT,
+                                    transfP_View1:transformPropertyAtM,
+                                    transfP_View2:''
+                                };
 
                             } else if(baseView == 'storyview'){
-                                swipables.storyview.style[_transitionProperty] = transitionPropertyByRestT; 
-                                swipables.storyview.style[_transformProperty] = transformPropertyAtR;    
-                                if(_preView == "fullbody"){                                  
-                                    swipables.fullbody.style[_transitionProperty] = transitionPropertyByRestT;
-                                    swipables.fullbody.style[_transformProperty] = transformPropertyAtM;
-                                } else if(_preView == "channelview") {          
-                                    swipables.channelview.style[_transitionProperty] = transitionPropertyByRestT;
-                                    swipables.channelview.style[_transformProperty] = transformPropertyAtM;
+                                if(_preView == "fullbody"){
+                                    option = {
+                                        operatedView1:'storyview',
+                                        operatedView2:'fullbody',
+                                        setToutCb:histback,
+                                        setToutCbP:'pinch',
+                                        t:restTms,
+                                        transiP:transitionPropertyByRestT,
+                                        transfP_View1:transformPropertyAtR,
+                                        transfP_View2:transformPropertyAtM
+                                    };
+                                } else if(_preView == "channelview"){
+                                    option = {
+                                        operatedView1:'storyview',
+                                        operatedView2:'channelview',
+                                        setToutCb:histback,
+                                        setToutCbP:'pinch',
+                                        t:restTms,
+                                        transiP:transitionPropertyByRestT,
+                                        transfP_View1:transformPropertyAtR,
+                                        transfP_View2:transformPropertyAtM
+                                    };
                                 }
-                                //setRealInnerHTML(swipables.storyview);     
-                                setTimeout(function(){ 
-                                    removeAllTransfAndTransi();
-                                    histback('pinch');
-                                },restTms);
 
                             } else if(baseView == 'channelview'){
-                                swipables.channelview.style[_transitionProperty] = transitionPropertyByRestT;
-                                swipables.fullbody.style[_transitionProperty] = transitionPropertyByRestT;
-                                swipables.channelview.style[_transformProperty] = transformPropertyAtR;
-                                swipables.fullbody.style[_transformProperty] = transformPropertyAtM;
-                                //setRealInnerHTML(swipables.channelview);
-                                setTimeout(function(){ 
-                                    removeAllTransfAndTransi();
-                                    histback('pinch');
-                                },restTms);
-
+                                option = {
+                                    operatedView1:'channelview',
+                                    operatedView2:'fullbody',
+                                    setToutCb:histback,
+                                    setToutCbP:'pinch',
+                                    t:restTms,
+                                    transiP:transitionPropertyByRestT,
+                                    transfP_View1:transformPropertyAtR,
+                                    transfP_View2:transformPropertyAtM
+                                };
                             }
 
                         } else if(timeSpent >= _timeSpentThres && movementSpeed>_speedThred) {//情况2：先慢后快向右滑动超过72——即timeSpent位于[200,+infi),且momentSpeed位于(0.36,+infi)
                             //monitortype.innerHTML="slowToFastToRight>72";                            
                             if(baseView =='fullbody'){
-                                swipables.navOverlay.style[_transitionProperty] = transitionPropertyByRestT2;
-                                swipables.navOverlay.style[_transformProperty] =transformPropertyAtM;
-                                //setRealInnerHTML(swipables.navOverlay);
-                                setTimeout(function(){
-                                    switchNavOverlay('on');
-                                    removeAllTransfAndTransi();
-                                },restTms2);
+                                option = {
+                                    operatedView1:'navOverlay',
+                                    operatedView2:'',
+                                    setToutCb:switchNavOverlay,
+                                    setToutCbP:'on',
+                                    t:restTms2,
+                                    transiP:transitionPropertyByRestT2,
+                                    transfP_View1:transformPropertyAtM,
+                                    transfP_View2:''
+                                };
 
                             } else if(baseView == 'storyview'){
-                                swipables.storyview.style[_transitionProperty] = transitionPropertyByRestT2;         
-                                swipables.storyview.style[_transformProperty] = transformPropertyAtR;
                                 if(_preView == "fullbody"){
-                                    swipables.fullbody.style[_transitionProperty] = transitionPropertyByRestT2; 
-                                    swipables.fullbody.style[_transformProperty] = transformPropertyAtM;
-                                } else if(_preView == "channelview") {
-                                    swipables.channelview.style[_transitionProperty] = transitionPropertyByRestT2;
-                                    swipables.channelview.style[_transformProperty] = transformPropertyAtM;
-                                }   
-                                //setRealInnerHTML(swipables.storyview);
-                                setTimeout(function(){ 
-                                    removeAllTransfAndTransi();
-                                    histback('pinch');
-                                },restTms2);
-
+                                    option = {
+                                        operatedView1:'storyview',
+                                        operatedView2:'fullbody',
+                                        setToutCb:histback,
+                                        setToutCbP:'pinch',
+                                        t:restTms2,
+                                        transiP:transitionPropertyByRestT2,
+                                        transfP_View1:transformPropertyAtR,
+                                        transfP_View2:transformPropertyAtM
+                                    };
+                                } else if(_preView == "channelview"){
+                                    option = {
+                                        operatedView1:'storyview',
+                                        operatedView2:'channelview',
+                                        setToutCb:histback,
+                                        setToutCbP:'pinch',
+                                        t:restTms2,
+                                        transiP:transitionPropertyByRestT2,
+                                        transfP_View1:transformPropertyAtR,
+                                        transfP_View2:transformPropertyAtM
+                                    };
+                                }
                                 
                             } else if(baseView == 'channelview'){                      
-                                swipables.channelview.style[_transitionProperty] = transitionPropertyByRestT2;
-                                swipables.fullbody.style[_transitionProperty] = transitionPropertyByRestT2;
-                                swipables.channelview.style[_transformProperty] = transformPropertyAtR;
-                                swipables.fullbody.style[_transformProperty] = transformPropertyAtM;
-                                //setRealInnerHTML(swipables.channelview);
-                                setTimeout(function(){ 
-                                    removeAllTransfAndTransi();
-                                    histback('pinch');
-                                },restTms2);
+                                option = {
+                                    operatedView1:'channelview',
+                                    operatedView2:'fullbody',
+                                    setToutCb:histback,
+                                    setToutCbP:'pinch',
+                                    t:restTms2,
+                                    transiP:transitionPropertyByRestT2,
+                                    transfP_View1:transformPropertyAtR,
+                                    transfP_View2:transformPropertyAtM
+                                };
 
                             }  
                         } else{//情况3：正常原速向右滑动超过72——即timeSpent位于[200,+infi)，且momentSpeed位于(0,0.36]
                         	//monitortype.innerHTML="slowToRight>72";    
                             if(baseView =='fullbody'){
-                                swipables.navOverlay.style[_transitionProperty] = transitionPropertyBy500;
-                                swipables.navOverlay.style[_transformProperty] = transformPropertyAtM; 
-                                //setRealInnerHTML(swipables.navOverlay);
-                                setTimeout(function(){ 
-                                    removeAllTransfAndTransi();
-                                    switchNavOverlay('on');
-                                },500);
+                               option = {
+                                    operatedView1:'navOverlay',
+                                    operatedView2:'',
+                                    setToutCb:switchNavOverlay,
+                                    setToutCbP:'on',
+                                    t:500,
+                                    transiP:transitionPropertyBy500,
+                                    transfP_View1:transformPropertyAtM,
+                                    transfP_View2:''
+                                };
                                 
                             } else if(baseView == 'storyview'){ 
-                                swipables.storyview.style[_transitionProperty] = transitionPropertyBy500;    
-                                swipables.storyview.style[_transformProperty] = transformPropertyAtR; 
-                                if(_preView == "fullbody"){    
-                                    swipables.fullbody.style[_transitionProperty] = transitionPropertyBy500;    
-                                    swipables.fullbody.style[_transformProperty] = transformPropertyAtM;
-                                } else if(_preView == "channelview") {          
-                                    swipables.channelview.style[_transitionProperty] = transitionPropertyBy500;
-                                    swipables.channelview.style[_transformProperty] = transformPropertyAtM;
-                                }                                
-                                //setRealInnerHTML(swipables.storyview);
-                                setTimeout(function(){ 
-                                    removeAllTransfAndTransi();
-                                    histback('pinch');
-                                },500);
+                                 if(_preView == "fullbody"){
+                                    option = {
+                                        operatedView1:'storyview',
+                                        operatedView2:'fullbody',
+                                        setToutCb:histback,
+                                        setToutCbP:'pinch',
+                                        t:500,
+                                        transiP:transitionPropertyBy500,
+                                        transfP_View1:transformPropertyAtR,
+                                        transfP_View2:transformPropertyAtM
+                                    };
+                                } else if(_preView == "channelview"){
+                                    option = {
+                                        operatedView1:'storyview',
+                                        operatedView2:'channelview',
+                                        setToutCb:histback,
+                                        setToutCbP:'pinch',
+                                        t:500,
+                                        transiP:transitionPropertyBy500,
+                                        transfP_View1:transformPropertyAtR,
+                                        transfP_View2:transformPropertyAtM
+                                    };
+                                }
 
                             } else if(baseView == 'channelview'){
-                                swipables.channelview.style[_transitionProperty] = transitionPropertyBy500;
-                                swipables.fullbody.style[_transitionProperty] = transitionPropertyBy500;
-                                swipables.channelview.style[_transformProperty] = transformPropertyAtR;
-                                swipables.fullbody.style[_transformProperty] = transformPropertyAtM;
-                                //setRealInnerHTML(swipables.channelview);
-                                setTimeout(function(){ 
-                                    removeAllTransfAndTransi();
-                                    histback('pinch');
-                                },500);
+                                option = {
+                                    operatedView1:'channelview',
+                                    operatedView2:'fullbody',
+                                    setToutCb:histback,
+                                    setToutCbP:'pinch',
+                                    t:500,
+                                    transiP:transitionPropertyBy500,
+                                    transfP_View1:transformPropertyAtR,
+                                    transfP_View2:transformPropertyAtM
+                                };
+
                             }
 
                         }
+                        dealWithSlide(option);
                         ga('send','event', 'App Feature', 'Swipe', 'Back');
                         
                     
                     } else if (touchDistance <-_minSwipe && baseView == 'fullbody' && swipables.navOverlay.className.indexOf(" on")>-1){//如果是向左滑动超过72px且基准页为fullbody且导航菜单触发
 
                         if (timeSpent > 0 && timeSpent < _timeSpentThres){//情况4：快速向左滑动超过72
-                            //monitortype.innerHTML="fastToLeft>72";            
-                            swipables.navOverlay.style[_transitionProperty] = transitionPropertyByRestT;
-                            swipables.navOverlay.style[_transformProperty] = transformPropertyAtL;
-                            //setRealInnerHTML(swipables.navOverlay);
-                            window.setTimeout(function(){
-                                switchNavOverlay('off');
-                                removeAllTransfAndTransi();
-                            },restTms);
-  
+                            //monitortype.innerHTML="fastToLeft>72";  
+                            option = {
+                                operatedView1:'navOverlay',
+                                operatedView2:'',
+                                setToutCb:switchNavOverlay,
+                                setToutCbP:'off',
+                                t:restTms,
+                                transiP:transitionPropertyByRestT,
+                                transfP_View1:transformPropertyAtL,
+                                transfP_View2:''
+                            };
+                      
                         } else if(timeSpent>=_timeSpentThres&& movementSpeed>_speedThred){///情况5：先慢后快向左滑动超过72
                             //monitortype.innerHTML="flowToFastToLeft>72"; 
-                            swipables.navOverlay.style[_transitionProperty] = transitionPropertyByRestT2;
-                            swipables.navOverlay.style[_transformProperty] = transformPropertyAtL;
-                            //setRealInnerHTML(swipables.navOverlay);
-                            window.setTimeout(function(){
-                                switchNavOverlay('off');
-                                removeAllTransfAndTransi();
-                            },restTms2);
-                            
+                            option = {
+                                operatedView1:'navOverlay',
+                                operatedView2:'',
+                                setToutCb:switchNavOverlay,
+                                setToutCbP:'off',
+                                t:restTms2,
+                                transiP:transitionPropertyByRestT2,
+                                transfP_View1:transformPropertyAtL,
+                                transfP_View2:''
+                            };
+
                         } else {///情况6：慢速向左滑动超过72
                             //monitortype.innerHTML="flowToLeft>72";
-                            swipables.navOverlay.style[_transitionProperty] = transitionPropertyBy500;
-                            swipables.navOverlay.style[_transformProperty] = transformPropertyAtL;
-                            //setRealInnerHTML(swipables.navOverlay);
-                            window.setTimeout(function(){
-                                switchNavOverlay('off');
-                                removeAllTransfAndTransi();
-                            },500); 
+                            option = {
+                                operatedView1:'navOverlay',
+                                operatedView2:'',
+                                setToutCb:switchNavOverlay,
+                                setToutCbP:'off',
+                                t:500,
+                                transiP:transitionPropertyBy500,
+                                transfP_View1:transformPropertyAtL,
+                                transfP_View2:''
+                            };
 
-                        }
-                        
+                         }
+                        dealWithSlide(option);
 
                     } else if (touchDistance <= _minSwipe && touchDistance>=-_minSwipe){///情况7：如果向左向右滑动都没超过72px
                         //monitortype.innerHTML="moveToLeftOrRight<72"; 
@@ -594,7 +713,7 @@ function initSwipeGesture() {
                     
                     }
                 
-                } else {///疑问：还是想不出来isSwipe如果不为true，为什么还要移除这些属性，疑问这些属性都是在touchmove阶段设置的，且设置的前提条件就是isSwipe === true
+                } else {
                     removeAllTransfAndTransi();
                 }               
                 _touchStartX = -1;
