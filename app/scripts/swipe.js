@@ -19,7 +19,7 @@ function initSwipeGesture() {
     var testDiv = document.createElement("div");
 
     testDiv.id = "monitor";
-    testDiv.setAttribute("style","position:fixed;z-index:10000;width:220px;height:450px;right:10px;bottom:10px;background-color:white;color:black;display:none;");
+    testDiv.setAttribute("style","position:fixed;z-index:10000;width:220px;height:50px;right:10px;bottom:10px;background-color:white;color:black;display:block;");
 
     testDiv.innerHTML = '<div id="monitorevent"></div><div id="eventbegin"></div><div id="eventfinish"></div><div id="monitorconsole"></div><div id = "monitordata"></div><div id = "monitortype"></div><div id = "realtransition"></div>';
 
@@ -32,7 +32,7 @@ function initSwipeGesture() {
     var monitorEventBegin=document.getElementById("eventbegin");
     var monitorEventFinish=document.getElementById("eventfinish");
     var monitorconsole=document.getElementById("monitorconsole");
-    /******测试代码:end*********/
+    ******测试代码:end*********/
 
 
     // initial parameters
@@ -50,7 +50,10 @@ function initSwipeGesture() {
 
     // if a user is scrolling vertically
     var _minVerticalScroll = 30;
-    var _isSwiping = false;
+    // var _isSwiping = false;
+
+    // there are three possibility to moveStatus: unknown, swipe, scroll
+    var _moveStatus = 'unknown'; 
    
     // Determine the browser engine and prefix, trying to use the unprefixed version where available.
     var _vendorCSSPrefix;
@@ -190,7 +193,10 @@ function initSwipeGesture() {
 
 
                 // when touchstart, reset the swiping status
-                _isSwiping = false;
+                // _isSwiping = false;
+
+                _moveStatus = 'unknown';
+
 
                 /// 过滤掉hist数组中的文章页信息，这样就只留下了频道页信息
                 _histDelStory = hist.filter(function(item){
@@ -248,14 +254,17 @@ function initSwipeGesture() {
                 // if the user is locked in the swiping mode
                 // disable vertical scrolling
                 // this works for iOS 7 and above
-                if (_isSwiping === true) {//这个在本touchmove事件处理程序后面有判断_isSwiping什么时候赋值为true
+                // if touchstart is tiggered while scrolling is decelerating, preventDefault will not work as expected
+                if (_moveStatus === 'swipe') {
                 	e.preventDefault();
                 }
 
                 // if the user is engaged in a FT Scroller activity
                 // or if he is viewing a photo slide
                 // abandon ensuing operations
-                if ( (typeof window.gFTScrollerActive === "object" && _isSwiping === false) || swipables.slideShow.className.indexOf(' on')>0 ) {//如果使用了FTScroller且属于纵向滑动，或，使用了slideShow，则通过return false终止这个事件处理程序的执行
+                //如果使用了FTScroller且属于纵向滑动，或，使用了slideShow，或已经在纵向移动
+                //则通过return false终止这个事件处理程序的执行
+                if ( (typeof window.gFTScrollerActive === "object" && _moveStatus !== 'swipe') || swipables.slideShow.className.indexOf(' on')>0 || _moveStatus === 'scroll') {
                     _touchStartX = -1;
                     _touchMoveX = -1;
                     _touchStartY = -1;
@@ -276,14 +285,17 @@ function initSwipeGesture() {
                 if (_touchStartX !== -1) {//当其等于-1就是要么用了FTScroller要么是slideShow，这时横向滑动应该是无效的
                     //whether the user is swiping or scrolling
 
-                    if (xDistance > _startSwipe && typeof window.gFTScrollerActive !== "object" && yDistance < _minVerticalScroll && yDistance/xDistance < 0.5) {//当横坐标滑动距离超过15px，且没有用FTScroller，且纵坐标滑动距离不到30px，且x滑动距离比y滑动距离的两倍还多
+                    if (xDistance > _startSwipe && typeof window.gFTScrollerActive !== "object" && yDistance < _minVerticalScroll && yDistance/xDistance < 0.5) {
+                        //当横坐标滑动距离超过15px，且没有用FTScroller，且纵坐标滑动距离不到30px，且x滑动距离比y滑动距离的两倍还多
                         //window.gFTScrollerActive = {};
-                        _isSwiping = true;//这时被判定为确实是在进行横向滑动动作
+                        _moveStatus = 'swipe';//这时被判定为确实是在进行横向滑动动作
+                    } else if (yDistance >= _minVerticalScroll && xDistance <= _startSwipe && yDistance/xDistance >= 0.5) {
+                        _moveStatus = 'scroll';//这时被判定为确实是在进行竖向滑动动作
                     }
                     var moveTransitionProperty = 'all 0s ease-in-out';
                     // if the swiping is true
                     // provide visual feedback
-                    if (_isSwiping === true) {
+                    if (_moveStatus === 'swipe') {
 
                         ///如果是处在首页的情况下：
                         if (gNowView === 'fullbody') {
@@ -359,7 +371,7 @@ function initSwipeGesture() {
             }, false);
 
             swipables.container.addEventListener('touchend', function(e) {
-                if(_isSwiping === true) {
+                if(_moveStatus === 'swipe') {
                     e.preventDefault();
 
                     window.gFTScrollerActive = false;
@@ -718,8 +730,10 @@ function initSwipeGesture() {
                 }               
                 _touchStartX = -1;
                 _touchMoveX = -1;
-                _isSwiping = false;
-
+                // handle the case when touchend happened but the content is decelarating
+                if (_moveStatus !== 'scroll') {
+                    _moveStatus = 'unknown';
+                }
             }, false);
         } catch (ignore){
         
