@@ -195,7 +195,11 @@ function initSwipeGesture() {
                 // when touchstart, reset the swiping status
                 // _isSwiping = false;
 
-                _moveStatus = 'unknown';
+                if (_moveStatus === 'decelerating') {
+                    _moveStatus = 'decelerated';
+                } else {
+                    _moveStatus = 'unknown';
+                }
 
 
                 /// 过滤掉hist数组中的文章页信息，这样就只留下了频道页信息
@@ -264,7 +268,7 @@ function initSwipeGesture() {
                 // abandon ensuing operations
                 //如果使用了FTScroller且属于纵向滑动，或，使用了slideShow，或已经在纵向移动
                 //则通过return false终止这个事件处理程序的执行
-                if ( (typeof window.gFTScrollerActive === "object" && _moveStatus !== 'swipe') || swipables.slideShow.className.indexOf(' on')>0 || _moveStatus === 'scroll') {
+                if ( (typeof window.gFTScrollerActive === "object" && _moveStatus !== 'swipe') || swipables.slideShow.className.indexOf(' on')>0 || _moveStatus === 'scroll' || _moveStatus === 'decelerated') {
                     _touchStartX = -1;
                     _touchMoveX = -1;
                     _touchStartY = -1;
@@ -730,8 +734,13 @@ function initSwipeGesture() {
                 }               
                 _touchStartX = -1;
                 _touchMoveX = -1;
-                // handle the case when touchend happened but the content is decelarating
-                if (_moveStatus !== 'scroll') {
+                // handle the case when touchend happened but the content is decelerating
+                if (_moveStatus === 'scroll') {
+                    _moveStatus = 'decelerating';
+                    setTimeout(function(){
+                        _moveStatus = 'unknown';
+                    },3000);
+                } else {
                     _moveStatus = 'unknown';
                 }
             }, false);
