@@ -224,19 +224,20 @@ gulp.task('copy', ['build'], function () {
   var fastclickM = fs.readFileSync('dist/phone/fastclick-m.js', 'utf8');
   var ftscrollerM = fs.readFileSync('dist/phone/ftscroller-m.js', 'utf8');
   var mainM = fs.readFileSync('dist/phone/main-m.js', 'utf8');
+  var swipeM = fs.readFileSync('dist/phone/swipe-m.js', 'utf8');
 
   gulp.src(['app/android.html'])
     .pipe($.if('*.html', $.htmlmin({collapseWhitespace: true})))
-    .pipe(replace(/\{\{cssbundle\}\}/g, cssbundle))
-    .pipe(replace(/\{\{googleanalytics\}\}/g, googleanalytics))
-    .pipe(replace(/\{\{fa\}\}/g, fa))
-    .pipe(replace(/\{\{jquery-m\}\}/g, jqueryM))
-    .pipe(replace(/\{\{html5storage-m\}\}/g, html5storageM))
-    .pipe(replace(/\{\{tracking-m\}\}/g, trackingM))
-    .pipe(replace(/\{\{fastclick-m\}\}/g, fastclickM))
-    .pipe(replace(/\{\{ftscroller-m\}\}/g, ftscrollerM))
-    .pipe(replace(/\{\{main-m\}\}/g, mainM))
-    .pipe(replace(/\<html\>/g, '<html manifest="android-2014.manifest">'))
+    .pipe(replace('{{cssbundle}}', cssbundle))
+    .pipe(replace('{{googleanalytics}}', googleanalytics))
+    .pipe(replace('{{fa}}', fa))
+    .pipe(replace('{{jquery-m}}', jqueryM))
+    .pipe(replace('{{html5storage-m}}', html5storageM))
+    .pipe(replace('{{tracking-m}}', trackingM))
+    .pipe(replace('{{fastclick-m}}', fastclickM))
+    .pipe(replace('{{ftscroller-m}}', ftscrollerM))
+    .pipe(replace('{{main-m}}', mainM))
+    .pipe(replace('<html>', '<html manifest="android-2014.manifest">'))
     .pipe(rename('androidapp.html'))
     .pipe(gulp.dest('../testing/dev_www/mobile_webroot/'));
 

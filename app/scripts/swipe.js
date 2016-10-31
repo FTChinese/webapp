@@ -499,7 +499,7 @@ function initSwipeGesture() {
                         transfP_View2:''
                     };
  
-                    if(touchDistance>_minSwipe){//如果是向右滑动超过72px
+                    if(touchDistance>_minSwipe || (touchDistance>_startSwipe && movementSpeed>_speedThred)){//如果是向右滑动超过72px
                        
                         if (timeSpent > 0 && timeSpent < _timeSpentThres) {//情况1：快速向右滑动超过72——即timeSpent位于(0,200)
                             //monitortype.innerHTML="fastToRight>72"; 
@@ -663,7 +663,7 @@ function initSwipeGesture() {
                         ga('send','event', 'App Feature', 'Swipe', 'Back');
                         
                     
-                    } else if (touchDistance <-_minSwipe && baseView == 'fullbody' && swipables.navOverlay.className.indexOf(" on")>-1){//如果是向左滑动超过72px且基准页为fullbody且导航菜单触发
+                    } else if (touchDistance < -_minSwipe && baseView == 'fullbody' && swipables.navOverlay.className.indexOf(" on")>-1){//如果是向左滑动超过72px且基准页为fullbody且导航菜单触发
 
                         if (timeSpent > 0 && timeSpent < _timeSpentThres){//情况4：快速向左滑动超过72
                             //monitortype.innerHTML="fastToLeft>72";  
