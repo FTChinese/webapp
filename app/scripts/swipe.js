@@ -737,9 +737,9 @@ function initSwipeGesture() {
                 // handle the case when touchend happened but the content is decelerating
                 if (_moveStatus === 'scroll') {
                     _moveStatus = 'decelerating';
-                    setTimeout(function(){
-                        _moveStatus = 'unknown';
-                    },3000);
+                    // setTimeout(function(){
+                    //     _moveStatus = 'unknown';
+                    // },3000);
                 } else {
                     _moveStatus = 'unknown';
                 }
