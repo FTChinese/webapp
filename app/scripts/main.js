@@ -53,6 +53,7 @@ var gCurrentStoryId = '';
 var gNoticeAdded = false;
 var gStartPageStorage = '';
 var cg1 = '(not set)';
+var gPrefix = {};//存储有关浏览器css前缀的变量
 
 //开机的时候检查屏幕宽度，以便节约流量
 //我们的基本假设是，不管横屏还是竖屏，只要宽度小于700，那就是手机；否则就是平板
@@ -286,8 +287,13 @@ function startpage() {
         checkbreakingnews();
     },100000);
     if (isOnline()=="possible") {checkbreakingnews();}
-    
-    initSwipeGesture();
+
+    autoPrefix();
+
+    if(osVersion.indexOf("Android")<0){
+         initSwipeGesture();
+    }
+   
 
     //Delegate Click Events for Any New Development
     //gStartStatus = "startpage inline-video-container";
