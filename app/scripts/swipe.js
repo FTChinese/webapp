@@ -88,6 +88,8 @@ function initSwipeGesture() {
     var a = 1;//针对restTms的参数,越小，快速滑动情况滑动越快;
     var a2 = 1;//针对restTms2的参数
 
+    var decelerateTimeOut;
+
     /*************处理前缀问题block:start*************/
     ///要保证transform/transition前缀在js和css中完全一致
     if (document.createElement('div').style.transform !== undefined) {
@@ -195,11 +197,13 @@ function initSwipeGesture() {
                 // when touchstart, reset the swiping status
                 // _isSwiping = false;
 
-                if (_moveStatus === 'decelerating') {
-                    _moveStatus = 'decelerated';
-                } else {
-                    _moveStatus = 'unknown';
-                }
+                // if (_moveStatus === 'decelerating') {
+                //     _moveStatus = 'decelerated';
+                // } else {
+                //     _moveStatus = 'unknown';
+                // }
+
+                _moveStatus = 'unknown';
 
 
                 /// 过滤掉hist数组中的文章页信息，这样就只留下了频道页信息
@@ -268,7 +272,7 @@ function initSwipeGesture() {
                 // abandon ensuing operations
                 //如果使用了FTScroller且属于纵向滑动，或，使用了slideShow，或已经在纵向移动
                 //则通过return false终止这个事件处理程序的执行
-                if ( (typeof window.gFTScrollerActive === "object" && _moveStatus !== 'swipe') || swipables.slideShow.className.indexOf(' on')>0 || _moveStatus === 'scroll' || _moveStatus === 'decelerated') {
+                if ( (typeof window.gFTScrollerActive === "object" && _moveStatus !== 'swipe') || swipables.slideShow.className.indexOf(' on')>0 || _moveStatus === 'scroll') {
                     _touchStartX = -1;
                     _touchMoveX = -1;
                     _touchStartY = -1;
@@ -289,11 +293,11 @@ function initSwipeGesture() {
                 if (_touchStartX !== -1) {//当其等于-1就是要么用了FTScroller要么是slideShow，这时横向滑动应该是无效的
                     //whether the user is swiping or scrolling
 
-                    if (xDistance > _startSwipe && typeof window.gFTScrollerActive !== "object" && yDistance < _minVerticalScroll && yDistance/xDistance < 0.5) {
+                    if (xDistance > _startSwipe && typeof window.gFTScrollerActive !== "object" && yDistance < _minVerticalScroll && yDistance < 0.5 * xDistance && _moveStatus !== 'scroll') {
                         //当横坐标滑动距离超过15px，且没有用FTScroller，且纵坐标滑动距离不到30px，且x滑动距离比y滑动距离的两倍还多
                         //window.gFTScrollerActive = {};
                         _moveStatus = 'swipe';//这时被判定为确实是在进行横向滑动动作
-                    } else if (yDistance >= _minVerticalScroll && xDistance <= _startSwipe && yDistance/xDistance >= 0.5) {
+                    } else if (yDistance >= _minVerticalScroll && _moveStatus !== 'swipe') {
                         _moveStatus = 'scroll';//这时被判定为确实是在进行竖向滑动动作
                     }
                     var moveTransitionProperty = 'all 0s ease-in-out';
@@ -734,15 +738,21 @@ function initSwipeGesture() {
                 }               
                 _touchStartX = -1;
                 _touchMoveX = -1;
+                _moveStatus = 'unknown';
                 // handle the case when touchend happened but the content is decelerating
-                if (_moveStatus === 'scroll') {
-                    _moveStatus = 'decelerating';
-                    // setTimeout(function(){
-                    //     _moveStatus = 'unknown';
-                    // },3000);
-                } else {
-                    _moveStatus = 'unknown';
-                }
+                // if (_moveStatus === 'scroll') {
+                //     _moveStatus = 'decelerating';
+                //     try {
+                //         clearTimeout(decelerateTimeOut);
+                //     } catch (ignore) {
+
+                //     }
+                //     decelerateTimeOut = setTimeout(function(){
+                //         _moveStatus = 'unknown';
+                //     },3000);
+                // } else {
+                //     _moveStatus = 'unknown';
+                // }
             }, false);
         } catch (ignore){
         
