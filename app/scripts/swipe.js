@@ -1,4 +1,7 @@
 function initSwipeGesture() {
+
+
+
     // doms for swipables
     var swipables = {
         // attach touchstart, touchmove and touchend to the container
@@ -129,8 +132,9 @@ function initSwipeGesture() {
     };
     /*****测试用:end*****/
 
-    if (window.useFTScroller === 1) {
+    // turn off this feature for Android because there's bug
 
+    if (window.useFTScroller === 1 && window.osVersion.indexOf('Android') < 0) {
         try {
             swipables.container.addEventListener('touchstart', function(e) {
                 // gNowView reflects the current view
