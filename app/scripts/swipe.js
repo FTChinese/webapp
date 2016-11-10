@@ -22,19 +22,19 @@ function initSwipeGesture() {
     var testDiv = document.createElement("div");
 
     testDiv.id = "monitor";
-    testDiv.setAttribute("style","position:fixed;z-index:10000;width:220px;height:50px;right:10px;bottom:10px;background-color:white;color:black;display:block;");
+    testDiv.setAttribute("style","position:fixed;z-index:10000;width:260px;height:450px;right:10px;bottom:10px;background-color:white;color:black;display:none;");
 
-    testDiv.innerHTML = '<div id="monitorevent"></div><div id="eventbegin"></div><div id="eventfinish"></div><div id="monitorconsole"></div><div id = "monitordata"></div><div id = "monitortype"></div><div id = "realtransition"></div>';
+    testDiv.innerHTML = '<div id="monitor1"></div><div id="monitor2"></div><div id="monitor3"></div><div id="monitor4"></div><div id = "monitor5"></div><div id = "monitor6"></div><div id = "monitor7"></div>';
 
     document.body.appendChild(testDiv);
 
-    var monitorevent = document.getElementById("monitorevent");
-    var monitordata=document.getElementById("monitordata");
-    var monitortype=document.getElementById("monitortype");
-    var monitorrealtransition = document.getElementById("realtransition");
-    var monitorEventBegin=document.getElementById("eventbegin");
-    var monitorEventFinish=document.getElementById("eventfinish");
-    var monitorconsole=document.getElementById("monitorconsole");
+    var monitor1 = document.getElementById("monitor1");
+    var monitor2 = document.getElementById("monitor2");
+    var monitor3 = document.getElementById("monitor3");
+    var monitor4 = document.getElementById("monitor4");
+    var monitor5 = document.getElementById("monitor5");
+    var monitor6 = document.getElementById("monitor6");
+    var monitor7 = document.getElementById("monitor7");
     ******测试代码:end*********/
 
 
@@ -67,8 +67,8 @@ function initSwipeGesture() {
     var _navListWidth = document.getElementById('navList').offsetWidth || 270;//这就是导航菜单的宽度
 
     // meature width of screen
-    var _screenWidth = screen.width;
-
+    //var _screenWidth = screen.width;
+    var _screenWidth = document.body.clientWidth;
     // 这一页记为
     //gNowView = document.body.className;
     // 上一页记为_PreView
@@ -93,7 +93,7 @@ function initSwipeGesture() {
 
     /*************处理前缀问题block:start*************/
     ///要保证transform/transition前缀在js和css中完全一致
-   
+    ///已移至autoPrefix.js文件
     /***********处理前缀问题block:end*********/
     var removeAllTransf = function(){    	
         swipables.navOverlay.style[_transformProperty]=null;
@@ -123,10 +123,14 @@ function initSwipeGesture() {
         swipables.channelview.style[_transitionProperty]=null;
     };
 
-    /*****测试用:start*****
-    var setRealInnerHTML = function(view) {//view的实参可以为swipables.navOverlay,swipables.fullbody,swipables.storyview,swipables.channelview
+    /*****测试用:start*****/
+    /*
+     * @param view:swipables.navOverlay,swipables.fullbody,swipables.storyview,swipables.channelview
+     * @param monitorSection:monitor1~monitor7
+    */
+    var setRealInnerHTML = function(view,monitorSection) {
         if(view === swipables.navOverlay||swipables.fullbody||swipables.storyview||swipables.channelview){
-             monitorrealtransition.innerHTML= 'realTransition:'+window.getComputedStyle(view)[_transitionProperty]+'\n'+
+             monitorSection.innerHTML= 'realTransition:'+window.getComputedStyle(view)[_transitionProperty]+'\n'+
                                     'realTransform: '+window.getComputedStyle(view)[_transformProperty];
         } 
     };
@@ -145,7 +149,8 @@ function initSwipeGesture() {
                 gNowView = document.body.className;
                 baseView = gNowView;
 
-                _screenWidth = screen.width;
+                //_screenWidth = screen.width;
+                _screenWidth = document.body.clientWidth;
                 _touchStartT = e.timeStamp;//这样直接得到时间戳，而不用(new Date()).getTime()
 
 
@@ -171,6 +176,8 @@ function initSwipeGesture() {
                      _histDelStoryNum = _histDelStory.length;
                      if(_histDelStoryNum == 0){//只有从主页点进来的文章，_histDelStoryNum才等于1
                         _preView = "fullbody";
+
+                       
                     } else {
                         _preView = "channelview";
                     }
@@ -189,11 +196,17 @@ function initSwipeGesture() {
                 _touchStartX = e.changedTouches[0].clientX;
                 _touchStartY = e.changedTouches[0].clientY;
 
-                /**version2: start**/
                 _eventHistory.length = 0;
                 _eventHistory.push({x:_touchStartX, y:_touchStartY,t: _touchStartT});
-                /**version2: end**/
-                //monitorEventFinish.innerHTML="startEventFinishisSwipe:"+_isSwiping;
+
+                 /**测试代码:start**
+                    setRealInnerHTML(swipables.storyview,monitor1);
+                    setRealInnerHTML(swipables.fullbody,monitor2);                
+                    monitor3.innerHTML = "screen.width:"+screen.width+"\n"
+                                        + "screen.availWidth:"+screen.availWidth+"\n"
+                                        + "document.body.clientWidth:"+document.body.clientWidth;
+                **测试代码：end**/
+
             }, false);
 
             swipables.container.addEventListener('touchmove', function(e) {
@@ -299,6 +312,8 @@ function initSwipeGesture() {
                                      
                                     swipables.fullbody.style[_transitionProperty] = moveTransitionProperty;
                                     swipables.fullbody.style[_transformProperty] = 'translate3d('+previewTranslateX+'px,0,0)';
+
+
                                 } else if(_preView == "channelview") {
                                     swipables.channelview.style[_transitionProperty] = moveTransitionProperty;
                                     swipables.channelview.style[_transformProperty] = 'translate3d('+previewTranslateX+'px,0,0)';
@@ -327,6 +342,9 @@ function initSwipeGesture() {
                         if(_eventHistory.length > 30){
                         	_eventHistory.splice(0,15);//只保留最后15个点
                         }
+
+
+
    
                     }
                 }
@@ -384,11 +402,14 @@ function initSwipeGesture() {
                     var transitionPropertyBy500 = 'all 500ms ease-out';
 
                     var transformPropertyAtR = 'translate3d(100%,0,0)';
+                    //var transformPropertyAtR = 'translate(100%,0)';
                     var transformPropertyAtM = 'translate3d(0,0,0)';
+                    //var transformPropertyAtM = 'translate(0,0)';
                     var transformPropertyAtL = 'translate3d(-100%,0,0)';
+                    //var transformPropertyAtL = 'translate(-100%,0)';
 
                     /***测试用:start***
-                    monitordata.innerHTML ="_transitionProperty: "+ _transitionProperty+"\n"+"_transformProperty: "+_transformProperty+"\n"+
+                    monitor4.innerHTML ="_transitionProperty: "+ _transitionProperty+"\n"+"_transformProperty: "+_transformProperty+"\n"+
                         //"baseView: " +baseView+"\n" + 
                         //"_touchMoveX:"+_touchMoveX +"\n"+
                         //"_touchStartX:"+_touchStartX+"\n"+
@@ -400,7 +421,7 @@ function initSwipeGesture() {
                         "restTms2_real: "+restTms2_real+"\n"+
                         "movementTime: " +movementTime+"\n"+
                         "movementSpeed: "+movementSpeed; 
-                    /***测试用:end***/
+                    ***测试用:end***/
 
                    
                     /* function dealWithSlide
@@ -460,6 +481,7 @@ function initSwipeGesture() {
                         setTimeout(function(){
                             removeAllTransfAndTransi();
                             option.setToutCb(option.setToutCbP);
+                          
                         },option.t);
                     };
 
@@ -634,10 +656,16 @@ function initSwipeGesture() {
                             }
 
                         }
+                       
                         dealWithSlide(option);
                         ga('send','event', 'App Feature', 'Swipe', 'Back');
-                        
-                    
+                        /*测试代码：start*
+                        monitor4.innerHTML = "o.transi:"+option.transiP+"\n"
+                                            +"o.transf_V1:"+option.transfP_View1+"\n"
+                                            +"o.transf_V2:"+option.transfP_View2;
+                        setRealInnerHTML(swipables.storyview,monitor1);
+                        setRealInnerHTML(swipables.fullbody,monitor2);
+                         *测试代码：end*/
                     } else if (touchDistance < -_minSwipe && baseView == 'fullbody' && swipables.navOverlay.className.indexOf(" on")>-1){//如果是向左滑动超过72px且基准页为fullbody且导航菜单触发
 
                         if (timeSpent > 0 && timeSpent < _timeSpentThres){//情况4：快速向左滑动超过72
@@ -694,6 +722,8 @@ function initSwipeGesture() {
                 _touchStartX = -1;
                 _touchMoveX = -1;
                 _moveStatus = 'unknown';
+
+       
                 // handle the case when touchend happened but the content is decelerating
                 // if (_moveStatus === 'scroll') {
                 //     _moveStatus = 'decelerating';
