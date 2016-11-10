@@ -67,6 +67,7 @@ adCode=k.replace(/^.*adtype=([0-9A-Za-z\-]+).*$/,"$1");
 adId=k.replace(/^.*adid=([0-9A-Za-z]+).*$/,"$1");
 
 
+
 if (adCode=="ad300x250-SP" || (parent.window.gSpecial === true && adCode==="ad300x250-2")) {//code for special report VFTT
     c="20400004";
     adType="mpu";
@@ -141,6 +142,7 @@ if (adCode=="ad300x250-SP" || (parent.window.gSpecial === true && adCode==="ad30
 }
 
 
+
     if (/iPad/i.test(uaString)) {
         if (adType === 'mpu') {
             document.body.style.backgroundColor = '#f6e9d8';
@@ -169,21 +171,26 @@ if (gSpecialAdId !== '' && matchSpecial === true) {
         if (/OS [0-9]+\_/i.test(uaString) && (/iPhone/i.test(uaString) || /iPod/i.test(uaString))) {
             if (adCode === 'ad300x250-story') {
                 c = '0110';
+            } else if (adCode === 'ad300x250-story-vw') {
+                c = '0119';
             } else {
                 c = '0108';
             }
         } else  {
             if (adCode === 'ad300x250-story') {
                 c = '0111';
+            } else if (adCode === 'ad300x250-story') {
+                c = '0119';
             } else {
                 c = '0109';
             }
-        } 
+        }
     }
     if (c.length === 4) {
         c = gSpecialAdId + c;
     }
 }//special report sponsor
+
 
 //test full page ad
 

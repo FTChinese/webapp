@@ -134,7 +134,7 @@ function initSwipeGesture() {
 
     // turn off this feature for Android because there's bug
 
-    if (window.useFTScroller === 1 && window.osVersion.indexOf('Android') < 0) {
+    if (window.useFTScroller === 1) {
         try {
             swipables.container.addEventListener('touchstart', function(e) {
                 // gNowView reflects the current view

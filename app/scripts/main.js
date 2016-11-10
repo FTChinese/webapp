@@ -1,5 +1,5 @@
 //申明各种Global变量
-var _currentVersion = 1121; //当前的版本号
+var _currentVersion = 1124; //当前的版本号
 var _localStorage = 0;
 var exp_times = Math.round(new Date().getTime() / 1000) + 86400;
 var username;
@@ -54,6 +54,8 @@ var gNoticeAdded = false;
 var gStartPageStorage = '';
 var cg1 = '(not set)';
 var gPrefix = {};//存储有关浏览器css前缀的变量
+// test the home page with a different html template
+var homeFileName = (window.location.href.indexOf('nexthometest') >= 0) ? 'nexthometest': 'nexthome';
 
 //开机的时候检查屏幕宽度，以便节约流量
 //我们的基本假设是，不管横屏还是竖屏，只要宽度小于700，那就是手机；否则就是平板
@@ -62,9 +64,9 @@ screenWidth = $(window).width();
 screenHeight = $(window).height();
 
 if (screenWidth >= 700) {
-    gStartPageTemplate = '/index.php/ft/channel/phonetemplate.html?channel=nexthome&screentype=wide&';
+    gStartPageTemplate = '/index.php/ft/channel/phonetemplate.html?channel='+homeFileName+'&screentype=wide&';
 } else {
-    gStartPageTemplate = '/index.php/ft/channel/phonetemplate.html?channel=nexthome&';
+    gStartPageTemplate = '/index.php/ft/channel/phonetemplate.html?channel='+homeFileName+'&';
 }
 var gApiUrl = {
     //'a10001':'',
