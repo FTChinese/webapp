@@ -18,7 +18,7 @@ function initSwipeGesture() {
         'channelview':document.getElementById('channelview')
     };
 
-    /*******测试代码:start********/
+    /*******测试代码:start********
     var testDiv = document.createElement("div");
 
     testDiv.id = "monitor";
@@ -35,7 +35,7 @@ function initSwipeGesture() {
     var monitor5 = document.getElementById("monitor5");
     var monitor6 = document.getElementById("monitor6");
     var monitor7 = document.getElementById("monitor7");
-    /******测试代码:end*********/
+    ******测试代码:end*********/
 
 
     // initial parameters
@@ -199,13 +199,13 @@ function initSwipeGesture() {
                 _eventHistory.length = 0;
                 _eventHistory.push({x:_touchStartX, y:_touchStartY,t: _touchStartT});
 
-                 /**测试代码:start**/
+                 /**测试代码:start**
                     setRealInnerHTML(swipables.storyview,monitor1);
                     setRealInnerHTML(swipables.fullbody,monitor2);                
                     monitor3.innerHTML = "screen.width:"+screen.width+"\n"
                                         + "screen.availWidth:"+screen.availWidth+"\n"
                                         + "document.body.clientWidth:"+document.body.clientWidth;
-                /**测试代码：end**/
+                **测试代码：end**/
 
             }, false);
 
@@ -313,10 +313,6 @@ function initSwipeGesture() {
                                     swipables.fullbody.style[_transitionProperty] = moveTransitionProperty;
                                     swipables.fullbody.style[_transformProperty] = 'translate3d('+previewTranslateX+'px,0,0)';
 
-                                    /**测试代码：start**/
-                                    setRealInnerHTML(swipables.storyview,monitor1);
-                                    setRealInnerHTML(swipables.fullbody,monitor2);
-                                    /**测试代码：end**/
 
                                 } else if(_preView == "channelview") {
                                     swipables.channelview.style[_transitionProperty] = moveTransitionProperty;
@@ -663,13 +659,13 @@ function initSwipeGesture() {
                        
                         dealWithSlide(option);
                         ga('send','event', 'App Feature', 'Swipe', 'Back');
-                        /*测试代码：start*/
+                        /*测试代码：start*
                         monitor4.innerHTML = "o.transi:"+option.transiP+"\n"
                                             +"o.transf_V1:"+option.transfP_View1+"\n"
                                             +"o.transf_V2:"+option.transfP_View2;
                         setRealInnerHTML(swipables.storyview,monitor1);
                         setRealInnerHTML(swipables.fullbody,monitor2);
-                         /*测试代码：end*/
+                         *测试代码：end*/
                     } else if (touchDistance < -_minSwipe && baseView == 'fullbody' && swipables.navOverlay.className.indexOf(" on")>-1){//如果是向左滑动超过72px且基准页为fullbody且导航菜单触发
 
                         if (timeSpent > 0 && timeSpent < _timeSpentThres){//情况4：快速向左滑动超过72
