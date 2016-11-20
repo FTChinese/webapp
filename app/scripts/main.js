@@ -1,5 +1,5 @@
 //申明各种Global变量
-var _currentVersion = 1124; //当前的版本号
+var _currentVersion = 1126; //当前的版本号
 var _localStorage = 0;
 var exp_times = Math.round(new Date().getTime() / 1000) + 86400;
 var username;
@@ -56,6 +56,8 @@ var cg1 = '(not set)';
 var gPrefix = {};//存储有关浏览器css前缀的变量
 // test the home page with a different html template
 var homeFileName = (window.location.href.indexOf('nexthometest') >= 0) ? 'nexthometest': 'nexthome';
+var fullScreenAdPara = (window.location.href.indexOf('useNativeLaunchAd') >= 0 && Math.random() < 0) ? '&noFullScreenAd': '';
+
 
 //开机的时候检查屏幕宽度，以便节约流量
 //我们的基本假设是，不管横屏还是竖屏，只要宽度小于700，那就是手机；否则就是平板
@@ -64,10 +66,12 @@ screenWidth = $(window).width();
 screenHeight = $(window).height();
 
 if (screenWidth >= 700) {
-    gStartPageTemplate = '/index.php/ft/channel/phonetemplate.html?channel='+homeFileName+'&screentype=wide&';
+    gStartPageTemplate = '/index.php/ft/channel/phonetemplate.html?channel='+homeFileName+fullScreenAdPara+'&screentype=wide&';
 } else {
-    gStartPageTemplate = '/index.php/ft/channel/phonetemplate.html?channel='+homeFileName+'&';
+    gStartPageTemplate = '/index.php/ft/channel/phonetemplate.html?channel='+homeFileName+fullScreenAdPara+'&';
 }
+// console.log (gStartPageTemplate);
+
 var gApiUrl = {
     //'a10001':'',
     'efforts':0,
@@ -710,6 +714,7 @@ function fillContent(loadType) {
         //禁止长按按钮弹出默认的选择框
     $('#fullbody,#channelview,#contentRail,#navOverlay').disableSelection();
     //gStartStatus = "fillContent end";
+
 
     // 特别报导
     // 这段代码直接放到模版里面了
@@ -1460,6 +1465,7 @@ function downloadStories(downloadType) {
     }
 }
 
+
 function loadToHome(data, loadType) {
     $('#homecontent').html(data);
     if (loadType !== undefined) {
@@ -1474,7 +1480,12 @@ function loadToHome(data, loadType) {
     //display button to download native app
     if (/baidu|micromessenger/i.test(uaString)) {
         $('#download-native').removeClass('hidden');
-    } 
+    }
+
+    // if uses native to display ad
+    if (window.location.href.indexOf('useNativeLaunchAd') > 0) {
+        $('#pop-ad').addClass('done');
+    }
 }
 
 function loadHomePage(loadType) {
@@ -1929,7 +1940,11 @@ function readstory(theid, theHeadline) {
     sv.find('.storydate, .storytitle, .storybyline,.storymore,.storyTag .container').html('');
     $('#allcomments,#columnintro').html('');
     $('#cstoryid').val(theid);
+    // display the normal loading view first
+    $('#storyview').removeClass('columnFlowOn');
 	document.body.className = 'storyview';
+
+
     gNowView = 'storyview';
 	//阅读时如果有setTimeout，会造成逻辑混乱，导致页面变空白
     //sv.find('.storybody').html('正在读取文章数据...1');
@@ -2011,7 +2026,114 @@ function removeTag(theCode) {
     return k;
 }
 
+window.colunmFlowOn = true;
+window.columnFlowKeyWords = 'lifestyle,technology,managment,business,china,中国政治';
 function displaystory(theid, language) {
+    var storyViewMode = 'normal';
+    var allId;
+    var storyTag;
+    var storyChannel;
+    var storyIndustry;
+    var storyArea;
+    var storyTopic;
+    var storyKeyWords;
+    var columnFlowKeyWordsArray;
+    if (window.colunmFlowOn === true && typeof FTColumnflow === 'function') {
+        allId = allstories[theid];
+        storyTag = allId.tag || '';
+        storyTopic = allId.Topic || '';
+        storyArea = allId.area || '';
+        storyIndustry = allId.industry || '';
+        storyKeyWords = storyTag + storyTopic + storyArea + storyIndustry;
+        columnFlowKeyWordsArray = window.columnFlowKeyWords.split(',');
+        for (var i=0; i<columnFlowKeyWordsArray.length; i++) {
+            if (storyKeyWords.indexOf(columnFlowKeyWordsArray[i]) >= 0) {
+                storyViewMode = 'flow';
+                break;
+            }
+        }
+    }
+    if (storyViewMode === 'normal') {
+        $('#storyview').removeClass('columnFlowOn');
+        displaystoryNormal(theid, language);
+    } else {
+        $('#storyview').addClass('columnFlowOn');
+        displaystoryColumn(theid, language);
+    }
+}
+
+function displaystoryColumn(theid, language) {
+
+    // get window width, story data
+    var windowWidth = $(window).width();
+    var storyData = allstories[theid];
+    var storyBody = storyData.cbody;
+
+
+    // manipulate dom 
+    document.getElementById('story-column-flow').innerHTML = '<section id="story-column-viewport"><article id="story-column-target"></article></section>';
+    var storyColumnViewport = document.getElementById('story-column-viewport');
+    var coverHeight = storyColumnViewport.offsetHeight;
+    // if page padding is lower than 25, it will not flow good on all screens
+    var pagePadding = 25;
+    var contentHeight;
+
+    // construct flowed content
+    var storyHeadline = '<div class="col-span-2"><h1 class="column-story-headline">'+storyData.cheadline+'</h1><div class="column-story-time">story time</div></div>';
+    var flowedContent = storyBody;
+
+    // construct fixed content
+    var fullPageAd = '<div class="col-span-4 attach-page-4"><div class="full-page-ad" style="width:  '+ windowWidth +'px;height: '+ coverHeight +'px;"><div style="top:-'+ pagePadding +'px;left:0;width:100%;height:100%;position:absolute;background: #333;color:white;">Full Page Ad</div></div></div>';
+    var fixedContent  = storyHeadline + fullPageAd;
+    
+
+    window.cf = new FTColumnflow("story-column-target", "story-column-viewport", {
+        //showGrid: true,
+        columnWidth:            400,
+        //lineHeight:             30,
+        viewportWidth:          windowWidth,
+        viewportHeight:         coverHeight,
+        columnGap:              21,
+        standardiseLineHeight:  true, //useful when you have subTitle or varied fonts
+        pagePadding:            pagePadding,
+        minFixedPadding:        0.5,
+        pageArrangement:       'vertical'
+    });
+
+
+    cf.flow(flowedContent, fixedContent);
+
+    var scrollingPart = document.getElementById('story-column-target');
+
+    // insert full screen ads between pages
+    // var fullScreenAdEle = document.createElement('div');
+    // fullScreenAdEle.className = 'full-screen-ad';
+    // fullScreenAdEle.style.height = coverHeight + 'px';
+    // var cfRenderArea = scrollingPart.querySelector('.cf-render-area');
+    // if (cf.pageCount >= 3) {
+    //     cfRenderArea.insertBefore(fullScreenAdEle, cfRenderArea.childNodes[2]);
+    // }
+
+    
+    // scrollingPart.innerHTML = '<div id=sectionwrapper><section><div>Page 1<p>Swipe left to scroll the next page into view.  If you swipe quickly...</p></div></section><section><div>Page 2<p>...lots...</p></div></section><section><div>Page 3<p>...and lots...</p></div></section><section><div>Page 4<p>...of pages...</p></div></section><section><div>Page 5<p>...in one single...</p></div></section><section><div>Page 6<p>...scroll movement.  FTScroller will snap to the nearest page when the scroll animation comes to rest.</p></div></section>        </div>';
+    //console.log (scrollingPart.offsetHeight);
+    contentHeight = coverHeight * cf.pageCount;
+    console.log (scrollingPart.style);
+    scrollingPart.style.height = contentHeight + 'px';
+    console.log (scrollingPart.style.height);
+    window.Columnscroller = new FTScroller(document.getElementById('story-column-viewport'), {
+        snapping: true,
+        bouncing: true,
+        scrollbars: true,
+        scrollingX: false,
+        singlePageScrolls: false,
+        snapSizeY: coverHeight,
+        contentWidth: windowWidth,
+        contentHeight: contentHeight
+    });
+}
+
+function displaystoryNormal(theid, language) {
     var columnintro = ''; 
     var storyimage;
     var allId = allstories[theid];
