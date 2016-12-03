@@ -133,9 +133,11 @@ input,textarea {-webkit-appearance:none;}
 	top:0;
 	overflow-x:hidden;
 	background:#FFF1E0;
+	/* ///wyc:move to style tag in html
 	-webkit-transition: all 0.5s ease-in-out;
 	-moz-transition: all 0.5s ease-in-out;
 	transition: all 0.5s ease-in-out;
+	*/
 
 	// -webkit-transition: all 0.5s cubic-bezier(0, 0.5, 0.5, 1);
 	// -moz-transition: all 0.5s cubic-bezier(0, 0.5, 0.5, 1);
@@ -147,10 +149,15 @@ input,textarea {-webkit-appearance:none;}
 	//transition-timing-function:cubic-bezier(0, 0.5, 0.5, 1);
 }
 #adview,div.fullbody{display:none;}
+/* ///wyc:move to style tag in html
 .hasScroller #fullbody,.hasScroller .storyview #channelview {-webkit-transform: translate3d(-100%, 0, 0);-moz-transform: translate3d(-100%, 0, 0);transform: translate3d(-100%, 0, 0);}
 .hasScroller #storyview,.hasScroller .fullbody #channelview,.hasScroller #channelview {-webkit-transform: translate3d(100%, 0, 0);-moz-transform: translate3d(100%, 0, 0);transform: translate3d(100%, 0, 0);}
+*/
 .adview #adview{display:block;}
+
+/* //wyc:move to style tag in html
 .hasScroller .fullbody #fullbody,.hasScroller .storyview #storyview,.hasScroller .channelview #channelview {-webkit-transform: translate3d(0, 0, 0);-moz-transform: translate3d(0, 0, 0);transform: translate3d(0, 0, 0);}
+*/
 #fullbody,#channelview,#contentRail,#navOverlay{-webkit-tap-highlight-color: rgba(255,255,255,0);-webkit-user-select: none;
 -moz-user-select: none;-ms-user-select: none;-webkit-touch-callout: none;-ms-content-zooming: none;}
 #storyview {
@@ -388,20 +395,18 @@ margin-bottom:14px;
 		right: 0;
 		//background-color: #E9DECF;
 	}
-	//&.banner {
-		&:after {
-			content: '广告';
-			position: absolute;
-			bottom:0;
-			right: 0;
-			left:0;
-			text-align: right;
-		    //background: #e9decf;
-		    font-size:12px;
-		    padding:1px 5px;
-		    color: #505050;
-		}
-	//}
+	:after {
+		content: '广告';
+		position: absolute;
+		bottom:0;
+		right: 0;
+		left:0;
+		text-align: right;
+	    //background: #e9decf;
+	    font-size:12px;
+	    padding:1px 5px;
+	    color: #505050;
+	}
 }
 .adiframe a.ad-overlay, .o-touch-overlay{
 	position:absolute;
@@ -419,6 +424,20 @@ margin-bottom:14px;
 .banner[frame=ad300], .banner[frame=banner-bottom-home], .banner[frame=banner-bottom-story] {
 	width: 300px;
 	//background-color: #E9DECF;
+}
+.banner {
+	&.full-width {
+		width: 100%;
+		height: 0!important;
+		padding-bottom: 25%;
+		position: relative;
+		height: 0;
+		overflow: hidden;
+		box-sizing: border-box;
+	}
+	&:after {
+		display:none;
+	}
 }
 .channelview .banner, .storyview .banner {margin-top:10px;}
 .mpu,.halfpage,.wide-screen,.middle-screen,.hidden,.mobile-landscape{display:none;}
@@ -1142,11 +1161,14 @@ color: rgba(255,255,255,0.4);
 /*--overlay navigation--*/
 #navOverlay {
 	display:block;
+	/*
 	-webkit-transform: translate3d(-100%,0,0);
 	-moz-transform: translate3d(-100%,0,0);
 	transform: translate3d(-100%,0,0);
+	
 	-webkit-transition: all 0.5s ease-in-out;
 	-ms-transition: all 0.5s ease-in-out;
+	*/
 	top:0;
 	bottom:45px;
 	height:auto;
@@ -1155,9 +1177,11 @@ color: rgba(255,255,255,0.4);
 	
 	&.on {
 		background-color: rgba(0,0,0,0.3);//wyc modify
+		/*
 		-webkit-transform: translate3d(0, 0, 0);
 		-moz-transform: translate3d(0, 0, 0);
-		transform: translate3d(0, 0, 0);		
+		transform: translate3d(0, 0, 0);	
+		*/	
 	}
 	
 }

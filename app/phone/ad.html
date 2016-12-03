@@ -67,6 +67,7 @@ adCode=k.replace(/^.*adtype=([0-9A-Za-z\-]+).*$/,"$1");
 adId=k.replace(/^.*adid=([0-9A-Za-z]+).*$/,"$1");
 
 
+
 if (adCode=="ad300x250-SP" || (parent.window.gSpecial === true && adCode==="ad300x250-2")) {//code for special report VFTT
     c="20400004";
     adType="mpu";
@@ -99,6 +100,9 @@ if (adCode=="ad300x250-SP" || (parent.window.gSpecial === true && adCode==="ad30
     }
     if (adCode === 'ad300x250-home-vw') {
         adPositionId="0118";
+        adType="mpu-phone";
+    } else if (adCode === 'ad300x250-story-bottom') {
+        adPositionId="0120";
         adType="mpu-phone";
     } else if (adCode==="midBanner") {
         if (bodyWidth>450) {
@@ -141,6 +145,7 @@ if (adCode=="ad300x250-SP" || (parent.window.gSpecial === true && adCode==="ad30
 }
 
 
+
     if (/iPad/i.test(uaString)) {
         if (adType === 'mpu') {
             document.body.style.backgroundColor = '#f6e9d8';
@@ -169,21 +174,26 @@ if (gSpecialAdId !== '' && matchSpecial === true) {
         if (/OS [0-9]+\_/i.test(uaString) && (/iPhone/i.test(uaString) || /iPod/i.test(uaString))) {
             if (adCode === 'ad300x250-story') {
                 c = '0110';
+            } else if (adCode === 'ad300x250-story-vw') {
+                c = '0119';
             } else {
                 c = '0108';
             }
         } else  {
             if (adCode === 'ad300x250-story') {
                 c = '0111';
+            } else if (adCode === 'ad300x250-story') {
+                c = '0119';
             } else {
                 c = '0109';
             }
-        } 
+        }
     }
     if (c.length === 4) {
         c = gSpecialAdId + c;
     }
 }//special report sponsor
+
 
 //test full page ad
 
@@ -194,7 +204,7 @@ if (testFullPage === true && adCode === 'fullScreen') {
 
 //console.log (adType + ': ' + c);
 if (adCode === 'fullScreen' && 1>2) {
-
+    //console.log ('full screen displayed using native')
 } else if (c === '20220101' && 1>1) {
 
 } else {
@@ -210,9 +220,6 @@ try {
 </script>
 
 <script>
-
-
-
 var adLinks, i, adHeight=0, gATag, gVideoTag, gImgTag, gDivTag, giFrameTag, gParentA, gParentHTML, gParentHTMLClass, gReferal;
 
 function checkDom(qString) {
@@ -242,6 +249,8 @@ try {
     giFrameTag = checkDom('#ad-content iframe');
     gImgTag = checkDom('#ad-content img');
     gDivTag = checkDom('#ad-content div');
+
+    //console.log (adId);
     gParentA = parent.document.getElementById(adId).getElementsByTagName("a")[0];
 
     if (typeof window.videoAd === 'object') {

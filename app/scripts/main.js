@@ -1,5 +1,5 @@
 //申明各种Global变量
-var _currentVersion = 1121; //当前的版本号
+var _currentVersion = 1129; //当前的版本号
 var _localStorage = 0;
 var exp_times = Math.round(new Date().getTime() / 1000) + 86400;
 var username;
@@ -53,6 +53,11 @@ var gCurrentStoryId = '';
 var gNoticeAdded = false;
 var gStartPageStorage = '';
 var cg1 = '(not set)';
+var gPrefix = {};//存储有关浏览器css前缀的变量
+// test the home page with a different html template
+var homeFileName = (window.location.href.indexOf('nexthometest') >= 0) ? 'nexthometest': 'nexthome';
+var fullScreenAdPara = (window.location.href.indexOf('useNativeLaunchAd') >= 0 && Math.random() < 0) ? '&noFullScreenAd': '';
+
 
 //开机的时候检查屏幕宽度，以便节约流量
 //我们的基本假设是，不管横屏还是竖屏，只要宽度小于700，那就是手机；否则就是平板
@@ -61,10 +66,12 @@ screenWidth = $(window).width();
 screenHeight = $(window).height();
 
 if (screenWidth >= 700) {
-    gStartPageTemplate = '/index.php/ft/channel/phonetemplate.html?channel=nexthome&screentype=wide&';
+    gStartPageTemplate = '/index.php/ft/channel/phonetemplate.html?channel='+homeFileName+fullScreenAdPara+'&screentype=wide&';
 } else {
-    gStartPageTemplate = '/index.php/ft/channel/phonetemplate.html?channel=nexthome&';
+    gStartPageTemplate = '/index.php/ft/channel/phonetemplate.html?channel='+homeFileName+fullScreenAdPara+'&';
 }
+// console.log (gStartPageTemplate);
+
 var gApiUrl = {
     //'a10001':'',
     'efforts':0,
@@ -286,8 +293,14 @@ function startpage() {
         checkbreakingnews();
     },100000);
     if (isOnline()=="possible") {checkbreakingnews();}
-    
-    initSwipeGesture();
+
+    autoPrefix();
+    /*
+    if(osVersion.indexOf("Android")<0){
+         initSwipeGesture();
+    }
+   */
+   initSwipeGesture();
 
     //Delegate Click Events for Any New Development
     //gStartStatus = "startpage inline-video-container";
@@ -349,6 +362,12 @@ function startpage() {
     if (gShowStatusBar == 1) {
         $("html").addClass("show-status-bar");
     }
+
+    // if it's a native iOS app, the app should not display pop up ad
+    // if (gIsInSWIFT === true) {
+    //     $('#pop-ad').addClass('done');
+    //     console.log ('no pop up ad');
+    // }
 }
 
 function loadFromLocalStorage(startpageStorage) {
@@ -701,6 +720,7 @@ function fillContent(loadType) {
         //禁止长按按钮弹出默认的选择框
     $('#fullbody,#channelview,#contentRail,#navOverlay').disableSelection();
     //gStartStatus = "fillContent end";
+
 
     // 特别报导
     // 这段代码直接放到模版里面了
@@ -1451,6 +1471,7 @@ function downloadStories(downloadType) {
     }
 }
 
+
 function loadToHome(data, loadType) {
     $('#homecontent').html(data);
     if (loadType !== undefined) {
@@ -1465,7 +1486,12 @@ function loadToHome(data, loadType) {
     //display button to download native app
     if (/baidu|micromessenger/i.test(uaString)) {
         $('#download-native').removeClass('hidden');
-    } 
+    }
+
+    // if uses native to display ad
+    if (window.location.href.indexOf('useNativeLaunchAd') > 0) {
+        $('#pop-ad').addClass('done');
+    }   
 }
 
 function loadHomePage(loadType) {
@@ -1920,7 +1946,11 @@ function readstory(theid, theHeadline) {
     sv.find('.storydate, .storytitle, .storybyline,.storymore,.storyTag .container').html('');
     $('#allcomments,#columnintro').html('');
     $('#cstoryid').val(theid);
+    // display the normal loading view first
+    $('#storyview').removeClass('columnFlowOn');
 	document.body.className = 'storyview';
+
+
     gNowView = 'storyview';
 	//阅读时如果有setTimeout，会造成逻辑混乱，导致页面变空白
     //sv.find('.storybody').html('正在读取文章数据...1');
@@ -2002,7 +2032,147 @@ function removeTag(theCode) {
     return k;
 }
 
+
 function displaystory(theid, language) {
+    var storyViewMode = 'normal';
+    var allId;
+    var storyTag;
+    var storyChannel;
+    var storyIndustry;
+    var storyArea;
+    var storyTopic;
+    var storyKeyWords;
+    var columnFlowKeyWordsArray;
+    if (window.colunmFlowOn === true && typeof FTColumnflow === 'function') {
+        allId = allstories[theid];
+        storyTag = allId.tag || '';
+        storyTopic = allId.Topic || '';
+        storyArea = allId.area || '';
+        storyIndustry = allId.industry || '';
+        storyKeyWords = storyTag + storyTopic + storyArea + storyIndustry;
+        columnFlowKeyWordsArray = window.columnFlowKeyWords.split(',');
+        for (var i=0; i<columnFlowKeyWordsArray.length; i++) {
+            if (storyKeyWords.indexOf(columnFlowKeyWordsArray[i]) >= 0) {
+                storyViewMode = 'flow';
+                break;
+            }
+        }
+    }
+    // if (storyViewMode === 'normal') {
+    //     $('#storyview').removeClass('columnFlowOn');
+    //     displaystoryNormal(theid, language);
+    // } else {
+    //     $('#storyview').addClass('columnFlowOn');
+    //     displaystoryColumn(theid, language);
+    // }
+    displaystoryNormal(theid, language);
+}
+
+
+// function displaystoryColumn(theid, language) {
+//     // dependency: unixtochinese, saveImgSize
+
+//     //remove popup ad target
+//     $('#pop-ad').remove();
+
+//     // manipulate dom 
+//     document.getElementById('story-column-flow').innerHTML = '<section id="story-column-viewport"><article id="story-column-target"></article></section>';
+//     var storyColumnViewport = document.getElementById('story-column-viewport');
+//     var windowWidth = $(window).width();
+//     var coverHeight = $(window).height();
+
+//     //console.log (coverHeight);
+
+//     // if page padding is lower than 25, it will not flow good on all screens
+//     var pagePadding = 25;
+//     var contentHeight;
+
+//     // get story data to flow into the pages
+//     var storyData = allstories[theid];
+
+//     // construct flowed content
+//     var storyBody = storyData.cbody;
+//     var flowedContent = storyBody;
+
+//     // construct fixed content
+//     //var storyTopBanner = '<div class="adiframe banner full-width" type="fullwidth" frame="adfullwidth"></div>';
+//     var storyTopBanner = '';
+//     var storyTimeStamp = unixtochinese(storyData.last_publish_time||storyData.fileupdatetime, 1);
+//     var byline = (storyData.cbyline_description||'').replace(/作者[：:]/g, '') + ' ' + (storyData.cauthor||'').replace(/,/g, '、') + ' ' + (storyData.cbyline_status||'');
+//     var storyHeadline = storyData.cheadline || '';
+//     var storyTag = storyData.tag || '';
+//     var storyImage;
+//     if ((storyData.story_pic.smallbutton || storyData.story_pic.other) && storyTag.indexOf('插图') >= 0) {
+//         storyImage = '<div class="coverIMG"><figure><img src="'+(storyData.story_pic.smallbutton || storyData.story_pic.other)+'"></figure></div>';
+//     } else if (storyData.story_pic.smallbutton || storyData.story_pic.other) {
+//         storyImage = '<div class="bigIMG image"><figure><img class="app-image" src="'+saveImgSize((storyData.story_pic.smallbutton || storyData.story_pic.other))+'"></figure></div>';
+//     } else if (storyData.story_pic.cover) {
+//         storyImage = '<div class="coverIMG image"><figure><img class="app-image" src="'+saveImgSize(storyData.story_pic.cover)+'"></figure></div>';
+//     } else if (storyData.story_pic.skyline) {
+//         storyImage = '<div class="leftimage image" style="width:130px;height:84px;"><figure><img src="'+storyData.story_pic.skyline+'" class="app-image"></figure></div>';
+//     } else if (storyData.story_pic.bigbutton) {
+//         storyImage = '<div class="leftimage image" style="width:167px;height:96px;"><figure><img src="'+saveImgSize(storyData.story_pic.bigbutton)+'" class="app-image"></figure></div>';
+//     } else {
+//         storyImage = '';
+//     }
+
+
+//     var storyHeader = '<div class="col-span-2">' + storyTopBanner + '<div class="column-story-header">' + storyImage + '<div class="dateStamp">'+storyTimeStamp+'</div><h1 class="column-story-headline">'+storyHeadline+'</h1><div class="byline">'+byline+'</div></div></div>';
+//     var fullPageAd = '<div class="col-span-4 attach-page-2"><div class="full-page-ad" style="width:  '+ windowWidth +'px;height: '+ coverHeight +'px;"><div style="top:-'+ pagePadding +'px;left:0;width:100%;height:100%;position:absolute;background: #333;color:white;"><div id="pop-ad" class="overlay in-page"></div><div class="adiframe hidden" type="0" adwidth="0" frame="fullScreen"></div></div></div></div>';
+//     var mpuVW = '<div class="anchor-bottom-col-2 attach-page-4"><div class="adiframe mpu-phone for-phone" type="250" frame="ad300x250-story-vw"></div></div>';
+//     var mpuStory = '<div class="anchor-top-col-2 attach-page-6"><div class="adiframe mpu-phone for-phone" type="250" frame="ad300x250-story"></div></div>';
+//     var fixedContent  = storyHeader + fullPageAd + mpuVW + mpuStory;
+    
+
+//     window.cf = new FTColumnflow("story-column-target", "story-column-viewport", {
+//         //showGrid: true,
+//         columnWidth:            400,
+//         //lineHeight:             30,
+//         viewportWidth:          windowWidth,
+//         viewportHeight:         coverHeight,
+//         columnGap:              21,
+//         standardiseLineHeight:  true, //useful when you have subTitle or varied fonts
+//         pagePadding:            pagePadding,
+//         minFixedPadding:        0.5,
+//         pageArrangement:       'vertical'
+//     });
+
+
+//     cf.flow(flowedContent, fixedContent);
+
+//     var scrollingPart = document.getElementById('story-column-target');
+
+//     // insert full screen ads between pages
+//     // var fullScreenAdEle = document.createElement('div');
+//     // fullScreenAdEle.className = 'full-screen-ad';
+//     // fullScreenAdEle.style.height = coverHeight + 'px';
+//     // var cfRenderArea = scrollingPart.querySelector('.cf-render-area');
+//     // if (cf.pageCount >= 3) {
+//     //     cfRenderArea.insertBefore(fullScreenAdEle, cfRenderArea.childNodes[2]);
+//     // }
+
+    
+//     // scrollingPart.innerHTML = '<div id=sectionwrapper><section><div>Page 1<p>Swipe left to scroll the next page into view.  If you swipe quickly...</p></div></section><section><div>Page 2<p>...lots...</p></div></section><section><div>Page 3<p>...and lots...</p></div></section><section><div>Page 4<p>...of pages...</p></div></section><section><div>Page 5<p>...in one single...</p></div></section><section><div>Page 6<p>...scroll movement.  FTScroller will snap to the nearest page when the scroll animation comes to rest.</p></div></section>        </div>';
+//     //console.log (scrollingPart.offsetHeight);
+//     contentHeight = coverHeight * cf.pageCount;
+//     // console.log (scrollingPart.style);
+//     scrollingPart.style.height = contentHeight + 'px';
+//     // console.log (scrollingPart.style.height);
+//     window.Columnscroller = new FTScroller(document.getElementById('story-column-viewport'), {
+//         snapping: true,
+//         bouncing: true,
+//         scrollbars: true,
+//         scrollingX: false,
+//         singlePageScrolls: true,
+//         snapSizeY: coverHeight,
+//         contentWidth: windowWidth,
+//         contentHeight: contentHeight
+//     });
+//     updateAds();
+// }
+
+
+function displaystoryNormal(theid, language) {
     var columnintro = ''; 
     var storyimage;
     var allId = allstories[theid];
@@ -2657,6 +2827,66 @@ function trackFail(err, err_location) {
     }
 }
 
+// 刷新广告位
+function updateAds() {
+    var nowV = $("body").attr("class") || "";
+    var isColumnFlow = false;
+    var currentViewPortAds;
+    if (nowV !== "storyview") {
+        gSpecial = false;
+    }
+    // there are two possibilities when display storyview
+    if (nowV === 'storyview') {
+        if ($('#storyview').hasClass('columnFlowOn')) {
+            nowV = 'story-column-flow';
+            isColumnFlow = true;
+        } else {
+            nowV = 'storyScroller';
+        }
+    }
+    if (isOnline()=="possible") {        
+        screenWidth = $(window).width();
+        if (nowV === 'story-column-flow') {
+            currentViewPortAds = $('#'+nowV).find('.cf-render-area .adiframe');
+        } else {
+            currentViewPortAds = $('#'+nowV).find('.adiframe');
+        }
+        nowV = nowV.replace(/\-/g, '');
+        currentViewPortAds.each(function(index) {
+            var adHeight=$(this).attr('type') || 0;
+            var adFrame=$(this).attr('frame') || '';
+            var adwidth=$(this).attr('adwidth') || '300';
+            var FrameID;
+            var adOverlay="";
+            var forPhone;
+            if (adHeight !== 'fullwidth') {
+                adHeight = parseInt(adHeight,10);
+            }
+            forPhone = ($(this).hasClass("for-phone") === true) ? true : false; 
+            
+            if ((adHeight === 'fullwidth' && screenWidth<=490) || (adHeight>90 && screenWidth>=700 && forPhone===false) || (adHeight<90 && screenWidth<700) || (adHeight === 90 && (screenWidth===768 || screenWidth===1024)) || (forPhone === true && screenWidth<700) || adHeight ===0) {
+                if ($(this).find("iframe").length>0) {
+                    FrameID = $(this).find("iframe").eq(0).attr("id");
+                    document.getElementById(FrameID).contentDocument.location.reload(true);
+                } else {
+                    if (useFTScroller===1 || nowV === 'story-column-flow') {
+                        adOverlay = '<a target=_blank class="ad-overlay"></a>';
+                    }
+                    $(this).html('<iframe id="' + nowV + index + '" src="/phone/ad.html?isad=0&v=' + _currentVersion + '#adtype=' + adFrame + '&adid=' + nowV + index + '" frameborder=0  marginheight="0" marginwidth="0" frameborder="0" scrolling="no" width="'+adwidth+'" height="100%"></iframe>' + adOverlay);
+                    $(this).attr("id","ad-" + nowV + index);
+                }
+            }
+            if (useFTScroller===1 || nowV === 'story-column-flow') {
+                if ($(this).offset().top >= 0 && $(this).offset().top <= screenWidth) {
+                    $(this).addClass("loaded-in-view");
+                } else {
+                    $(this).removeClass("loaded-in-view");
+                }
+            }
+        });
+    }
+}
+
 //流量追踪
 function httpspv(theurl) {
     if (theurl.indexOf("storypage")>0) {
@@ -2667,7 +2897,7 @@ function httpspv(theurl) {
     } else if (theurl.indexOf("photo")<0 && theurl.indexOf("interactive")<0 && theurl.indexOf("video")<0){
         document.title = gAppName;
     }
-    var vtype="member", nowV, pagetype, userId = getCookie('USER_ID') || '', ftcteam='';
+    var vtype="member", pagetype, userId = getCookie('USER_ID') || '', ftcteam='';
     var w = screenWidth;
     var screenType;
     var deviceName;
@@ -2755,37 +2985,11 @@ function httpspv(theurl) {
     } else {
         new Image().src = 'http://m.ftchinese.com/track/ga.php?utmac=MO-1608715-1&utmn=2013101610&utmr=-&utmp=%2Fmissed'+theurl+'&guid=ON';
     }
-    nowV = $("body").attr("class") || "";
-    if (nowV !== "storyview") {
-        gSpecial = false;
-    }    
-    if (isOnline()=="possible") {        
-        screenWidth = $(window).width();
-        $('#'+nowV).find('.adiframe').each(function(index) {
-            var adHeight=$(this).attr('type') || 0, adFrame=$(this).attr('frame') || "", adwidth=$(this).attr('adwidth') || "300", FrameID, adOverlay="", forPhone;
-            adHeight = parseInt(adHeight,10);
-            forPhone = ($(this).hasClass("for-phone") === true) ? true : false; 
-            if ((adHeight>90 && screenWidth>=700 && forPhone===false) || (adHeight<90 && screenWidth<700) || (adHeight === 90 && (screenWidth===768 || screenWidth===1024)) || (forPhone === true && screenWidth<700) || adHeight ===0) {
-                if ($(this).find("iframe").length>0) {
-                    FrameID = $(this).find("iframe").eq(0).attr("id");
-                    document.getElementById(FrameID).contentDocument.location.reload(true);
-                } else {
-                    if (useFTScroller===1) {adOverlay = '<a target=_blank class="ad-overlay"></a>';}
-                    $(this).html('<iframe id="' + nowV + index + '" src="/phone/ad.html?isad=0&v=' + _currentVersion + '#adtype=' + adFrame + '&adid=' + nowV + index + '" frameborder=0  marginheight="0" marginwidth="0" frameborder="0" scrolling="no" width="'+adwidth+'" height="100%"></iframe>' + adOverlay);
-                    $(this).attr("id","ad-" + nowV + index);
-                }
-            }
-            if (useFTScroller===1) {
-                if ($(this).offset().top >= 0 && $(this).offset().top <= screenWidth) {
-                    $(this).addClass("loaded-in-view");
-                } else {
-                    $(this).removeClass("loaded-in-view");
-                }
-            }
-        });
-    }
+    updateAds();
     setTimeout (function (){freezeCheck();},200);
 }
+
+
 
 function recordAction(theAction) {
     var theTimeStamp = new Date();
@@ -2932,7 +3136,12 @@ function showchannel(url, channel, requireLogin, openIniFrame, channelDescriptio
     var channelUrl = url;
 
     if (window.location.hostname === 'localhost' || window.location.hostname.indexOf('192.168') === 0 || window.location.hostname.indexOf('10.113') === 0 || window.location.hostname.indexOf('127.0') === 0) {
-        channelUrl = '/api/channel.html';
+        console.log (url);
+        if (url === '/index.php/users/register?i=2') {
+            channelUrl = '/api/register.html';
+        } else {
+            channelUrl = '/api/channel.html';
+        }
     }
 
     //extract tag information from url
@@ -3056,7 +3265,7 @@ function showchannel(url, channel, requireLogin, openIniFrame, channelDescriptio
             if (url.indexOf("myftread")>0) {pvurl=url.replace(/\&/g,"|");}
             httpspv(gDeviceType + '/channelpage'+ pvurl);
             //记录文章被阅读
-            recordAction('/phone/channelpage'+ pvurl);
+            recordAction(gDeviceType + '/channelpage'+ pvurl);
 
             chview.find('.storytop').prepend('<div class=channelleft><div class=channelback><span class=backarrow></span><span class=backto>返回首页</span></div></div>');
             if (hist.length > 1) {
@@ -3435,7 +3644,16 @@ function closenote(idorclass) {
 
 
 function register() {
-    showchannel('/index.php/users/register?i=2','新用户注册');
+    var regFormNumber = '2';
+    if (window.location.href.indexOf('useNewRegForm') >= 0 || gIsInSWIFT === true) {
+        regFormNumber = '3';
+    }
+    showchannel('/index.php/users/register?i=' + regFormNumber,'新用户注册');
+    // var regHTML = $('#registration-html').html();
+    // document.body.className = 'channelview';
+    // closeOverlay();
+    // $('#channelContent').html(regHTML);
+    // $('#registration-email').focus();
 }
 
 function login(fromwhere) {

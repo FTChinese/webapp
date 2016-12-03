@@ -166,7 +166,10 @@ function commonProblem() {
 </div>
 </div>
 <div class=clearfloat></div>
-<div class="adiframe banner" type="50" frame="banner-bottom-story"></div>
+
+<!--<div class="adiframe banner" type="50" frame="banner-bottom-story"></div>-->
+<div class="adiframe mpu-phone for-phone" type="250" frame="ad300x250-story-bottom"></div>
+
 <div class=clearfloat></div>                <div class="mobile-screen">
 <div id="columnintro"></div>
 <div class=storymore></div>
@@ -251,16 +254,17 @@ function commonProblem() {
 </div>
 
 
+
 <div id=contentRail>
 <div class="-bg-checkered">
 <div id=toolRail>
 <div class="nutmeg-content">
 <div class="nutmeg-content_left">
-<button class="homeOnly channel" url="/index.php/ft/channel/phonetemplate.html?channel=english"><i class="ft-icon ft-icon-language"></i><span>每日英语</span></button>
-<button class="homeOnly channel" url="/index.php/ft/channel/phonetemplate.html?channel=ftacademy"><i class="ft-icon ft-icon-school"></i><span>FT商学院</span></button>
-<button class="homeOnly" onclick="myFT()"><i class="ft-icon ft-icon-profile"></i><span>我的FT</span></button>
-<button class="homeOnly floatright" onclick="turnonOverlay('setting')" aria-label="Settings"><i class="ft-icon-setting"></i><span>设置</span></button>
-<button id="refreshButton" class="homeOnly floatright" onclick="refresh()"><i class="ft-icon-refresh"></i><span>刷新</span></button>
+<button class="homeOnly channelOnly channel" url="/index.php/ft/channel/phonetemplate.html?channel=english"><i class="ft-icon ft-icon-language"></i><span>每日英语</span></button>
+<button class="homeOnly channelOnly channel" url="/index.php/ft/channel/phonetemplate.html?channel=ftacademy"><i class="ft-icon ft-icon-school"></i><span>FT商学院</span></button>
+<button class="homeOnly channelOnly" onclick="myFT()"><i class="ft-icon ft-icon-profile"></i><span>我的FT</span></button>
+<button class="homeOnly channelOnly floatright" onclick="turnonOverlay('setting')" aria-label="Settings"><i class="ft-icon-setting"></i><span>设置</span></button>
+<button id="refreshButton" class="homeOnly channelOnly floatright" onclick="refresh()"><i class="ft-icon-refresh"></i><span>刷新</span></button>
 <button id="shareButton" class="storyOnly floatright" onclick="shareArticle()"><i class="ft-icon-share"></i><span>分享</span></button>
 <button class="storyOnly floatright" onclick="openClip()"><i class="ft-icon-clippings"></i><span>收藏</span></button>
 <button  class="storyOnly floatright" onclick="setFontSize()"><i class="ft-icon-font-size"></i><span>字号</span></button>
@@ -459,6 +463,7 @@ function commonProblem() {
 <div class="centerButton"><input type="submit" value="登录" class="comment_btn submitbutton button ui-light-btn" onclick="login()"/></div>
 <div class="statusmsg"></div>
 <div class="centerButton"><button class="ui-light-btn" onclick='register()'>免费注册</button></div>
+<a href="weixinlogin://www.ftchinese.com/" style="display:none;"><div class="centerButton"><button class="ui-light-btn">测试微信登陆</button></div></a>
 </div>
 <div class="padding logged">
 <div>欢迎您，<span class=user_Name></span></div>
@@ -731,9 +736,6 @@ fa('create','UA-XXXX-Y',{'alwaysSendReferrer':true});fa('send','pageview');
 </script>
 <script type="text/javascript">
 {{ftscroller-m}}
-</script>
-<script type="text/javascript">
-{{swipe-m}}
 </script>
 <script type="text/javascript">
 {{main-m}}

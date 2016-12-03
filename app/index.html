@@ -83,10 +83,16 @@ function commonProblem() {
         document.getElementById("startstatus").innerHTML='<div style="font-size:0.8em;padding:10px;">亲爱的读者，现在您似乎连接不上我们的服务器，如果您确定您的手机网络正常，请尝试一下我们的备用服务器，方法如下：<br>1. 用iPhone上的Safari打开<br><a href=http://app001.ftmailbox.com/phone.html target=_blank style="font-size:0.9em;">http://app001.ftmailbox.com/phone.html</a><br>2. 点击Safari程序下方的分享按钮，将新的应用添加到您的主屏幕上<br><br><a href="mailto:ftchinese.feedback@gmail.com?subject=Feedback about FTC Web App - from start screen&body=%0D%0A%0D%0A%0D%0A%0D%0A%0D%0A%0D%0A%0D%0A%0D%0AMy UA String for Your Reference: %0D%0A%0D%0A'+uaForMail+'%0D%0A%0D%0AResources version: '+window._currentVersion+'%0D%0A%0D%0AScreen Mode: '+screen.width+'X'+screen.height+'%0D%0A%0D%0Amy URL: ' + location.href +'">如问题仍未解决，请点击此处发邮件至ftchinese.feedback@gmail.com，我们会尽一切能力解决您的问题。</a></div>';
     }
 }
+
+window.colunmFlowOn = true;
+window.columnFlowKeyWords = 'lifestyle,technology,managment,business,china,中国政治';
+
 </script>
 <!-- build:css phone/s.css -->
 <link rel="stylesheet" href="styles/main.css">
 <!-- endbuild -->
+
+
 </head>
 
 <body class=fullbody>
@@ -149,6 +155,7 @@ function commonProblem() {
 
 <!--story view start-->
 <div id=storyview class=fullbodyView>
+<div id=story-column-flow></div>
 <div id=storyScroller>
 <div class="adiframe banner" type="50" frame="ad300"></div>
 
@@ -176,7 +183,10 @@ function commonProblem() {
 </div>
 </div>
 <div class=clearfloat></div>
-<div class="adiframe banner" type="50" frame="banner-bottom-story"></div>
+<!--<div class="adiframe banner" type="50" frame="banner-bottom-story"></div>-->
+
+<div class="adiframe mpu-phone for-phone" type="250" frame="ad300x250-story-bottom"></div>
+
 <div class=clearfloat></div>                <div class="mobile-screen">
 <div id="columnintro"></div>
 <div class=storymore></div>
@@ -287,9 +297,6 @@ function commonProblem() {
 <button  class="enbutton storyOnly" onclick="displaystory(readingid,'en')"><i class="ft-icon-en"></i><span>英文</span></button>
 
 <button  class="cebutton storyOnly" onclick="displaystory(readingid,'ce')"><i class="ft-icon-ce"></i><span>中英</span></button>
-
-
-
 </div>
 </div>
 </div>
@@ -522,7 +529,7 @@ function commonProblem() {
 <input type="password" name="password"  class="user_id textinput password" id="password"/>
 <div class="centerButton"><input type="submit" value="登录" class="comment_btn submitbutton button ui-light-btn" onclick="login()"/></div>
 <div class="statusmsg"></div>
-<div class="centerButton"><button class="ui-light-btn" onclick='showchannel("/index.php/users/register?i=2","新用户注册");'>免费注册</button></div>
+<div class="centerButton"><button class="ui-light-btn" onclick='register()'>免费注册</button></div>
 </div>
 <div class="padding logged">
 <div>欢迎您，<span class=user_Name></span></div>
@@ -705,7 +712,10 @@ function commonProblem() {
 </div>
 
 <div id="tip" class="tip"></div>
+
+
 </div>
+
 </body>
 <!-- Google Analytics -->
 <script>
@@ -836,6 +846,8 @@ fa('create','UA-XXXX-Y',{'alwaysSendReferrer':true});fa('send','pageview');
 <script type="text/javascript" src="phone/tracking.js"></script>
 <script src="../bower_components/fastclick/lib/fastclick.js"></script>
 <script src="../bower_components/ftscroller/lib/ftscroller.js"></script>
+<script src="../bower_components/ftcolumnflow/src/FTColumnflow.js"></script>
+<script type="text/javascript" src="scripts/autoPrefix.js"></script>
 <script type="text/javascript" src="scripts/swipe.js"></script>
 <script type="text/javascript" src="scripts/main.js"></script>
 <!-- endbower -->
