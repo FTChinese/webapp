@@ -295,11 +295,11 @@ function startpage() {
     if (isOnline()=="possible") {checkbreakingnews();}
 
     autoPrefix();
-    /*
+    
     if(osVersion.indexOf("Android")<0){
          initSwipeGesture();
     }
-   */
+   
    initSwipeGesture();
 
     //Delegate Click Events for Any New Development
