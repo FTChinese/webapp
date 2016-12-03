@@ -300,8 +300,6 @@ function startpage() {
          initSwipeGesture();
     }
    
-   initSwipeGesture();
-
     //Delegate Click Events for Any New Development
     //gStartStatus = "startpage inline-video-container";
     $('body').on('click','.inline-video-container',function(){
