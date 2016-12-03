@@ -101,6 +101,9 @@ if (adCode=="ad300x250-SP" || (parent.window.gSpecial === true && adCode==="ad30
     if (adCode === 'ad300x250-home-vw') {
         adPositionId="0118";
         adType="mpu-phone";
+    } else if (adCode === 'ad300x250-story-bottom') {
+        adPositionId="0120";
+        adType="mpu-phone";
     } else if (adCode==="midBanner") {
         if (bodyWidth>450) {
             adPositionId="0105";
@@ -217,9 +220,6 @@ try {
 </script>
 
 <script>
-
-
-
 var adLinks, i, adHeight=0, gATag, gVideoTag, gImgTag, gDivTag, giFrameTag, gParentA, gParentHTML, gParentHTMLClass, gReferal;
 
 function checkDom(qString) {
@@ -249,6 +249,8 @@ try {
     giFrameTag = checkDom('#ad-content iframe');
     gImgTag = checkDom('#ad-content img');
     gDivTag = checkDom('#ad-content div');
+
+    //console.log (adId);
     gParentA = parent.document.getElementById(adId).getElementsByTagName("a")[0];
 
     if (typeof window.videoAd === 'object') {

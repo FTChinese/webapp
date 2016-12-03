@@ -395,20 +395,18 @@ margin-bottom:14px;
 		right: 0;
 		//background-color: #E9DECF;
 	}
-	//&.banner {
-		&:after {
-			content: '广告';
-			position: absolute;
-			bottom:0;
-			right: 0;
-			left:0;
-			text-align: right;
-		    //background: #e9decf;
-		    font-size:12px;
-		    padding:1px 5px;
-		    color: #505050;
-		}
-	//}
+	:after {
+		content: '广告';
+		position: absolute;
+		bottom:0;
+		right: 0;
+		left:0;
+		text-align: right;
+	    //background: #e9decf;
+	    font-size:12px;
+	    padding:1px 5px;
+	    color: #505050;
+	}
 }
 .adiframe a.ad-overlay, .o-touch-overlay{
 	position:absolute;
@@ -426,6 +424,20 @@ margin-bottom:14px;
 .banner[frame=ad300], .banner[frame=banner-bottom-home], .banner[frame=banner-bottom-story] {
 	width: 300px;
 	//background-color: #E9DECF;
+}
+.banner {
+	&.full-width {
+		width: 100%;
+		height: 0!important;
+		padding-bottom: 25%;
+		position: relative;
+		height: 0;
+		overflow: hidden;
+		box-sizing: border-box;
+	}
+	&:after {
+		display:none;
+	}
 }
 .channelview .banner, .storyview .banner {margin-top:10px;}
 .mpu,.halfpage,.wide-screen,.middle-screen,.hidden,.mobile-landscape{display:none;}
