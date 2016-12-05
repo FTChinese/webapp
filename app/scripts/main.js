@@ -586,34 +586,35 @@ function fillContent(loadType) {
         }
     }
     //点击文章页底部可以翻页
-    $("#storyScroller").unbind().bind("click",function(e){
-        var k=e.clientY, h, x=e.clientX, w=$(window).width(), doScroll=0;
-        h = (typeof storyScroller === 'object' && useFTScroller === 1) ? $(this).innerHeight() : $(window).height()-45;
-        if (k>0 && h>50 && (typeof storyScroller === 'object' || useFTScroller===0 || nativeVerticalScroll === true)) {
-            if (k/h>0.8) {
-                h=h-40;
-                doScroll=1;
-            } else if (k/h<0.2) {
-                h=-h+40;
-                doScroll=1;
-            } else if (x/w<0.2 && !/\b(link)\b/.test(e.target.className) && noFixedPosition==1) {
-                histback();
-                return false;
-            }
-            //alert (k + "/" + h + "/" + doScroll);
-            if (doScroll===1) {
-                if (useFTScroller===1) {
-                    if (nativeVerticalScroll === true) {
-                        $('#storyScroller').animate({ scrollTop: this.scrollTop + h }, '500');
-                    } else {
-                        storyScroller.scrollBy(0,h,500);    
-                    }
-                } else {
-                    $('html,body').animate({ scrollTop: window.pageYOffset + h }, '300');
-                }
-            }
-        }
-    });
+    //This is potentially confusing to users, turn it off
+    // $("#storyScroller").unbind().bind("click",function(e){
+    //     var k=e.clientY, h, x=e.clientX, w=$(window).width(), doScroll=0;
+    //     h = (typeof storyScroller === 'object' && useFTScroller === 1) ? $(this).innerHeight() : $(window).height()-45;
+    //     if (k>0 && h>50 && (typeof storyScroller === 'object' || useFTScroller===0 || nativeVerticalScroll === true)) {
+    //         if (k/h>0.8) {
+    //             h=h-40;
+    //             doScroll=1;
+    //         } else if (k/h<0.2) {
+    //             h=-h+40;
+    //             doScroll=1;
+    //         } else if (x/w<0.2 && !/\b(link)\b/.test(e.target.className) && noFixedPosition==1) {
+    //             histback();
+    //             return false;
+    //         }
+    //         //alert (k + "/" + h + "/" + doScroll);
+    //         if (doScroll===1) {
+    //             if (useFTScroller===1) {
+    //                 if (nativeVerticalScroll === true) {
+    //                     $('#storyScroller').animate({ scrollTop: this.scrollTop + h }, '500');
+    //                 } else {
+    //                     storyScroller.scrollBy(0,h,500);    
+    //                 }
+    //             } else {
+    //                 $('html,body').animate({ scrollTop: window.pageYOffset + h }, '300');
+    //             }
+    //         }
+    //     }
+    // });
     
     //如果不是原生应用，隐藏到App Store的链接
     if (location.href.indexOf("phoneapp.html")<0 || osVersion.indexOf("ios")<0) {
