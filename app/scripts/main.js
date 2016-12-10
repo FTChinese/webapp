@@ -587,6 +587,9 @@ function fillContent(loadType) {
     }
     //点击文章页底部可以翻页
     //This is potentially confusing to users, turn it off
+    //It also increases the chance of triggering Apple's Webkit bug
+    //WebKit: -[WKContentView(WKInteraction) _addShortcut:] + 336
+
     // $("#storyScroller").unbind().bind("click",function(e){
     //     var k=e.clientY, h, x=e.clientX, w=$(window).width(), doScroll=0;
     //     h = (typeof storyScroller === 'object' && useFTScroller === 1) ? $(this).innerHeight() : $(window).height()-45;
@@ -3379,6 +3382,7 @@ function startslides() {
 //如果是从文章回退到channel，则不必调用showchannel，否则需要调用showchannel
 function histback(gesture) {
     var thispage,previouspage,theid, index = 0, nonStoryIndex=-1;
+    var channelTitle;
     closeOverlay();
     if (hist.length >= 2) {
         thispage = hist.shift();
@@ -3400,7 +3404,11 @@ function histback(gesture) {
             theid = previouspage.url.replace(/story\//g, '');
             readstory(theid);
         } else {
+        	channelTitle = $('#channelview .channeltitle').html() || 'FT中文网';
+
             document.body.className = 'channelview';
+            document.body.title = channelTitle;
+            $('#header-title').html(channelTitle);
             gNowView = 'channelview';
             if (useFTScroller===0) {setTimeout(function() {window.scrollTo(0, scrollHeight);},10);}
             hist = [];
@@ -3924,22 +3932,24 @@ function addHomeScroller() {
     if (useFTScroller===0) {return;}
     if (nativeVerticalScroll === true) {
         $('#homeScroller').css({'overflow-y': 'scroll', '-webkit-overflow-scrolling': 'touch', 'overflow-scrolling': 'touch'});
-        document.getElementById('homeScroller').addEventListener('scroll', function(){
-            homeScrollEvent();
-        });
+        // document.getElementById('homeScroller').addEventListener('scroll', function(){
+        //     homeScrollEvent();
+        // });
     } else if (typeof theScroller !=="object") {
         theScroller = new FTScroller(document.getElementById("fullbody"), gVerticalScrollOpts);
-        theScroller.addEventListener("scrollend", function (){
-            homeScrollEvent();           
-        });
+        // theScroller.addEventListener("scrollend", function (){
+        //     homeScrollEvent();           
+        // });
     }
 }
 
+// this might make our app to load ads when not needed
+/*
 function homeScrollEvent() {
     screenHeight = $(window).height();
     $("#fullbody .adiframe:visible:not(.loaded-in-view)").each(function(){
         var FrameID;
-        //console.log($(this).attr("id") + ":" + $(this).attr("class") + ":" + $(this).offset().top);
+        console.log($(this).attr("id") + ":" + $(this).attr("class") + ":" + $(this).offset().top);
         if ($(this).offset().top>=0 && $(this).offset().top <= screenHeight) {
             try {
             FrameID = $(this).find("iframe").eq(0).attr("id");
@@ -3950,6 +3960,7 @@ function homeScrollEvent() {
         }
     });
 }
+*/
 
 function addStoryScroller() {
     if (useFTScroller===0) {return;}
@@ -4346,7 +4357,6 @@ $.fn.extend({
         });
     }
 });
-//
 
 
 //Start the web app

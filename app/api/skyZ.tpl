@@ -39,8 +39,13 @@
     <div class=inner>
         <div class="container">
         <!--the story list-->
-                                        <!--the story list end-->
+                
+                
+                        <!--the story list end-->
         <div class=clearfloat></div>
+
+        <div class="adiframe mpu-phone for-phone" type="250" frame="ad300x250-story-bottom"></div>
+        
         </div>
     </div>
 </div>
@@ -60,6 +65,7 @@
 <div url="/index.php/ft/column/007000005?i=2" class="channel oneStory more">第一时间解读</div>
 <div url="/index.php/ft/column/007000049?i=2" class="channel oneStory more">经济人</div>
 <div url="/index.php/ft/column/007000007?i=2" class="channel oneStory more">中国纪事</div>
+<div url="/index.php/ft/column/007000054?i=2" class="channel oneStory more">一知半解</div>
 <div url="/index.php/ft/column/007000044?i=2" class="channel oneStory more">天则横议</div>
 <div url="/index.php/ft/column/007000062?i=2" class="channel oneStory more">市值管理评论</div>
 <div url="/index.php/ft/column/007000060?i=2" class="channel oneStory more">谈艺录</div>
@@ -89,7 +95,7 @@
 <div url="/index.php/ft/column/007000022?i=2" class="channel oneStory more">卧底经济学家</div>
 <div url="/index.php/ft/column/007000064?i=2" class="channel oneStory more">爱德华•卢斯</div>
 <div url="/index.php/ft/column/007000024?i=2" class="channel oneStory more">吉莲•邰蒂</div>
-<div url="/index.php/ft/column/007000025?i=2" class="channel oneStory more">���迪恩•拉赫曼</div>
+<div url="/index.php/ft/column/007000025?i=2" class="channel oneStory more">吉迪恩•拉赫曼</div>
 <div url="/index.php/ft/column/007000015?i=2" class="channel oneStory more">约翰•加普</div>
 <div url="/index.php/ft/column/007000032?i=2" class="channel oneStory more">菲利普•斯蒂芬斯</div>
 <div url="/index.php/ft/column/007000014?i=2" class="channel oneStory more">斯特凡•斯特恩</div>
@@ -102,6 +108,7 @@
 <div url="/index.php/ft/column/007000017?i=2" class="channel oneStory more">钱眼太太</div>
 <div url="/index.php/ft/column/007000050?i=2" class="channel oneStory more">简氏酒庄</div>
 <div url="/index.php/ft/column/007000065?i=2" class="channel oneStory more">安德鲁•希尔</div>
+<div url="/index.php/ft/column/007000067?i=2" class="channel oneStory more">斯卡平克</div>
 <div url="/index.php/ft/column/007000066?i=2" class="channel oneStory more">西蒙•库柏</div>
 </div>
 
