@@ -1,5 +1,5 @@
 //申明各种Global变量
-var _currentVersion = 1129; //当前的版本号
+var _currentVersion = 1130; //当前的版本号
 var _localStorage = 0;
 var exp_times = Math.round(new Date().getTime() / 1000) + 86400;
 var username;
@@ -3138,8 +3138,7 @@ function showchannel(url, channel, requireLogin, openIniFrame, channelDescriptio
     var channelUrl = url;
 
     if (window.location.hostname === 'localhost' || window.location.hostname.indexOf('192.168') === 0 || window.location.hostname.indexOf('10.113') === 0 || window.location.hostname.indexOf('127.0') === 0) {
-        console.log (url);
-        if (url === '/index.php/users/register?i=2') {
+        if (url.indexOf('/index.php/users/register')>=0) {
             channelUrl = '/api/register.html';
         } else {
             channelUrl = '/api/channel.html';
@@ -3265,7 +3264,12 @@ function showchannel(url, channel, requireLogin, openIniFrame, channelDescriptio
             //记录频道页面PV
             pvurl=url;
             if (url.indexOf("myftread")>0) {pvurl=url.replace(/\&/g,"|");}
-            httpspv(gDeviceType + '/channelpage'+ pvurl);
+
+            // no need to track pv for registration page
+            // because it's already tracked
+            if (pvurl !== '/index.php/users/register') {
+                httpspv(gDeviceType + '/channelpage'+ pvurl);
+            }
             //记录文章被阅读
             recordAction(gDeviceType + '/channelpage'+ pvurl);
 
@@ -3652,15 +3656,13 @@ function closenote(idorclass) {
 
 function register() {
     var regFormNumber = '2';
+    var regFormUrl = '';
     if (window.location.href.indexOf('useNewRegForm') >= 0 || gIsInSWIFT === true) {
         regFormNumber = '3';
     }
-    showchannel('/index.php/users/register?i=' + regFormNumber,'新用户注册');
-    // var regHTML = $('#registration-html').html();
-    // document.body.className = 'channelview';
-    // closeOverlay();
-    // $('#channelContent').html(regHTML);
-    // $('#registration-email').focus();
+    regFormUrl = '/index.php/users/register?i=' + regFormNumber;
+    //console.log (regFormUrl);
+    showchannel(regFormUrl, '新用户注册');
 }
 
 function login(fromwhere) {
