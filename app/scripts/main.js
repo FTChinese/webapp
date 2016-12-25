@@ -1,5 +1,5 @@
 //申明各种Global变量
-var _currentVersion = 1130; //当前的版本号
+var _currentVersion = 1131; //当前的版本号
 var _localStorage = 0;
 var exp_times = Math.round(new Date().getTime() / 1000) + 86400;
 var username;
@@ -2829,65 +2829,7 @@ function trackFail(err, err_location) {
     }
 }
 
-// 刷新广告位
-function updateAds() {
-    var nowV = $("body").attr("class") || "";
-    var isColumnFlow = false;
-    var currentViewPortAds;
-    if (nowV !== "storyview") {
-        gSpecial = false;
-    }
-    // there are two possibilities when display storyview
-    if (nowV === 'storyview') {
-        if ($('#storyview').hasClass('columnFlowOn')) {
-            nowV = 'story-column-flow';
-            isColumnFlow = true;
-        } else {
-            nowV = 'storyScroller';
-        }
-    }
-    if (isOnline()=="possible") {        
-        screenWidth = $(window).width();
-        if (nowV === 'story-column-flow') {
-            currentViewPortAds = $('#'+nowV).find('.cf-render-area .adiframe');
-        } else {
-            currentViewPortAds = $('#'+nowV).find('.adiframe');
-        }
-        nowV = nowV.replace(/\-/g, '');
-        currentViewPortAds.each(function(index) {
-            var adHeight=$(this).attr('type') || 0;
-            var adFrame=$(this).attr('frame') || '';
-            var adwidth=$(this).attr('adwidth') || '300';
-            var FrameID;
-            var adOverlay="";
-            var forPhone;
-            if (adHeight !== 'fullwidth') {
-                adHeight = parseInt(adHeight,10);
-            }
-            forPhone = ($(this).hasClass("for-phone") === true) ? true : false; 
-            
-            if ((adHeight === 'fullwidth' && screenWidth<=490) || (adHeight>90 && screenWidth>=700 && forPhone===false) || (adHeight<90 && screenWidth<700) || (adHeight === 90 && (screenWidth===768 || screenWidth===1024)) || (forPhone === true && screenWidth<700) || adHeight ===0) {
-                if ($(this).find("iframe").length>0) {
-                    FrameID = $(this).find("iframe").eq(0).attr("id");
-                    document.getElementById(FrameID).contentDocument.location.reload(true);
-                } else {
-                    if (useFTScroller===1 || nowV === 'story-column-flow') {
-                        adOverlay = '<a target=_blank class="ad-overlay"></a>';
-                    }
-                    $(this).html('<iframe id="' + nowV + index + '" src="/phone/ad.html?isad=0&v=' + _currentVersion + '#adtype=' + adFrame + '&adid=' + nowV + index + '" frameborder=0  marginheight="0" marginwidth="0" frameborder="0" scrolling="no" width="'+adwidth+'" height="100%"></iframe>' + adOverlay);
-                    $(this).attr("id","ad-" + nowV + index);
-                }
-            }
-            if (useFTScroller===1 || nowV === 'story-column-flow') {
-                if ($(this).offset().top >= 0 && $(this).offset().top <= screenWidth) {
-                    $(this).addClass("loaded-in-view");
-                } else {
-                    $(this).removeClass("loaded-in-view");
-                }
-            }
-        });
-    }
-}
+
 
 //流量追踪
 function httpspv(theurl) {
@@ -3659,9 +3601,15 @@ function register() {
     var regFormUrl = '';
     if (window.location.href.indexOf('useNewRegForm') >= 0 || gIsInSWIFT === true) {
         regFormNumber = '3';
+    } else { // A/B Test for Android User
+        regFormNumber = getCookie('regFormNumber') || '';
+        if (regFormNumber === '') {
+            regFormNumber = (Math.random() > 0.5)? '2': '3';
+            setCookie('regFormNumber',regFormNumber,'','/');
+        }
     }
     regFormUrl = '/index.php/users/register?i=' + regFormNumber;
-    //console.log (regFormUrl);
+    // console.log (regFormUrl);
     showchannel(regFormUrl, '新用户注册');
 }
 
@@ -3937,6 +3885,7 @@ function addHomeScroller() {
         // document.getElementById('homeScroller').addEventListener('scroll', function(){
         //     homeScrollEvent();
         // });
+        startTrackingAdViews('homeScroller');
     } else if (typeof theScroller !=="object") {
         theScroller = new FTScroller(document.getElementById("fullbody"), gVerticalScrollOpts);
         // theScroller.addEventListener("scrollend", function (){
@@ -3945,17 +3894,19 @@ function addHomeScroller() {
     }
 }
 
-// this might make our app to load ads when not needed
+// this might make our app load ads when not needed
+// so only use it to track viewing ad for now
 /*
 function homeScrollEvent() {
     screenHeight = $(window).height();
     $("#fullbody .adiframe:visible:not(.loaded-in-view)").each(function(){
         var FrameID;
-        console.log($(this).attr("id") + ":" + $(this).attr("class") + ":" + $(this).offset().top);
+        //console.log($(this).attr("id") + ":" + $(this).attr("class") + ":" + $(this).offset().top);
         if ($(this).offset().top>=0 && $(this).offset().top <= screenHeight) {
             try {
             FrameID = $(this).find("iframe").eq(0).attr("id");
-            document.getElementById(FrameID).contentDocument.location.reload(true);
+            console.log($(this).attr("id") + ":" + $(this).attr("class") + ":" + $(this).offset().top);
+            //document.getElementById(FrameID).contentDocument.location.reload(true);
             } catch (ignore) {
             }
             $(this).addClass("loaded-in-view");
@@ -3963,6 +3914,8 @@ function homeScrollEvent() {
     });
 }
 */
+
+
 
 function addStoryScroller() {
     if (useFTScroller===0) {return;}
@@ -3973,6 +3926,8 @@ function addStoryScroller() {
         document.getElementById('storyScroller').addEventListener('scroll', function(){
             freezeScroll();
         });
+        startTrackingAdViews('storyScroller');
+        //console.log ('story scroller tracked');
     } else {
         try {
             storyScroller.scrollTo(0, 0);
@@ -4002,6 +3957,7 @@ function addChannelScroller() {
     if (nativeVerticalScroll === true) {
         $('#channelScroller').css({'overflow-y': 'scroll', '-webkit-overflow-scrolling': 'touch', 'overflow-scrolling': 'touch'});
         document.getElementById('channelScroller').scrollTop = 0;
+        startTrackingAdViews('channelScroller');
     } else {
         if (typeof channelScroller !== 'object') {
             channelScroller = new FTScroller(document.getElementById('channelScroller'), gVerticalScrollOpts);
