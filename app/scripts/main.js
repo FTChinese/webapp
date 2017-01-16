@@ -1,5 +1,5 @@
 //申明各种Global变量
-var _currentVersion = 1131; //当前的版本号
+var _currentVersion = 1133; //当前的版本号
 var _localStorage = 0;
 var exp_times = Math.round(new Date().getTime() / 1000) + 86400;
 var username;
@@ -2554,10 +2554,10 @@ function displaystoryNormal(theid, language) {
             }
         });
         if (osVersion.indexOf("nothing")>=0) {
-            k = "【" + allId.cheadline + "】\r\n\r\n" + k + "\r\n\r\n点击阅读全文：\r\n\r\nhttp://www.ftchinese.com/story/"+allId.id+"#ccode=2G168002\r\n\r\n或访问app.ftchinese.com下载FT中文网移动应用，阅读更多精彩文章";
+            k = "【" + allId.cheadline + "】\r\n\r\n" + k + "\r\n\r\n点击阅读全文：\r\n\r\nhttp://www.ftchinese.com/story/"+allId.id+"#ccode=2G178002\r\n\r\n或访问app.ftchinese.com下载FT中文网移动应用，阅读更多精彩文章";
             //$("#shareMobile").val();
         } else {
-            k = "【" + allId.cheadline + "】\r\n"+k+"\r\n\r\n......  \r\n继续阅读请点击链接：\r\nhttp://www.ftchinese.com/story/"+allId.id+"#ccode=2G168002";
+            k = "【" + allId.cheadline + "】\r\n"+k+"\r\n\r\n......  \r\n继续阅读请点击链接：\r\nhttp://www.ftchinese.com/story/"+allId.id+"#ccode=2G178002";
         }
     }
 
@@ -2594,7 +2594,7 @@ function updateShare(domainUrl, mobileDomainUrl, contentType, contentId, content
     $('#shareLinkedIn').attr('href','https:\/\/www.linkedin.com/cws/share?isad=1&url=' + url +'&original_referer=https%3A%2F%2Fdeveloper.linkedin.com%2Fsites%2Fall%2Fthemes%2Fdlc%2Fsandbox.php%3F&token=&isFramed=true&lang=zh_CN&_ts=1422502780259.2795');
     $('#shareSocial,#shareSinaWeibo').val(contentLongTitle + decodeURIComponent(url));
     $('#shareURL').val(decodeURIComponent(url));
-    $('#shareMobile').val('【' + contentTitle + '】' + decodeURIComponent(url) + '#ccode=2G168002');
+    $('#shareMobile').val('【' + contentTitle + '】' + decodeURIComponent(url) + '#ccode=2G178002');
     $('#shareEmail').attr('href','mailto:?subject='+contentTitle+'&body='+ contentLongTitle + decodeURIComponent(url));
     //如果是iOS原生应用，传参数给SDK分享微信
     $('#webappWeixin,#nativeWeixin').hide();
@@ -3597,17 +3597,17 @@ function closenote(idorclass) {
 
 
 function register() {
-    var regFormNumber = '2';
+    var regFormNumber = '3';
     var regFormUrl = '';
-    if (window.location.href.indexOf('useNewRegForm') >= 0 || gIsInSWIFT === true) {
-        regFormNumber = '3';
-    } else { // A/B Test for Android User
-        regFormNumber = getCookie('regFormNumber') || '';
-        if (regFormNumber === '') {
-            regFormNumber = (Math.random() > 0.5)? '2': '3';
-            setCookie('regFormNumber',regFormNumber,'','/');
-        }
-    }
+    // if (window.location.href.indexOf('useNewRegForm') >= 0 || gIsInSWIFT === true) {
+    //     regFormNumber = '3';
+    // } else { // A/B Test for Android User
+    //     regFormNumber = getCookie('regFormNumber') || '';
+    //     if (regFormNumber === '') {
+    //         regFormNumber = (Math.random() > 0.5)? '2': '3';
+    //         setCookie('regFormNumber',regFormNumber,'','/');
+    //     }
+    // }
     regFormUrl = '/index.php/users/register?i=' + regFormNumber;
     // console.log (regFormUrl);
     showchannel(regFormUrl, '新用户注册');
