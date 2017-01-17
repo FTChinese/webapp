@@ -3334,7 +3334,7 @@ function histback(gesture) {
     if (hist.length >= 2) {//如果hist数量>=2,则需要考虑是滑动还是点动问题
         thispage = hist.shift();//弹出当前页面
 
-        if (gesture !== undefined && gesture === "pinch") {//如果当前是“pinch"
+        if (gesture !== undefined && gesture === "pinch") {//如果当前是“pinch",即为滑动的时候，那么对hist先进行处理
             if(thispage.url.indexOf('story') === 0){//如果当前页是story
                 hist = hist.filter(function(item){
                     return (item.url.indexOf("story") == -1);
@@ -3342,11 +3342,9 @@ function histback(gesture) {
                 console.log("newHist:"+hist);
             } else {//如果当前页不是story
                 hist = [];
-                backhome();
             }
-           
-
         }
+
         if(hist.length>=1){
             previouspage = hist.shift();
             console.log("prepageUrl:"+previouspage.url);
