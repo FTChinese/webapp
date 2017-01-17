@@ -158,7 +158,7 @@ function updateAds() {
                         adOverlay = '<a target=_blank class="ad-overlay"></a>';
                     }
                     $(this).html('<iframe id="' + nowV + index + '" src="/phone/ad.html?isad=0&v=' + _currentVersion + '#adtype=' + adFrame + '&adid=' + nowV + index + '" frameborder=0  marginheight="0" marginwidth="0" frameborder="0" scrolling="no" width="'+adwidth+'" height="100%"></iframe>' + adOverlay);
-                    console.log ($(this).html());
+                    //console.log ($(this).html());
                     $(this).attr("id","ad-" + nowV + index);
                 }
             }

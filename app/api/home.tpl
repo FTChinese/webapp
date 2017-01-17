@@ -96,7 +96,7 @@
         </div>
 		<div id="o-connection-status"></div>
         <div class=copyright onclick="showConnectionStatus()">
-            <b>&copy; 英国金融时报</b> 有限公司 2016&nbsp;&nbsp;
+            <b>&copy; 英国金融时报</b> 有限公司 2017&nbsp;&nbsp;
             <span><acronym title="Financial Times">FT中文网</acronym>为英国金融时报的注册商标</span>
         </div>
         

@@ -6,10 +6,10 @@
 .adunit {display:block;border:1px solide #000;width:300px;}
 .mpu {height:250px;width:300px;overflow:hidden;}
 .halfpage {height:600px;width:300px;overflow:hidden;}
-.ad50,.ad90{width:300px;overflow:hidden;display:table;}
+.ad50,.ad90{width:100%;overflow:hidden;display:table;}
 .ad90.fullWidth {width:auto;}
 .ad50 a,.ad90 a {display:table-cell;vertical-align:middle;}
-.ad50 {height:30px;}
+.ad50 {height:auto;}
 .ad90 {height:90px;}
 .hidden {display:none;}
 img {border:0;max-width:100%;}
@@ -137,6 +137,9 @@ if (adCode=="ad300x250-SP" || (parent.window.gSpecial === true && adCode==="ad30
     } else if (adCode=="banner-bottom-story") {
         adPositionId="0115";
         adType="ad50";
+    } else if (adCode=="banner-paid-post-home") {
+        adPositionId="0121";
+        adType="full-width";
     } else {
         adPositionId="0101";
         adType="ad50";
@@ -154,10 +157,10 @@ if (parent.window.gSpecialAnchors && parent.window.gSpecialAnchors.length > 0 &&
     //console.log (parent.window.gSpecialAnchors[0]);
     for (var i=0; i < parent.window.gSpecialAnchors.length && matchSpecial === false; i++) {
         // this is added per request of ad sales
-        // to exclude situations where ad sales don't want to invoke special code
+        // to exclude situations where ad sales don't want to invoke sponsored special report code
         var useSpecialCode = true;
         try {
-            if (parent.gNowView === 'storyview' && parent.window.gSpecialAnchors[i].adid === '2002') {
+            if (parent.gNowView === 'storyview' && parent.window.gSpecialAnchors[i].adid === '2062') {
                 useSpecialCode = false;
             }
         } catch (ignore) {
@@ -220,7 +223,7 @@ if (adCode === 'fullScreen' && 1>2) {
 } else if (c === '20220101' && 1>1) {
 
 } else {
-document.writeln('<div class="'+adType+'" id="ad-content"><scr'+'ipt type="text/javascript" src="http://dolphin.ftimg.net/s?z=ft&c=' + c + adReachability() + '&t='+Math.round(Math.random() * 1000000)+'" charset="gbk" ></scr'+'ipt></div>');
+    document.writeln('<div class="'+adType+'" id="ad-content"><scr'+'ipt type="text/javascript" src="http://dolphin.ftimg.net/s?z=ft&c=' + c + adReachability() + '&t='+Math.round(Math.random() * 1000000)+'" charset="gbk" ></scr'+'ipt></div>');
 }
 
 
@@ -342,7 +345,7 @@ try {
         gParentA.className = "ad-overlay hide";
     }
 } catch (ignore) {
-    console.log (ignore);
+    //console.log (ignore);
 }
 adId = adId.replace(/ad\-/g,"");
 adId = 'ad-' + adId;
@@ -362,7 +365,7 @@ try {
         } else {
             adHeight = 250;
         }
-        console.log (adHeight);
+        //console.log (adHeight);
         if (adHeight === 250) {
         	if (adType !== 'mpu-phone') {
             	parent.document.getElementById(adId).className = "adiframe mpu";
