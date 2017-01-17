@@ -22,7 +22,7 @@ function initSwipeGesture() {
     var testDiv = document.createElement("div");
 
     testDiv.id = "monitor";
-    testDiv.setAttribute("style","position:fixed;z-index:10000;width:260px;height:450px;right:10px;bottom:10px;background-color:white;color:black;display:none;");
+    testDiv.setAttribute("style","position:fixed;z-index:10000;width:260px;height:450px;right:10px;bottom:10px;background-color:white;color:black;display:block;");
 
     testDiv.innerHTML = '<div id="monitor1"></div><div id="monitor2"></div><div id="monitor3"></div><div id="monitor4"></div><div id = "monitor5"></div><div id = "monitor6"></div><div id = "monitor7"></div>';
 
@@ -429,7 +429,7 @@ function initSwipeGesture() {
                      *  option = {
                             operatedView1:'navOverlay'/'storyview'/'channelview',
                             operatedView2:''/'fullbody'/'channelview',
-                            setToutCb:switchNavOverlay/switchNavOverlay/histback,
+                            setToutCb:switchNavOverlay/histback,
                             setToutCbP = "on"/"off"/"pinch",
                             t:restTms/restTms2/500,
                             transiP:transitionPropertyByRestT/transitionPropertyByRestT2/transitionPropertyBy500(default),

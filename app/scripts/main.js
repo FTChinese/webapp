@@ -3330,44 +3330,57 @@ function histback(gesture) {
     var thispage,previouspage,theid, index = 0, nonStoryIndex=-1;
     var channelTitle;
     closeOverlay();
-    if (hist.length >= 2) {
-        thispage = hist.shift();
-        if (gesture !== undefined && gesture === "pinch" && thispage.url.indexOf('story') === 0) {
-            for (index = 0; index < hist.length; ++index) {
-                if (hist[index].url.indexOf('story') !== 0) {
-                    nonStoryIndex = index;
-                    break;
+
+    if (hist.length >= 2) {//如果hist数量>=2,则需要考虑是滑动还是点动问题
+        thispage = hist.shift();//弹出当前页面
+
+        if (gesture !== undefined && gesture === "pinch") {//如果当前是“pinch"
+            if(thispage.url.indexOf('story') === 0){//如果当前页是story
+                console.log("thisPageIsStory");
+                console.log("oldHist:"+hist);
+              
+                hist = hist.filter(function(item){
+                    return (item.url.indexOf("story") == -1);
+                });
+                console.log("newHist:"+hist);
+            } else {//如果当前页不是story
+                hist = [];
+                backhome();
+            }
+           
+
+        }
+        if(hist.length>=1){
+            previouspage = hist.shift();
+            console.log("prepageUrl:"+previouspage.url);
+            if (previouspage.length === 0) {//如果上一个页面不存在，则返回首页
+                backhome();
+            } else if (previouspage.url.indexOf('story') === 0) {//如果上一个页面为文章页，读取文章页
+                theid = previouspage.url.replace(/story\//g, '');
+                readstory(theid);
+            } else {
+                channelTitle = $('#channelview .channeltitle').html() || 'FT中文网';
+
+                document.body.className = 'channelview';
+                document.body.title = channelTitle;
+                $('#header-title').html(channelTitle);
+                gNowView = 'channelview';
+                if (useFTScroller===0) {setTimeout(function() {window.scrollTo(0, scrollHeight);},10);}
+                hist = [];
+                hist.unshift({'url': previouspage.url, 'title': previouspage.title});
+                httpspv(gDeviceType + '/channelpage'+previouspage.url);
+                recordAction('/phone/homepage');
+                if (thispage.url.indexOf('story') < 0) {
+                    showchannel(previouspage.url, previouspage.title);
+                    hist = [];
                 }
             }
-            hist = (nonStoryIndex >= 0) ? hist.slice(nonStoryIndex) : [];
-            //alert (hist[nonStoryIndex].url + ":" + hist.length + ":" + nonStoryIndex);
-        }
-        previouspage = hist.shift();
-        //alert (previouspage.url);
-        if (previouspage.length === 0) {
+        }else{
             backhome();
-        } else if (previouspage.url.indexOf('story') === 0) {
-            theid = previouspage.url.replace(/story\//g, '');
-            readstory(theid);
-        } else {
-        	channelTitle = $('#channelview .channeltitle').html() || 'FT中文网';
-
-            document.body.className = 'channelview';
-            document.body.title = channelTitle;
-            $('#header-title').html(channelTitle);
-            gNowView = 'channelview';
-            if (useFTScroller===0) {setTimeout(function() {window.scrollTo(0, scrollHeight);},10);}
-            hist = [];
-            hist.unshift({'url': previouspage.url, 'title': previouspage.title});
-            httpspv(gDeviceType + '/channelpage'+previouspage.url);
-            recordAction('/phone/homepage');
-            if (thispage.url.indexOf('story') < 0) {
-                showchannel(previouspage.url, previouspage.title);
-                hist = [];
-            }
         }
-    } else {
-        if (hist.length > 0) {previouspage = hist.shift();}
+        
+    } else { //如果hist.length == 1 或0，则一律清空hist并返回home
+        hist = [];
         backhome();
     }
 }
