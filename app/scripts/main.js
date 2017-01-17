@@ -3336,9 +3336,6 @@ function histback(gesture) {
 
         if (gesture !== undefined && gesture === "pinch") {//如果当前是“pinch"
             if(thispage.url.indexOf('story') === 0){//如果当前页是story
-                console.log("thisPageIsStory");
-                console.log("oldHist:"+hist);
-              
                 hist = hist.filter(function(item){
                     return (item.url.indexOf("story") == -1);
                 });
