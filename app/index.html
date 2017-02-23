@@ -143,7 +143,6 @@ window.columnFlowKeyWords = 'lifestyle,technology,managment,business,china,中�
 </div>
 
 <div id="homecontent"></div>
-
 <div id="o-connection-status"></div>
 <div class=copyright onclick="showConnectionStatus()">
 <b>&copy; 英国金融时报</b> 有限公司 2016&nbsp;&nbsp;
@@ -208,16 +207,23 @@ window.columnFlowKeyWords = 'lifestyle,technology,managment,business,china,中�
 </div>
 </form>
 </div>
+
+
+
 <div id="nologincomment">
-<div class="container">
-<div class="username-label">用户名</div>
-<input type="text"  autocorrect="off" name="username" id="username1" class="user_id textinput user-name"/>
-<div class="password-label">密码</div>
-<input type="password" name="password"  class="user_id textinput password" id="password1"/>
-<input type="submit" value="登录后发表评论" class="comment_btn submitbutton button ui-light-btn" onclick="login(1)"/> 
-<div class="topmargin statusmsg"></div>
+	<div class="container">
+		<div class="username-label">用户名</div>
+		<input type="text"  autocorrect="off" name="username" id="username1" class="user_id textinput user-name"/>
+		<div class="password-label">密码</div>
+		<input type="password" name="password"  class="user_id textinput password" id="password1"/>
+		<input type="submit" value="登录后发表评论" class="comment_btn submitbutton button ui-light-btn" onclick="login(1)"/> 
+		<div class="topmargin statusmsg"></div>
+		<div class="centerButton"><button class="ui-light-btn" onclick='register()'>免费注册</button></div>
+		<a class="social-login-wechat" href="weixinlogin://www.ftchinese.com/" style="display:none;"><div class="centerButton"><button class="ui-light-btn">微信登录</button></div></a>
+	</div>
 </div>
-</div>
+
+
 </div>
 </div>
 <div class=layout-a_region-4>
@@ -849,6 +855,7 @@ fa('create','UA-XXXX-Y',{'alwaysSendReferrer':true});fa('send','pageview');
 <script type="text/javascript" src="scripts/swipe.js"></script>
 <script type="text/javascript" src="scripts/sociallogin.js"></script>
 <script type="text/javascript" src="scripts/trackadview.js"></script>
+<script type="text/javascript" src="scripts/iap.js"></script>
 <script type="text/javascript" src="scripts/main.js"></script>
 <!-- endbower -->
 <!-- endbuild -->
@@ -862,7 +869,7 @@ fa('create','UA-XXXX-Y',{'alwaysSendReferrer':true});fa('send','pageview');
     }
     if (typeof osVersion === 'undefined') {
         ga('send','event', 'CatchError', 'JS Load Failure', window.location.href);
-    } else if (osVersion.indexOf("Android2")<0) {
+    } else if (osVersion.indexOf("Android2")<0 && nativeVerticalScroll === false) {
         new FastClick(document.body);
     }
 </script>

@@ -1,5 +1,5 @@
 //申明各种Global变量
-var _currentVersion = 1133; //当前的版本号
+var _currentVersion = 1134; //当前的版本号
 var _localStorage = 0;
 var exp_times = Math.round(new Date().getTime() / 1000) + 86400;
 var username;
@@ -1493,7 +1493,15 @@ function loadToHome(data, loadType) {
     // if uses native to display ad
     if (window.location.href.indexOf('useNativeLaunchAd') > 0) {
         $('#pop-ad').addClass('done');
-    }   
+    }
+
+    // if there are data for iap products
+    if (typeof iapProducts === 'object' && iapProducts.length > 0) {
+        try {
+            displayProductsOnHome(iapProducts);
+        } catch (ignore) {
+        }
+    }
 }
 
 function loadHomePage(loadType) {
@@ -3423,7 +3431,7 @@ function resizeImg(iMage,resizeWidth,resizeHeight) {
     if (typeof resizeHeight !== 'undefined') {
         h = '&height=' + resizeHeight;
     }
-    r = 'https://image.webservices.ft.com/v1/images/raw/'+ r +'?source=ftchinese&width=' + resizeWidth + h;
+    r = 'https://www.ft.com/__origami/service/image/v2/images/raw/'+ r +'?source=ftchinese&width=' + resizeWidth + h;
     // if (r !== null && r.indexOf('r.ftimg.net') < 0) {
     //     r=r.replace(/i\.ftimg\.net/g,"r.ftimg.net").replace(/\.(jpg|png|gif|img)/g,"_"+resizeWidth+"_0.$1");
     // }

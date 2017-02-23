@@ -14,7 +14,7 @@ function socialLogin(socialName, socialInfo) {
                 checkLogin();
             // print the result for review
             $('#yourDevice .overlay-header p').html('登录成功');
-            $('#yourDevice .padding').html(data + '亲爱的用户，您已经成功登录。');
+            $('#yourDevice .padding').html('亲爱的用户，您已经成功登录。');
 
                 // send an even to GA
 
