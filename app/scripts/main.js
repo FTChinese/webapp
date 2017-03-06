@@ -1,5 +1,5 @@
 //申明各种Global变量
-var _currentVersion = 1134; //当前的版本号
+var _currentVersion = 1135; //当前的版本号
 var _localStorage = 0;
 var exp_times = Math.round(new Date().getTime() / 1000) + 86400;
 var username;
@@ -316,6 +316,22 @@ function startpage() {
     });
     $('body').on('click', '.outbound-link', function(){
         ga('send','event','Outbound Link in App', 'click', $(this).attr('href') + '/' + window.location.href);
+    });
+    $('body').on('click', '.iap-channel', function(){
+        var iapAction = $(this).attr('iap-action');
+        var iapTitle = $(this).attr('iap-title') || $(this).html() || 'FT中文网';
+        if (iapAction) {
+            displayProducts(window.iapProducts, iapAction, iapTitle);
+        }
+    });
+    $('body').on('click', '.iap-item', function(e){
+        var targetTag = e.target.tagName.toLowerCase();
+        var targetClassName = e.target.className;
+        if (targetTag !== 'button' || targetClassName.indexOf('iap-detail')>=0) {
+            // MARK: - open detail for iap
+            var productId = this.getAttribute('product-id') || '';
+            showProductDetail(productId);
+        }
     });
     //openning a page in an iframe is not viable for now in iPhone native app
     /*

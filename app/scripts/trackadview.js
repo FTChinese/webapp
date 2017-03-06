@@ -43,6 +43,7 @@ function adViewUpdate() {
             //console.log (gViewableAds[adCount].adid + ' is viewed. adchi is ' + adch + ', ad position is ' + adPosition);
             //document.getElementById('header-title').innerHTML = adch + adPosition;
             ga('send','event', 'Ad In View', adch, adPosition, {'nonInteraction':1});
+            playVideoInAdIframe(adch + adPosition);
           }
         }
       }
@@ -51,6 +52,7 @@ function adViewUpdate() {
     }
   }
 }
+
 
 function createViewableAds() {
   // initiate the array for all viewable ad units
@@ -175,3 +177,14 @@ function updateAds() {
       createViewableAds();
     }
 }
+
+
+function playVideoInAdIframe(adId) {
+  console.log ('look for this id ' + adId + 'and play video');
+  var theAdDiv = document.querySelector('[data-adid="'+ adId + '"]')
+  console.log (theAdDiv);
+
+  // TODO: Find the video in the ad iframe dom and play it
+  
+}
+

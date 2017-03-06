@@ -1301,9 +1301,29 @@ html.noScroller,.noScroller body,.noScroller .fullbody,.noScroller #storyScrolle
 #remindBack {position:absolute;top:200px;left:0;display:none;font-size:19px;line-height:46px;height:46px;background:#a7a49b;padding:0 14px;color:white;-webkit-animation-name:moveright;-webkit-animation-iteration-count:1;-webkit-animation-duration:1s;-webkit-transform-style:preserve-3d;-webkit-transform-origin: 0 0 0;}
 #remindBack button {float:left;margin:8px 8px 0 0;}
 .storyview #remindBack.on {display:block;}
-.rightPic{margin:10px 0 0 6px;float:right;font-size:12px;color:#d66d06;width:300px;}
-.leftPic{margin:10px 6px 0 0;float:left;font-size:12px;color:#d66d06;width:300px;}
-.leftPic img,.rightPic img{display:block;width:300px;margin:0 auto 10px auto;}
+.rightPic{
+	margin:10px 0 0 6px;
+	float:right;
+	font-size:12px;
+	color:#d66d06;
+	width:300px;
+}
+.leftPic{
+	margin:10px 6px 0 0;
+	float:left;
+	font-size:12px;
+	color:#d66d06;
+	width:300px;
+}
+.leftPic img,.rightPic img{
+	display:block;
+	width:300px;
+	margin:0 auto 10px auto;
+}
+.pic {
+	margin-bottom: 1em;
+	color: $greyFont;
+}
 /*if we don't want to use FTScroller for the device end--*/
 
 //Channelview

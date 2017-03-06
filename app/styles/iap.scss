@@ -1,0 +1,77 @@
+.iap-container {
+	.oneStory {
+		//position: relative;
+	}
+	.progresscontainer {
+		position: absolute;
+		top: 5px;
+		width: 100%;
+		margin: 0 auto;
+		padding: 1px;
+	}
+	.progressbg {
+		height: 1px;
+	}
+}
+.download-status {
+	position: absolute;
+	bottom: 0;
+	left: 90px;
+	font-size: 12px;
+	line-height: 1em;
+}
+.iap-button {
+	// position: absolute;
+	// left:0;
+	// right: 0;
+
+	width: 100%;
+	height: 0;
+	text-align: right;
+	clear: both;
+	position: relative;
+	overflow: visible;
+	button {
+		position: absolute;
+		right: 0;
+		bottom: 0;
+		&.iap-move-left {
+			right: 60px;
+		}
+	}
+
+}
+.iap-only {
+	display: none;
+	&.header-side {
+		width: auto;
+		top: 8px;
+		right: 8px;
+	}
+
+}
+.channel-iap {
+	.iap-only {
+		display: block;
+	}
+	.section {
+		display: none;
+	}
+}
+.channelview.channel-iap {
+	#fullbodycontainer {
+		.channelOnly.right {
+			display: none;
+		}
+	}
+}
+.story-iap {
+	#storyview {
+		.storymore, #columnintro, .storyTag, .readerCommentTitle, .allcomments, #logincomment, #nologincomment, .banner {
+			display: none!important;
+		}
+		.storytitle {
+			margin-top: 14px;
+		}
+	}
+}
