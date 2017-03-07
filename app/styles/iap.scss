@@ -45,11 +45,19 @@
 	display: none;
 	&.header-side {
 		width: auto;
-		top: 8px;
-		right: 8px;
+		bottom:0;
+		width: 50px + $buttonEdge;
+		.floatright {
+			position: absolute;
+			margin:auto;
+			height: $buttonHeight;
+			top:0;
+			bottom:0;
+			right:$buttonEdge;
+		}
 	}
-
 }
+
 .channel-iap {
 	.iap-only {
 		display: block;

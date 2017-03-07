@@ -181,7 +181,7 @@ function updateAds() {
 
 function playVideoInAdIframe(adId) {
   console.log ('look for this id ' + adId + 'and play video');
-  var theAdDiv = document.querySelector('[data-adid="'+ adId + '"]')
+  var theAdDiv = document.querySelector('[data-adid="'+ adId + '"]');
   console.log (theAdDiv);
 
   // TODO: Find the video in the ad iframe dom and play it

@@ -8,7 +8,8 @@ $red: #9E2F50;
 $greyFont: #777777;
 
 // width, height and padding
-
+$defaultPadding: 14px;
+$buttonEdge: 10px;
 
 // Percentages
 $goldenRatio: 168.1%;
@@ -22,6 +23,7 @@ $coverImage: 56.25%;
 //headers and footers
 $headerHeight: 44px;
 $closeButtonHeight: 36px;
+$buttonHeight: 28px;
 $closeButtonBG: #9d9793;
 $logoHeight: 26px;
 $headerBG: #333;

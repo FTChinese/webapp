@@ -2,6 +2,7 @@ function initSwipeGesture() {
 
 
 
+
     // doms for swipables
     var swipables = {
         // attach touchstart, touchmove and touchend to the container
@@ -140,6 +141,7 @@ function initSwipeGesture() {
 
     if (window.useFTScroller === 1) {
         try {
+
             swipables.container.addEventListener('touchstart', function(e) {
                 // gNowView reflects the current view
                 // update it from document.body anyway
@@ -147,6 +149,10 @@ function initSwipeGesture() {
                 //setEventInnerHTML(e);
                 //monitorEventBegin.innerHTML="startEventBeginisSwipe:"+_isSwiping;
                 gNowView = document.body.className;
+
+                // MARK: - replace the extra class from the gNowView to deal with iap channels and detail pages
+                gNowView = gNowView.replace(/ .*$/g, '');
+
                 baseView = gNowView;
 
                 //_screenWidth = screen.width;
@@ -167,22 +173,24 @@ function initSwipeGesture() {
 
 
                 /// 过滤掉hist数组中的文章页信息，这样就只留下了频道页信息
+
+                // console.log ('print hist: ');
+                // console.log (hist);
                 _histDelStory = hist.filter(function(item){
                     return (item.url.indexOf("story") == -1);
                 });
                
 
-                if(gNowView == "storyview"){
+                if (gNowView == 'storyview') {
                      _histDelStoryNum = _histDelStory.length;
-                     if(_histDelStoryNum == 0){//只有从主页点进来的文章，_histDelStoryNum才等于1
-                        _preView = "fullbody";
-
-                       
+                    // MARK: - 只有从主页点进来的文章，_histDelStoryNum才等于1
+                    if (_histDelStoryNum === 0) {
+                        _preView = 'fullbody';
                     } else {
-                        _preView = "channelview";
+                        _preView = 'channelview';
                     }
-                
-                } 
+                    //console.log ('clicked from ' + _preView);
+                }
                 
                 // if 1. user is swiping on an FTScroller like the horizonal navigation on home
                 // or 2. user is viewing a slide show

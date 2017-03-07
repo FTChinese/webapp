@@ -324,15 +324,22 @@ function startpage() {
             displayProducts(window.iapProducts, iapAction, iapTitle);
         }
     });
-    $('body').on('click', '.iap-item', function(e){
-        var targetTag = e.target.tagName.toLowerCase();
-        var targetClassName = e.target.className;
-        if (targetTag !== 'button' || targetClassName.indexOf('iap-detail')>=0) {
-            // MARK: - open detail for iap
-            var productId = this.getAttribute('product-id') || '';
-            showProductDetail(productId);
-        }
+    /*
+    $('body').on('click', '.iap-item', function(){
+        var productId = this.getAttribute('product-id') || '';
+        showProductDetail(productId);
+
+
+
+        // var targetTag = e.target.tagName.toLowerCase();
+        // var targetClassName = e.target.className;
+        // if (targetTag !== 'button' || targetClassName.indexOf('iap-detail')>=0) {
+        //     // MARK: - open detail for iap
+        //     //var productId = this.getAttribute('product-id') || '';
+        //     //showProductDetail(productId);
+        // }
     });
+    */
     //openning a page in an iframe is not viable for now in iPhone native app
     /*
     $('body').on('click', '#special-container a, .open-in-iframe', function(){
