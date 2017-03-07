@@ -3378,7 +3378,7 @@ function histback(gesture) {
 
         if(hist.length>=1){
             previouspage = hist.shift();
-            console.log("prepageUrl:"+previouspage.url);
+            //console.log("prepageUrl:"+previouspage.url);
             if (previouspage.length === 0) {//如果上一个页面不存在，则返回首页
                 backhome();
             } else if (previouspage.url.indexOf('story') === 0) {//如果上一个页面为文章页，读取文章页
@@ -3386,8 +3386,11 @@ function histback(gesture) {
                 readstory(theid);
             } else {
                 channelTitle = $('#channelview .channeltitle').html() || 'FT中文网';
-
-                document.body.className = 'channelview';
+                if (previouspage.url.indexOf('iap')>0) {
+                    document.body.className = 'channelview channel-iap';
+                } else {
+                    document.body.className = 'channelview';
+                }
                 document.body.title = channelTitle;
                 $('#header-title').html(channelTitle);
                 gNowView = 'channelview';
