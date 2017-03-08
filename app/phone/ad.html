@@ -166,7 +166,12 @@ if (parent.window.gSpecialAnchors && parent.window.gSpecialAnchors.length > 0 &&
         } catch (ignore) {
             
         }
-        if (useSpecialCode === true && parent.window.gTagData.indexOf(parent.window.gSpecialAnchors[i].tag) >=0) {
+        var keywordsOfCurrentPage = parent.window.gTagData;
+        var keywordForCheck = parent.window.gSpecialAnchors[i].tag;
+        if (keywordForCheck.indexOf('http') >= 0 && parent.window.gSpecialAnchors[i].channel) {
+            keywordForCheck = parent.window.gSpecialAnchors[i].channel;
+        }
+        if (useSpecialCode === true && keywordsOfCurrentPage.indexOf(keywordForCheck) >=0) {
             gSpecialAdId = parent.window.gSpecialAnchors[i].adid;
             matchSpecial = true;
         }
@@ -216,10 +221,11 @@ if (testFullPage === true && adCode === 'fullScreen') {
     c = '20530107';
 }
 
+console.log (c);
 
 if (adCode === 'fullScreen' && 1>2) {
     //console.log ('full screen displayed using native')
-} else if (c === '20220003') {
+} else if (c === '20220003' && 1>2) {
     // https://creatives.ftimg.net/video/adv/bnp20161129H.mp4
     // var videoHTML = '<video id=ad-video-"'+ window.c '+">test from oliver</video>';
 
