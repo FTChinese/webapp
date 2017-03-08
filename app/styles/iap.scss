@@ -1,7 +1,4 @@
-.iap-container {
-	.oneStory {
-		//position: relative;
-	}
+.iap-container, .iap-rail {
 	.progresscontainer {
 		position: absolute;
 		top: 5px;
@@ -20,6 +17,22 @@
 	font-size: 12px;
 	line-height: 1em;
 }
+.iap-rail {
+	.progresscontainer {
+		top: -5px;
+	}
+	.download-status {
+	    top: 0;
+	    left: 0;
+	    line-height: 16px;
+	    height: 16px;
+	    margin: auto;
+	    color: #777;
+	    width: 50%;
+	    text-align: center;
+	}
+}
+
 .iap-button {
 	// position: absolute;
 	// left:0;
@@ -81,5 +94,42 @@
 		.storytitle {
 			margin-top: 14px;
 		}
+	}
+}
+
+#iap-rail {
+	display: none;
+	z-index: 9999;
+	.iap-only {
+		display: inline-block;
+	}
+	button {
+		width: 50%;
+		height: 100%;
+		//border-width: 0;
+		max-width: none;
+		color: white;
+		font-size: 19px;
+		background-color: #26747a;
+		&.iap-highlight {
+			background-color: #f6801a;
+		}
+		&.iap-warning {
+			background-color: #9E2F50;
+		}
+		&.full-width {
+			width: 100%;
+		}
+		&.quarter-width {
+			width: 25%;
+		}
+	}
+}
+.story-iap {
+	#contentRail {
+		display: none;
+	}
+	#iap-rail {
+		display: block;
 	}
 }
