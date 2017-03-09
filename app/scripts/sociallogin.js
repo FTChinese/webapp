@@ -7,17 +7,13 @@ function socialLogin(socialName, socialInfo) {
         data: {'socialInfo': socialInfo},
         success: function(data) {
             if (data === 'yes') {
-
-
                 // show this in the interface so that users know login is successful
                 username = getCookie('USER_NAME') || '';
                 checkLogin();
             // print the result for review
             $('#yourDevice .overlay-header p').html('登录成功');
             $('#yourDevice .padding').html('亲爱的用户，您已经成功登录。');
-
                 // send an even to GA
-
                 return;
             }
             // if return data is not correct

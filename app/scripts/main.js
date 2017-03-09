@@ -1,5 +1,5 @@
 //申明各种Global变量
-var _currentVersion = 1135; //当前的版本号
+var _currentVersion = 1142; //当前的版本号
 var _localStorage = 0;
 var exp_times = Math.round(new Date().getTime() / 1000) + 86400;
 var username;
@@ -324,15 +324,22 @@ function startpage() {
             displayProducts(window.iapProducts, iapAction, iapTitle);
         }
     });
-    $('body').on('click', '.iap-item', function(e){
-        var targetTag = e.target.tagName.toLowerCase();
-        var targetClassName = e.target.className;
-        if (targetTag !== 'button' || targetClassName.indexOf('iap-detail')>=0) {
-            // MARK: - open detail for iap
-            var productId = this.getAttribute('product-id') || '';
-            showProductDetail(productId);
-        }
+    /*
+    $('body').on('click', '.iap-item', function(){
+        var productId = this.getAttribute('product-id') || '';
+        showProductDetail(productId);
+
+
+
+        // var targetTag = e.target.tagName.toLowerCase();
+        // var targetClassName = e.target.className;
+        // if (targetTag !== 'button' || targetClassName.indexOf('iap-detail')>=0) {
+        //     // MARK: - open detail for iap
+        //     //var productId = this.getAttribute('product-id') || '';
+        //     //showProductDetail(productId);
+        // }
     });
+    */
     //openning a page in an iframe is not viable for now in iPhone native app
     /*
     $('body').on('click', '#special-container a, .open-in-iframe', function(){
@@ -3363,7 +3370,7 @@ function histback(gesture) {
                 hist = hist.filter(function(item){
                     return (item.url.indexOf("story") == -1);
                 });
-                console.log("newHist:"+hist);
+                // console.log("newHist:"+hist);
             } else {//如果当前页不是story
                 hist = [];
             }
@@ -3371,7 +3378,7 @@ function histback(gesture) {
 
         if(hist.length>=1){
             previouspage = hist.shift();
-            console.log("prepageUrl:"+previouspage.url);
+            //console.log("prepageUrl:"+previouspage.url);
             if (previouspage.length === 0) {//如果上一个页面不存在，则返回首页
                 backhome();
             } else if (previouspage.url.indexOf('story') === 0) {//如果上一个页面为文章页，读取文章页
@@ -3379,8 +3386,11 @@ function histback(gesture) {
                 readstory(theid);
             } else {
                 channelTitle = $('#channelview .channeltitle').html() || 'FT中文网';
-
-                document.body.className = 'channelview';
+                if (previouspage.url.indexOf('iap')>0) {
+                    document.body.className = 'channelview channel-iap';
+                } else {
+                    document.body.className = 'channelview';
+                }
                 document.body.title = channelTitle;
                 $('#header-title').html(channelTitle);
                 gNowView = 'channelview';
