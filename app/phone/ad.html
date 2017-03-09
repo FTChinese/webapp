@@ -224,8 +224,8 @@ if (adCode === 'fullScreen' && 1>2) {
     // var videoHTML = '<video id=ad-video-"'+ window.c '+">test from oliver</video>';
 
     // TODO: - Video Code for Dolphine
-    
-
+    var videoHTML = '<div id="ad-content"><scr' + 'ipt src="http://dolphin.ftimg.net/s?z=ft&c=20170003" charset="gbk"></scr' + 'ipt></div>'
+    document.writeln(videoHTML);
 } else {
     document.writeln('<div class="'+adType+'" id="ad-content"><scr'+'ipt type="text/javascript" src="http://dolphin.ftimg.net/s?z=ft&c=' + c + adReachability() + '&t='+Math.round(Math.random() * 1000000)+'" charset="gbk" ></scr'+'ipt></div>');
 }
@@ -237,6 +237,7 @@ try {
 
 }
 </script>
+
 
 <script>
 var adLinks, i, adHeight=0, gATag, gVideoTag, gImgTag, gDivTag, giFrameTag, gParentA, gParentHTML, gParentHTMLClass, gReferal, gParentDom;
@@ -404,6 +405,65 @@ try {
 } catch (ignore) {
 }
 
+function sendMediaTypeToParent(el) {
+	if (!parent || !parent.postMessage || window.top === window) {
+		return;
+	}
+
+	var videoEl = el.querySelector('video');
+
+	var msg = {
+		type: videoEl ? 'video' : null,
+		url: location.href
+	};
+	console.log('send message to parent');
+	parent.postMessage(JSON.stringify(msg), '*');
+}
+
+function controlVideoPlayback(container) {	
+
+	sendMediaTypeToParent(container);
+
+	window.addEventListener('message', processPostMessage);
+
+	function processPostMessage(msg) {
+		var data;
+		try {
+			data = JSON.parse(msg.data);
+		} catch (e) {
+			return;
+		}
+
+		if (!data.action) {
+			return;
+		}
+
+        console.log('Recieved play command. Trye to find video tag.');
+		var videoEl = container.querySelector('video');
+
+		if (!videoEl) {
+            console.log('Video tag is not found. Abort.')
+			return;
+		}
+		
+		switch (data.action) {
+			case 'play':
+				if (videoEl.paused) {
+					console.log('Play the video');
+					videoEl.play();
+				}
+				
+				break;
+
+			case 'pause':
+				console.log('Pause the video');
+				videoEl.pause();
+				break;
+		}
+	}
+}
+
+controlVideoPlayback(document.getElementById('ad-content'));
 </script>
 </body>
 </html>
