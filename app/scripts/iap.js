@@ -27,6 +27,7 @@ function getProductHTMLCode (products, forGroup) {
 	    	if (forGroup === 'all' || forGroup === products[i].group) {
 		    	var firstChildClass = '';
 		    	var productActionButton = '';
+		    	var productPrice = products[i].price || '购买';
 		    	// MARK: If the forGroup is set to all, display all products in groups
 				if (forGroup ==='all' && currentGroup !== products[i].group) {
 					currentGroup = products[i].group;
@@ -38,7 +39,7 @@ function getProductHTMLCode (products, forGroup) {
 				} else if (products[i].isPurchased === true) {
 					productActionButton = '<div class="iap-button" product-id="' + products[i].id + '"><a href="downloadproduct://' + products[i].id + '"><button>下载</button></a></div>';
 				} else {
-					productActionButton = '<div class="iap-button" product-id="' + products[i].id + '" product-price="' + products[i].price + '"><button onclick="showProductDetail(\'' + products[i].id + '\');" class="iap-detail">查看</button><a href="buy://' + products[i].id + '"><button class="iap-move-left">' + products[i].price + '</button></a></div>';
+					productActionButton = '<div class="iap-button" product-id="' + products[i].id + '" product-price="' + productPrice + '"><button onclick="showProductDetail(\'' + products[i].id + '\');" class="iap-detail">查看</button><a href="buy://' + products[i].id + '"><button class="iap-move-left">' + productPrice + '</button></a></div>';
 				}
 				// MARK: - use onclick to capture click rather than jQuery's body.on, which is buggy on iPhone
 				productsHTML += '<div product-id="' + products[i].id + '" class="iap-item oneStory' + firstChildClass + ' track-click" eventLabel="iap-detail: '+i+'"><div onclick="showProductDetail(\'' + products[i].id + '\');"><img src="https://www.ft.com/__origami/service/image/v2/images/raw/' + products[i].image + '?source=ftchinese&width=160" class=leftimage width="80"><div class="headline">' + products[i].title + '</div><div class=lead>' + products[i].teaser + '</div></div>' + productActionButton + '<div class=clearfloat></div></div>';	
@@ -186,7 +187,7 @@ function iapActions(productID, actionType) {
 	}
 
 	// MARK: - get product price here
-	productPrice = window.iapProducts[productIndex].price;
+	productPrice = window.iapProducts[productIndex].price || '购买';
 
 	// MARK: - iapHTMLCode is used for home and channel page, iapRailHTML is used for product detail page
 	switch(actionType) {
