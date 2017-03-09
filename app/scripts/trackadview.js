@@ -112,7 +112,7 @@ function startTrackingAdViews(scrollerId) {
   //console.log (scrollerId + ' scroll event listened');
 }
 
-// 刷新广告位
+// MARK: - 刷新广告位
 function updateAds() {
     var nowV = $("body").attr("class") || "";
     var isColumnFlow = false;
@@ -173,7 +173,7 @@ function updateAds() {
             }
         });
 
-      // when ad position is updated, create the ad positions again. 
+      // MARK: - when ad position is updated, create the ad positions again. 
       createViewableAds();
     }
 }

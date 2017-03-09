@@ -103,7 +103,7 @@ function showProductDetail(productId) {
 		if (currentProduct.isPurchased === false && currentProduct.isDownloaded === false) {
 			iapRailHTML = '<a href="buy://' + currentProduct.id + '"><button class="floatright iap-highlight">购买：'+currentProduct.price+'</button></a><a href="try://' + currentProduct.id + '"><button class="floatleft">试读</button></a>';
 		} else if (currentProduct.isPurchased === true && currentProduct.isDownloaded === false) {
-			iapRailHTML = '<a href="downloadproduct://' + currentProduct.id + '"><button class="floatright iap-highlight">下载</button></a>';
+			iapRailHTML = '<a href="downloadproduct://' + currentProduct.id + '"><button class="full-width iap-highlight">下载</button></a>';
 		} else if (currentProduct.isPurchased === true && currentProduct.isDownloaded === true) {
 			iapRailHTML = '<a href="readbook://' + currentProduct.id + '"><button class="floatright iap-highlight">打开</button></a><a href="removedownload://' + currentProduct.id + '"><button class="floatleft">删除</button></a>';
 		}
@@ -143,13 +143,37 @@ function updateProductStatus(productIndex, isProductPurchased, isProductDownload
 	} 
 }
 
+
+function getViewPrefix() {
+	var viewPrefix = '';
+	if (gNowView.indexOf('storyview') >= 0) {
+		viewPrefix = 'story-';
+	} else if (gNowView.indexOf('channelview') >= 0) {
+		viewPrefix = 'channel-';
+	}
+	return viewPrefix;
+}
+
 // MARK: - Update DOM UI based on user actions
 function iapActions(productID, actionType) {
-	var iapButtons = document.querySelectorAll('.iap-button');
+	var iapButtons;
 	var iapRailHTML = '';
 	var iapHTMLCode = '';
 	var productPrice = '';
 	var productIndex;
+
+	// MARK: - current view prefix
+	var viewPrefix = getViewPrefix();
+
+	// MARK: get iapButtons based on the current view
+	var currentView = 'fullbody';
+	if (gNowView.indexOf('storyview') >= 0) {
+		currentView = 'storyview';
+	} else if (gNowView.indexOf('channelview') >= 0) {
+		currentView = 'channelview';
+	}
+
+	iapButtons = document.getElementById(currentView).querySelectorAll('.iap-button');
 
 	// MARK: - Get the index number of the current product for window.iapProducts
 	if (productID !== '') {
@@ -177,8 +201,8 @@ function iapActions(productID, actionType) {
 	        updateProductStatus(productIndex, true, false);
 	        break;
 	    case 'downloading':
-	        iapHTMLCode = '<a id="pause-' + productID + '" href="pausedownload://' + productID + '"><button class="iap-move-left pause-button">暂停</button></a><a href="canceldownload://' + productID + '"><button>取消</button></a><div class="progresscontainer"><div class="progressbar standardprogressbar uses3d progressbg structureprogress" id="progress-' + productID + '"></div></div><div id="status-' + productID + '" class="download-status"></div>';
-	        iapRailHTML = '<a href="canceldownload://' + productID + '"><button class="quarter-width floatright">取消</button></a><a id="story-pause-' + productID + '" href="pausedownload://' + productID + '"><button class="pause-button quarter-width floatright">暂停</button></a><div class="progresscontainer"><div class="progressbar standardprogressbar uses3d progressbg structureprogress" id="story-progress-' + productID + '"></div></div><div id="story-status-' + productID + '" class="download-status"></div>';
+	        iapHTMLCode = '<a id="' + viewPrefix + 'pause-' + productID + '" href="pausedownload://' + productID + '"><button class="iap-move-left pause-button">暂停</button></a><a href="canceldownload://' + productID + '"><button>取消</button></a><div class="progresscontainer"><div class="progressbar standardprogressbar uses3d progressbg structureprogress" id="' + viewPrefix + 'progress-' + productID + '"></div></div><div id="' + viewPrefix + 'status-' + productID + '" class="download-status"></div>';
+	        iapRailHTML = '<a href="canceldownload://' + productID + '"><button class="quarter-width floatright">取消</button></a><a id="story-pause-' + productID + '" href="pausedownload://' + productID + '"><button class="pause-button quarter-width floatright">暂停</button></a><div class="progresscontainer"><div class="progressbar standardprogressbar uses3d progressbg structureprogress" id="' + viewPrefix + 'progress-' + productID + '"></div></div><div id="' + viewPrefix + 'status-' + productID + '" class="download-status"></div>';
 	        updateProductStatus(productIndex, true, false);
 	        break;
 	    case 'pending':
@@ -219,19 +243,19 @@ function updateDownloadProgress(productID, barPercentage, progressStatus) {
 		document.getElementById('story-progress-' + productID).style.width = barPercentage;
 		document.getElementById('story-status-' + productID).innerHTML = progressStatus;
 	} else {
-		document.getElementById('progress-' + productID).style.width = barPercentage;
-		document.getElementById('status-' + productID).innerHTML = progressStatus;
+		// TODO: need to update progress bars in both home and channel pages
+		var viewPrefix = getViewPrefix();
+		document.getElementById(viewPrefix + 'progress-' + productID).style.width = barPercentage;
+		document.getElementById(viewPrefix + 'status-' + productID).innerHTML = progressStatus;
 	}
 }
 
 // MARK: - Update download pause button based on user interaction
 function updateDownloadPauseButton(productID, action) {
 	var pauseButton;
-	if (gNowView.indexOf('storyview') >= 0) {
-		pauseButton = document.getElementById('story-pause-' + productID);
-	} else {
-		pauseButton = document.getElementById('pause-' + productID);
-	}
+	var viewPrefix = getViewPrefix();
+	pauseButton = document.getElementById(viewPrefix + 'pause-' + productID);
+
 	var newAction;
 	var newHref;
 	if (action === 'pause') {
@@ -241,6 +265,7 @@ function updateDownloadPauseButton(productID, action) {
 		newAction = '暂停';
 		newHref = 'pausedownload://' + productID;
 	}
+
 	pauseButton.querySelector('.pause-button').innerHTML = newAction;
 	pauseButton.setAttribute('href', newHref);
 }

@@ -4,10 +4,10 @@
 
 <div id="quiz-container">
                                         <a class="section" onclick="showchannel('/index.php/ft/channel/phonetemplate.html?channel=newsquiz','智趣问答')"><span>FT商学院</span></a>
-                        <div class="oneStory first-child track-click" eventLabel="quiz: 0" onclick='showSlide("/index.php/ft/interactive/8845?i=2","今日新闻大事件速览（3.2）", 0)'>
-                <div class="headline">今日新闻大事件速览（3.2）</div>
-                <img src="http://i.ftimg.net/picture/7/000068527_piclink.jpg" class=leftimage width="167">
-                <div class=lead>最新财经大事知多少：顺丰老总成为中国第三富？美国宣布将哪一国家从旅行禁令名单中移除？因私有化估值问题陷入法律纠纷的中概股？小测带你快速梳理当日财经新闻大事件。</div>
+                        <div class="oneStory first-child track-click" eventLabel="quiz: 0" onclick='showSlide("/index.php/ft/interactive/8888?i=2","今日新闻大事件速览（3.8）", 0)'>
+                <div class="headline">今日新闻大事件速览（3.8）</div>
+                <img src="http://i.ftimg.net/picture/9/000068679_piclink.jpg" class=leftimage width="167">
+                <div class=lead>最新财经大事知多少：网络间谍行动遭遇“斯诺登第二”？有多少家乐天玛特在华门店暂停营业？承认违反美国制裁支付巨额罚金的中国品牌？小测带你快速梳理当日财经新闻大事件。</div>
                 <div class=clearfloat></div>
             </div>
                                         </div>
@@ -20,10 +20,10 @@
 
 <div id="speedread-container">
                                         <a class="section" onclick="showchannel('/index.php/ft/channel/phonetemplate.html?channel=speedread','金融英语速读')"><span>金融英语速读</span></a>
-                        <div class="oneStory first-child track-click" eventLabel="speedread: 0" onclick='showSlide("/index.php/ft/interactive/8837?i=2","当你的老板是机器人", 0)'>
-                <div class="headline">当你的老板是机器人</div>
-                <img src="http://i.ftimg.net/picture/4/000068584_piclink.jpg" class=leftimage width="167">
-                <div class=lead>也许以前只能在科幻电影里看到机器取代人类进行工作，但现在人类与机器进行交互在工作中已经变得越来越频繁，如何与机器进行协作变得越发重要。如果你的老板是机器人，你该如何和他相处？</div>
+                        <div class="oneStory first-child track-click" eventLabel="speedread: 0" onclick='showSlide("/index.php/ft/interactive/8880?i=2","马云：制假售假者该进监狱", 0)'>
+                <div class="headline">马云：制假售假者该进监狱</div>
+                <img src="http://i.ftimg.net/picture/5/000068695_piclink.jpg" class=leftimage width="167">
+                <div class=lead>马云称，“假如销售一件假货拘留七天，制造一件假货入刑，那么我想今天中国的知识产权保护现状、食品药品安全现状，我们国家未来的创新能力一定会发生天翻地覆的变化。”</div>
                 <div class=clearfloat></div>
             </div>
                                     </div>
@@ -31,10 +31,10 @@
 
 <div id="video-container">
                                         <a class="section" onclick="showchannel('/index.php/ft/channel/phonetemplate.html?channel=video','视频')"><span>视频</span></a>
-                        <div class="oneStory first-child track-click" eventLabel="video: 0" onclick='watchVideo("981C2D09FC48E6E49C33DC5901307461","中国制造业工资大涨背后：喜与忧","2190","十年来，中国的制造业时薪快速上涨，已超过拉美，是欧洲的70%。喜的是近14亿中国人民的生活水平提高了，忧的是人口更老、成本更高、压力更大。","http://i.ftimg.net/picture/7/000068547_piclink.jpg")'>
-                <div class="headline">中国制造业工资大涨背后：喜与忧</div>
-                <img src="http://i.ftimg.net/picture/7/000068547_piclink.jpg" class=leftimage width="167">
-                <div class=lead>十年来，中国的制造业时薪快速上涨，已超过拉美，是欧洲的70%。喜的是近14亿中国人民的生活水平提高了，忧的是人口更老、成本更高、压力更大。</div>
+                        <div class="oneStory first-child track-click" eventLabel="video: 0" onclick='watchVideo("DBAF5391815D350D9C33DC5901307461","东京地标“筑地鱼市”前途未卜","2184","笼罩在新址上的污染疑云，推迟了东京旅游地标、世界知名的筑地鱼市的搬迁进程。政治家、店主、旅游者都被卷入其中，有人欢喜有人忧。","http://i.ftimg.net/picture/6/000068406_piclink.jpg")'>
+                <div class="headline">东京地标“筑地鱼市”前途未卜</div>
+                <img src="http://i.ftimg.net/picture/6/000068406_piclink.jpg" class=leftimage width="167">
+                <div class=lead>笼罩在新址上的污染疑云，推迟了东京旅游地标、世界知名的筑地鱼市的搬迁进程。政治家、店主、旅游者都被卷入其中，有人欢喜有人忧。</div>
                 <div class=clearfloat></div>
             </div>
                         </div>

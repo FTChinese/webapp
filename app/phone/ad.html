@@ -119,6 +119,9 @@ if (adCode=="ad300x250-SP" || (parent.window.gSpecial === true && adCode==="ad30
         }
         adPositionId = '0107';
         adType = 'hidden';
+
+        // TODO: - 全屏广告应该只加载一次
+
     } else if (adCode=="ad300x90") {
         adPositionId="0102";
         adType="ad90";
@@ -153,11 +156,12 @@ if (/iPad/i.test(uaString)) {
     }
 }
 
+// MARK: - 检查parent里面的gSpecialAnchors，根据这个来确定当前的页面是不是要投放赞助的adid
 if (parent.window.gSpecialAnchors && parent.window.gSpecialAnchors.length > 0 && parent.window.gTagData.length >0) {
     //console.log (parent.window.gSpecialAnchors[0]);
     for (var i=0; i < parent.window.gSpecialAnchors.length && matchSpecial === false; i++) {
-        // this is added per request of ad sales
-        // to exclude situations where ad sales don't want to invoke sponsored special report code
+        // MARK: - this is added per request of ad sales
+        // MARK: - to exclude situations where ad sales don't want to invoke sponsored special report code
         var useSpecialCode = true;
         try {
             if (parent.gNowView === 'storyview' && parent.window.gSpecialAnchors[i].adid === '2062') {
@@ -215,25 +219,31 @@ if (gSpecialAdId !== '' && matchSpecial === true) {
 }//special report sponsor
 
 
-//test full page ad
+// test full page ad
 
 if (testFullPage === true && adCode === 'fullScreen') {
     c = '20530107';
 }
 
-console.log (c);
+var dolphineInlineScript = '<div class="'+adType+'" id="ad-content"><scr'+'ipt type="text/javascript" src="http://dolphin.ftimg.net/s?z=ft&c=' + c + adReachability() + '&t='+Math.round(Math.random() * 1000000)+'" charset="gbk" ></scr'+'ipt></div>';
 
-if (adCode === 'fullScreen' && 1>2) {
-    //console.log ('full screen displayed using native')
+if (adCode === 'fullScreen') {
+    // MARK: - if a full screen ad is already displayed once, return immediately
+    var popAd1 = parent.parent.document.getElementById("pop-ad");
+    var popAdClass1 = popAd1.className;
+    // console.log ('should I request for full page ad code? ');
+    if (popAdClass1.indexOf('done') < 0) {
+        // console.log ('full screen ad displayed. ');
+        document.writeln(dolphineInlineScript);
+    }
 } else if (c === '20220003' && 1>2) {
     // https://creatives.ftimg.net/video/adv/bnp20161129H.mp4
     // var videoHTML = '<video id=ad-video-"'+ window.c '+">test from oliver</video>';
 
     // TODO: - Video Code for Dolphine
     
-
 } else {
-    document.writeln('<div class="'+adType+'" id="ad-content"><scr'+'ipt type="text/javascript" src="http://dolphin.ftimg.net/s?z=ft&c=' + c + adReachability() + '&t='+Math.round(Math.random() * 1000000)+'" charset="gbk" ></scr'+'ipt></div>');
+    document.writeln(dolphineInlineScript);
 }
 
 
