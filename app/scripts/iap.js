@@ -56,9 +56,9 @@ function getProductHTMLCode (products, forGroup) {
 							productBenefits += '<li>' + benefitsArray[j] + '</li>';
 						}
 					}
-					productsHTML += '<div product-id="' + products[i].id + '" class="iap-item oneStory iap-member' + firstChildClass + ' track-click" eventLabel="iap-detail: '+i+'"><div><div class="headline">' + products[i].title + '</div><div class="coverIMG"><img src="https://www.ft.com/__origami/service/image/v2/images/raw/' + products[i].image + '?source=ftchinese&width=840"></div><div class=lead>' + productBenefits + '</div></div>' + productActionButton + '<div class=clearfloat></div></div>';
+					productsHTML += '<div product-id="' + products[i].id + '" class="iap-item oneStory iap-member' + firstChildClass + ' track-click" eventLabel="iap-detail: '+i+'"><div><div class="headline">' + products[i].title + '</div><div class="coverIMG"><img src="https://www.ft.com/__origami/service/image/v2/images/raw/' + products[i].image + '?source=ftchinese&width=840"></div><ul class="iap-benefits">' + productBenefits + '</div></div>' + productActionButton + '<div class=clearfloat></div></div>';
 				} else {
-					productsHTML += '<div product-id="' + products[i].id + '" class="iap-item oneStory' + firstChildClass + ' track-click" eventLabel="iap-detail: '+i+'"><div onclick="showProductDetail(\'' + products[i].id + '\');"><img src="https://www.ft.com/__origami/service/image/v2/images/raw/' + products[i].image + '?source=ftchinese&width=160" class=leftimage width="80"><div class="headline">' + products[i].title + '</div><div class=lead>' + products[i].teaser + '</div></div>' + productActionButton + '<div class=clearfloat></div></div>';	
+					productsHTML += '<div product-id="' + products[i].id + '" class="iap-item oneStory' + firstChildClass + ' track-click" eventLabel="iap-detail: '+i+'"><div onclick="showProductDetail(\'' + products[i].id + '\');"><img src="https://www.ft.com/__origami/service/image/v2/images/raw/' + products[i].image + '?source=ftchinese&width=160" class=leftimage width="80"><div class="headline">' + products[i].title + '</div><div class=lead>' + products[i].teaser + '</div></div>' + productActionButton + '<div class=clearfloat></div></div>';
 				}
 	    	}
 	    }
