@@ -1,18 +1,20 @@
 // MARK: - The data object for all the iap products
-
-// window.iapProducts = [{title: '汇改后的中国经济',description: '人民币无疑是当前宏观经济政策制定者和全球金融市场最关注的问题之一。<br>“8·11”汇改全球市场震动，一周年过去了，人民币的故事并没有结束。如何评价这一事件？中国对世界经济影响有何变化？人民币在全球市场上究竟占据何种地位？与美元的“难舍难分”又会带来什么影响？<br>随着人民币正式加入SDR在即，经济放缓下的没有结束。如何评价这一事件？中国对世界经济影响有何变化？人民币在全球市场上究竟占据何种地位？与美元的“难舍难分”又会带来什么影响？<br>随着人民币正式加入SDR在即，经济放缓下的贬值压力也随之加大。人民币会继续贬值吗？想要打破贬值预期，到底应该怎么做？',price: '￥6.00',id: 'com.ft.ftchinese.mobile.book.ChinaEconomyAfterFXReform',image: 'http://i.ftimg.net/picture/1/000065581_piclink.jpg', teaser: '人民币会继续贬值吗？', isPurchased: true, isDownloaded: true, group: 'ebook', groupTitle: 'FT电子书'},{title: '与FT共进午餐（一）',description: '英国《金融时报》的“Lunch with the FT”栏目诞生于1994年，邀请各界人士在餐桌上向FT敞开心扉，谈论美食、爱好、家庭，展露他们职业生涯之外更真实的生活状态，迄今已经采访了800多人，可谓一卷丰富多彩的人物志。<br>在第一辑中您将看到对比尔·盖茨、诺界人士在餐桌上向FT敞开心扉，谈论美食、爱好、家庭，展露他们职业生涯之外更真实的生活状态，迄今已经采访了800多人，可谓一卷丰富多彩的人物志。<br>在第一辑中您将看到对比尔·盖茨、诺奖得主尤努斯，郭广昌等各领域知名人士的采访。',price: '￥6.00',id: 'com.ft.ftchinese.mobile.book.lunch1',image: 'http://i.ftimg.net/picture/6/000061936_piclink.jpg', teaser: '英国《金融时报》最受欢迎的栏目', isPurchased: true, isDownloaded: true, group: 'ebook', groupTitle: 'FT电子书'},{title: '与FT共进午餐（二）',description: '《与FT共进午餐》多年来都是FT周末版最受欢迎的栏目之一。<br>精英名流们在餐桌上向FT敞开心扉，谈论美食、爱好、家庭，展露他们职业生涯之外更真实的生活状态。<br>采访过程也很独特——由被采访对象指定餐厅，餐后由FT付账，或奢或俭，文章末尾都会列出菜单和价格。<br>总之。《与FT共论美食、爱好、家庭，展露他们职业生涯之外更真实的生活状态。<br>采访过程也很独特——由被采访对象指定餐厅，餐后由FT付账，或奢或俭，文章末尾都会列出菜单和价格。<br>总之。《与FT共进午餐》是FT上最有看头的栏目。<br>在这期您将看到我们采访：奥沙利文、郎朗、安吉丽娜·朱莉等各领域知名人物。',price: '￥6.00',id: 'com.ft.ftchinese.mobile.book.lunch2',image: 'http://i.ftimg.net/picture/7/000061937_piclink.jpg', teaser: '英国《金融时报》最受报》最受欢迎的栏目', isPurchased: true, isDownloaded: true, group: 'ebook', groupTitle: 'FT电子书'},{title: 'FT研究院',description: '管窥蠡测，以知一叶之秋。基于百万读者的大样本调研数据，同时广泛汲取公开数据资源，《FT研究院》专注热点财经问题及重要行业发展趋势的研究，致力于为广大读者提供贴近商业实况的前瞻性分析与洞察。',price: '￥68.00',id: 'com.ft.ftchinese.mobile.subscription.intelligence2',image: 'http://i.ftimg.net/picture/3/000068413_piclink.jpg', teaser: '中国商业和消费数据', isPurchased: false, isDownloaded: false, group: 'subscription', groupTitle: '订阅'}];
-
+window.iapProducts = [{title: '高端会员',description: '<p>Unlimited access to all content</p><p>Instant Insights column for comment and analysis as news unfolds</p><p>FT Confidential Research - in-depth China and Southeast Asia analysis</p><p>Exclusive emails, including a weekly email from our Editor, Lionel Barber</p>',price: 'CN¥1,298.00',id: 'com.ft.ftchinese.mobile.subscription.premium',image: 'http://i.ftimg.net/picture/3/000068413_piclink.jpg', teaser: '注册成为高端会员', isPurchased: false, isDownloaded: false, group: 'membership', groupTitle: '会员',benefits:['benefit 1','benefit 2','benefit 3']},{title: 'FT研究院',description: '<p>管窥蠡测，以知一叶之秋。基于百万读者的大样本调研数据，同时广泛汲取公开数据资源，《FT研究院》专注热点财经问题及重要行业发展趋势的研究，致力于为广大读者提供贴近商业实况的前瞻性分析与洞察。</p>',price: 'CN¥78.00',id: 'com.ft.ftchinese.mobile.subscription.intelligence3',image: 'http://i.ftimg.net/picture/3/000068413_piclink.jpg', teaser: '中国商业和消费数据', isPurchased: false, isDownloaded: false, group: 'subscription', groupTitle: '订阅'},{title: '精选2016，展望2017',description: '<p>2016年，国际政坛波诡云谲，黑天鹅事件频发；中国经济热点频现，争论不休；中国人最牵挂的楼市、股市、外汇市场，经历了怎样的波动？对家庭资产造成了怎样的影响；中国互联网和新兴科技行业，可以同时看到未来和过去的影子……是什么在扇动黑天鹅们的翅膀？2017年，我们熟悉的那个世界是否正在远去？中国又该如何应对？英国《金融时报》编辑精选中国经济、中国与世界、媒体与社交媒体、生活话题、公共政策、互联网与创新经济、国际话题、投资与财富管理，等领域的必读文章，进行深入解读，希望可以帮助读者预判未来走势。</p>',price: 'CN¥18.00',id: 'com.ft.ftchinese.mobile.book.OutlookoftheFutureof2017',image: 'http://i.ftimg.net/picture/9/000068669_piclink.jpg', teaser: ' 2017年，我们熟悉的那个世界是否正在远去？', isPurchased: false, isDownloaded: false, group: 'ebook', groupTitle: 'FT电子书'},{title: '与FT共进午餐（一）',description: '<p>英国《金融时报》的“Lunch with the FT”栏目诞生于1994年，邀请各界人士在餐桌上向FT敞开心扉，谈论美食、爱好、家庭，展露他们职业生涯之外更真实的生活状态，迄今已经采访了800多人，可谓一卷丰富多彩的人物志。</p><p>在第一辑中您将看到对比尔·盖茨、诺奖得主尤努斯，郭广昌等各领域知名人士的采访。</p>',price: 'CN¥12.00',id: 'com.ft.ftchinese.mobile.book.lunch1',image: 'http://i.ftimg.net/picture/2/000068702_piclink.jpg', teaser: '英国《金融时报》最受欢迎的栏目', isPurchased: false, isDownloaded: false, group: 'ebook', groupTitle: 'FT电子书'},{title: '与FT共进午餐（二）',description: '<p>《与FT共进午餐》多年来都是FT周末版最受欢迎的栏目之一。</p><p>精英名流们在餐桌上向FT敞开心扉，谈论美食、爱好、家庭，展露他们职业生涯之外更真实的生活状态。</p><p>采访过程也很独特——由被采访对象指定餐厅，餐后由FT付账，或奢或俭，文章末尾都会列出菜单和价格。</p><p>总之。《与FT共进午餐》是FT上最有看头的栏目。</p><p>在这期您将看到我们采访：奥沙利文、郎朗、安吉丽娜·朱莉等各领域知名人物。</p>',price: 'CN¥12.00',id: 'com.ft.ftchinese.mobile.book.lunch2',image: 'http://i.ftimg.net/picture/3/000068703_piclink.jpg', teaser: '英国《金融时报》最受欢迎的栏目', isPurchased: false, isDownloaded: false, group: 'ebook', groupTitle: 'FT电子书'}];
 // MARK: - The HTML template for iap channel pages like eBook store or subscription center, so that you don't have to load from web
 var channelPageTemplate = '<div class="channel-iap" id="channelScroller" style="overflow-y: scroll;"><div id="channelContent"><div id="head" onclick="switchNavOverlay()"><div class="header"><div class="channeltitle">[channelTitle]</div></div></div><div class="layout-a_region-3"><div class="inner"><div class="container">[channelContent]</div></div></div><div class="layout-a_region-4"><div class="inner"><div class="adiframe mpu loaded-in-view" type="250" frame="ad300x250"></div></div></div><div class="copyright"><b><font face="arial">© </font>英国金融时报</b> 有限公司 <font face="arial">2017</font>&nbsp;&nbsp;<span><acronym title="Financial Times">FT中文网</acronym>为英国金融时报的注册商标</span></div></div></div>';
 
 // MARK: - Display all the iap products on the home page
 function displayProductsOnHome(products) {
-
 // TODO: When displaying iap products on home, it should be grouped by type
   if (typeof products === 'object' && products.length > 0) {
     var productsHTML = getProductHTMLCode (products, 'all');
     if (document.getElementById('iap')) {
       document.getElementById('iap').innerHTML = productsHTML;
+    }
+    var iapChannelLinks = document.querySelectorAll('.iap-channel');
+    for (var i=0; i<iapChannelLinks.length; i++) {
+    	var iapClassName = iapChannelLinks[i].className.replace(' hide', '');
+    	iapChannelLinks[i].className = iapClassName;
     }
   }
 }
@@ -28,13 +30,18 @@ function getProductHTMLCode (products, forGroup) {
 		    	var firstChildClass = '';
 		    	var productActionButton = '';
 		    	var productPrice = products[i].price || '购买';
+		    	var productBenefits = '';
+		    	var benefitsArray = [];
 		    	// MARK: If the forGroup is set to all, display all products in groups
 				if (forGroup ==='all' && currentGroup !== products[i].group) {
 					currentGroup = products[i].group;
 					productsHTML += '<div class="section"><a class="iap-channel" iap-action="' + currentGroup + '" iap-title="' + products[i].groupTitle +'"><span>' + products[i].groupTitle +'</span></a><a href="restorepurchases://"><button class="floatright">恢复</button></a></div>';
 					firstChildClass = ' first-child';
 				}
-				if (products[i].isDownloaded === true) {
+				if (products[i].group === 'membership') {
+					// MARK: - Button HTML for membership
+					productActionButton = '<div class="iap-button" product-id="' + products[i].id + '" product-price="' + productPrice + '"><a href="buy://' + products[i].id + '"><button class="iap-move-left">' + productPrice + '</button></a></div>';
+				} else if (products[i].isDownloaded === true) {
 					productActionButton = '<div class="iap-button" product-id="' + products[i].id + '"><a href="readbook://' + products[i].id + '"><button class="iap-move-left">打开</button></a><a href="removedownload://' + products[i].id + '"><button>删除</button></a></div>';
 				} else if (products[i].isPurchased === true) {
 					productActionButton = '<div class="iap-button" product-id="' + products[i].id + '"><a href="downloadproduct://' + products[i].id + '"><button>下载</button></a></div>';
@@ -42,7 +49,17 @@ function getProductHTMLCode (products, forGroup) {
 					productActionButton = '<div class="iap-button" product-id="' + products[i].id + '" product-price="' + productPrice + '"><button onclick="showProductDetail(\'' + products[i].id + '\');" class="iap-detail">查看</button><a href="buy://' + products[i].id + '"><button class="iap-move-left">' + productPrice + '</button></a></div>';
 				}
 				// MARK: - use onclick to capture click rather than jQuery's body.on, which is buggy on iPhone
-				productsHTML += '<div product-id="' + products[i].id + '" class="iap-item oneStory' + firstChildClass + ' track-click" eventLabel="iap-detail: '+i+'"><div onclick="showProductDetail(\'' + products[i].id + '\');"><img src="https://www.ft.com/__origami/service/image/v2/images/raw/' + products[i].image + '?source=ftchinese&width=160" class=leftimage width="80"><div class="headline">' + products[i].title + '</div><div class=lead>' + products[i].teaser + '</div></div>' + productActionButton + '<div class=clearfloat></div></div>';	
+				if (products[i].group === 'membership') {
+					benefitsArray = products[i].benefits;
+					if (typeof benefitsArray === 'object' && benefitsArray.length > 0) {
+						for (var j=0; j<benefitsArray.length; j++) {
+							productBenefits += '<li>' + benefitsArray[j] + '</li>';
+						}
+					}
+					productsHTML += '<div product-id="' + products[i].id + '" class="iap-item oneStory iap-member' + firstChildClass + ' track-click" eventLabel="iap-detail: '+i+'"><div><div class="headline">' + products[i].title + '</div><div class="coverIMG"><img src="https://www.ft.com/__origami/service/image/v2/images/raw/' + products[i].image + '?source=ftchinese&width=840"></div><div class=lead>' + productBenefits + '</div></div>' + productActionButton + '<div class=clearfloat></div></div>';
+				} else {
+					productsHTML += '<div product-id="' + products[i].id + '" class="iap-item oneStory' + firstChildClass + ' track-click" eventLabel="iap-detail: '+i+'"><div onclick="showProductDetail(\'' + products[i].id + '\');"><img src="https://www.ft.com/__origami/service/image/v2/images/raw/' + products[i].image + '?source=ftchinese&width=160" class=leftimage width="80"><div class="headline">' + products[i].title + '</div><div class=lead>' + products[i].teaser + '</div></div>' + productActionButton + '<div class=clearfloat></div></div>';	
+				}
 	    	}
 	    }
 	}

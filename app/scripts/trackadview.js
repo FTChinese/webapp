@@ -181,22 +181,22 @@ function updateAds() {
 
 function playVideoInAdIframe(adId) {
 
-  console.log ('look for this id ' + adId + ' and play video');
-  var theAdDiv = document.querySelector('[data-adid="'+ adId + '"]')
+  // console.log ('look for this id ' + adId + ' and play video');
+  var theAdDiv = document.querySelector('[data-adid="'+ adId + '"]');
 
-  console.log (theAdDiv);
+  // console.log (theAdDiv);
 
   // TODO: Find the video in the ad iframe dom and play it
 
   if (!theAdDiv.classList.contains('mpu-phone')) {
-    console.log(theAdDiv.id);
-    console.log('Not the video ad section. Abort.');
+    // console.log(theAdDiv.id);
+    // console.log('Not the video ad section. Abort.');
     return;
   }
 
   console.log(theAdDiv.id + ' might contain video ad. Send play command.');
   var iframeEl = theAdDiv.querySelector('iframe');
-  console.log(iframeEl);
+  // console.log(iframeEl);
   var msg = {
     action: 'play'
   };
@@ -221,7 +221,7 @@ window.addEventListener('message', function(msg) {
 
 	iframeEl = document.querySelector(iframeSelector);
 
-  console.log('iframe is: ' + iframeEl.id + ', is video ad: ' + data.type);
+  // console.log('iframe is: ' + iframeEl.id + ', is video ad: ' + data.type);
 
 	if (data.type === 'video' && iframeEl) {
 		// Check whether there is an overlay.
@@ -234,7 +234,7 @@ window.addEventListener('message', function(msg) {
 		if (!overlayLinkEl) {
 			return;
 		}
-		console.log('Find overlay link, remove it.');
+		// console.log('Find overlay link, remove it.');
 		parentEl.removeChild(overlayLinkEl);
 	}
 });

@@ -1,3 +1,8 @@
+ul.navigation li, .navList li {
+	&.hide {
+		display: none;
+	}
+}
 .iap-container, .iap-rail, .iap-button {
 	.progresscontainer {
 		position: absolute;
@@ -132,4 +137,8 @@
 	#iap-rail {
 		display: block;
 	}
+}
+// MARK: - CSS Ruls for Membership subscription
+.iap-member {
+
 }
