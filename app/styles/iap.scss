@@ -76,7 +76,7 @@ ul.navigation li, .navList li {
 	}
 }
 
-.channel-iap {
+.channel-iap, .story-iap {
 	.iap-only {
 		display: block;
 	}
@@ -84,7 +84,7 @@ ul.navigation li, .navList li {
 		display: none;
 	}
 }
-.channelview.channel-iap {
+.channelview.channel-iap, .storyview.story-iap {
 	#fullbodycontainer {
 		.channelOnly.right {
 			display: none;
