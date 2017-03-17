@@ -81,21 +81,21 @@ ul.navigation li,
     }
 }
 
-.channel-iap {
-    .iap-only {
-        display: block;
-    }
-    .section {
-        display: none;
-    }
-}
 
-.channelview.channel-iap {
-    #fullbodycontainer {
-        .channelOnly.right {
-            display: none;
-        }
-    }
+.channel-iap, .story-iap {
+	.iap-only {
+		display: block;
+	}
+	.section {
+		display: none;
+	}
+}
+.channelview.channel-iap, .storyview.story-iap {
+	#fullbodycontainer {
+		.channelOnly.right {
+			display: none;
+		}
+	}
 }
 
 .story-iap {
