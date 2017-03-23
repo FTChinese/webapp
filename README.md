@@ -7,10 +7,10 @@ cd webapp
 npm install & bower install
 
 # If you are in China
-npm install will fail for node-sass, run the following command: 
-## SASS_BINARY_SITE=https://npm.taobao.org/mirrors/node-sass/ npm install
-## https://segmentfault.com/a/1190000005921721
-## Or better, use taobao for npm and gem source
+npm install will fail for node-sass, follow one of the following instructions: 
+1. SASS_BINARY_SITE=https://npm.taobao.org/mirrors/node-sass/ npm install
+2. https://segmentfault.com/a/1190000005921721
+3. Or better, use taobao for npm and gem source
 
 # develop and preview
 gulp serve
