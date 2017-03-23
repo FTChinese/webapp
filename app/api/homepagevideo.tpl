@@ -4,10 +4,10 @@
 
 <div id="quiz-container">
                                         <a class="section" onclick="showchannel('/index.php/ft/channel/phonetemplate.html?channel=newsquiz','智趣问答')"><span>FT商学院</span></a>
-                        <div class="oneStory first-child track-click" eventLabel="quiz: 0" onclick='showSlide("/index.php/ft/interactive/8888?i=2","今日新闻大事件速览（3.8）", 0)'>
-                <div class="headline">今日新闻大事件速览（3.8）</div>
-                <img src="http://i.ftimg.net/picture/9/000068679_piclink.jpg" class=leftimage width="167">
-                <div class=lead>最新财经大事知多少：网络间谍行动遭遇“斯诺登第二”？有多少家乐天玛特在华门店暂停营业？承认违反美国制裁支付巨额罚金的中国品牌？小测带你快速梳理当日财经新闻大事件。</div>
+                        <div class="oneStory first-child track-click" eventLabel="quiz: 0" onclick='showSlide("/index.php/ft/interactive/8964?i=2","今日新闻大事件速览（3.22）", 0)'>
+                <div class="headline">今日新闻大事件速览（3.22）</div>
+                <img src="http://i.ftimg.net/picture/3/000068953_piclink.jpg" class=leftimage width="167">
+                <div class=lead>最新财经大事知多少：中国共享单车战火烧至国外？为什么多家中国连锁超市下架日本进口食品？美英禁止中东航班乘客带笔记本电脑登机？小测带你快速梳理当日财经新闻大事件。</div>
                 <div class=clearfloat></div>
             </div>
                                         </div>
@@ -20,10 +20,10 @@
 
 <div id="speedread-container">
                                         <a class="section" onclick="showchannel('/index.php/ft/channel/phonetemplate.html?channel=speedread','金融英语速读')"><span>金融英语速读</span></a>
-                        <div class="oneStory first-child track-click" eventLabel="speedread: 0" onclick='showSlide("/index.php/ft/interactive/8880?i=2","马云：制假售假者该进监狱", 0)'>
-                <div class="headline">马云：制假售假者该进监狱</div>
-                <img src="http://i.ftimg.net/picture/5/000068695_piclink.jpg" class=leftimage width="167">
-                <div class=lead>马云称，“假如销售一件假货拘留七天，制造一件假货入刑，那么我想今天中国的知识产权保护现状、食品药品安全现状，我们国家未来的创新能力一定会发生天翻地覆的变化。”</div>
+                        <div class="oneStory first-child track-click" eventLabel="speedread: 0" onclick='showSlide("/index.php/ft/interactive/8956?i=2","中国的游戏内容审查有多严苛？", 0)'>
+                <div class="headline">中国的游戏内容审查有多严苛？</div>
+                <img src="http://i.ftimg.net/picture/7/000068937_piclink.jpg" class=leftimage width="167">
+                <div class=lead>中国游戏市场早就海外公司垂涎，然而你想进来——枪战游戏中的主角不能是被雇佣的杀手、游戏中不能出现一点点血和超短裙、不能出现‘杀’或‘死’的字样，甚至在游戏里生二胎，都要缴纳虚拟的社会抚养费。</div>
                 <div class=clearfloat></div>
             </div>
                                     </div>
@@ -31,10 +31,10 @@
 
 <div id="video-container">
                                         <a class="section" onclick="showchannel('/index.php/ft/channel/phonetemplate.html?channel=video','视频')"><span>视频</span></a>
-                        <div class="oneStory first-child track-click" eventLabel="video: 0" onclick='watchVideo("DBAF5391815D350D9C33DC5901307461","东京地标“筑地鱼市”前途未卜","2184","笼罩在新址上的污染疑云，推迟了东京旅游地标、世界知名的筑地鱼市的搬迁进程。政治家、店主、旅游者都被卷入其中，有人欢喜有人忧。","http://i.ftimg.net/picture/6/000068406_piclink.jpg")'>
-                <div class="headline">东京地标“筑地鱼市”前途未卜</div>
-                <img src="http://i.ftimg.net/picture/6/000068406_piclink.jpg" class=leftimage width="167">
-                <div class=lead>笼罩在新址上的污染疑云，推迟了东京旅游地标、世界知名的筑地鱼市的搬迁进程。政治家、店主、旅游者都被卷入其中，有人欢喜有人忧。</div>
+                        <div class="oneStory first-child track-click" eventLabel="video: 0" onclick='watchVideo("28C76D72785315219C33DC5901307461","���秒懂】如轰炸朝鲜，美国要付出怎样的代价？","2213","朝核设施分散，美国不大可能通过一波打击就完全摧毁它们，而且几乎肯定会招致朝鲜的核报复，并危及韩国。","http://i.ftimg.net/picture/5/000068975_piclink.jpg")'>
+                <div class="headline">【秒懂】如轰炸朝鲜，美国要付出怎样的代价？</div>
+                <img src="http://i.ftimg.net/picture/5/000068975_piclink.jpg" class=leftimage width="167">
+                <div class=lead>朝核设施分散，美国不大可能通过一波打击就完全摧毁它们，而且几乎肯定会招致朝鲜的核报复，并危及韩国。</div>
                 <div class=clearfloat></div>
             </div>
                         </div>
