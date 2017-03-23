@@ -6,7 +6,7 @@ git clone https://github.com/FTChinese/webapp.git
 cd webapp
 npm install & bower install
 
-# If you are in China
+## If you are in China
 npm install will fail for node-sass, follow one of the following instructions: 
 1. SASS_BINARY_SITE=https://npm.taobao.org/mirrors/node-sass/ npm install
 2. https://segmentfault.com/a/1190000005921721
