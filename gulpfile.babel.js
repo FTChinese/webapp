@@ -286,7 +286,12 @@ gulp.task('publish', function () {
     .pipe(gulp.dest('../dev_www/mobile_webroot/images'));
 });
 
-
+gulp.task('ios', ['publish'], function () {
+  var rename = require("gulp-rename");
+  gulp.src('../testing/dev_www/mobile_webroot/androidapp.html')
+    .pipe(rename('index.html'))
+    .pipe(gulp.dest('../../sandbox/FTCiPhone/FT Academy/supporting/'));
+});
 
 gulp.task('styles', () => {
   return gulp.src('app/styles/main.scss')
