@@ -224,7 +224,7 @@ gulp.task('copy', ['build'], function () {
   var fastclickM = fs.readFileSync('dist/phone/fastclick-m.js', 'utf8');
   var ftscrollerM = fs.readFileSync('dist/phone/ftscroller-m.js', 'utf8');
   var mainM = fs.readFileSync('dist/phone/main-m.js', 'utf8');
-  var swipeM = fs.readFileSync('dist/phone/swipe-m.js', 'utf8');
+  //var swipeM = fs.readFileSync('dist/phone/swipe-m.js', 'utf8');
 
   gulp.src(['app/android.html'])
     .pipe($.if('*.html', $.htmlmin({collapseWhitespace: true})))
@@ -339,7 +339,11 @@ gulp.task('lint:test', lint('test/spec/**/*.js', testLintOptions));
 gulp.task('html', ['styles', 'scripts'], () => {
   return gulp.src('app/*.html')
     .pipe($.useref({searchPath: ['.tmp', 'app', '.']}))
-    .pipe($.if('*.js', $.uglify()))
+    //.pipe($.if('*.js', $.uglify()))
+    .pipe($.if(/\.js$/, $.uglify({compress: {drop_console: true}})))
+    .on("error", function(err) {
+      console.log (err);
+    })
     .pipe($.if('*.css', $.cssnano()))
     .pipe($.if('*.html', $.htmlmin({collapseWhitespace: true})))
     .pipe(gulp.dest('dist'));

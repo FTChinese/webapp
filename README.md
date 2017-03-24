@@ -1,3 +1,5 @@
+# This is deprecated, please refer to https://github.com/FTChinese/webapp-v2
+
 # FTC Web App
 This is used to compile into the HTML part of FTChinese' iOS and Android app. 
 

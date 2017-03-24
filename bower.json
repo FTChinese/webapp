@@ -5,7 +5,8 @@
     "jquery": "~2.1.1",
     "modernizr": "~2.8.1",
     "fastclick": "^1.0.6",
-    "ftscroller": "^0.7.0"
+    "ftscroller": "^0.7.0",
+    "ftcolumnflow": "^1.0.0"
   },
   "devDependencies": {
     "chai": "^3.5.0",
